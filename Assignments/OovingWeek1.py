@@ -257,7 +257,7 @@ while running:
         # Multiply index function:
         # We create the first index then multiply by how many index's we want "n".
         def mulList(n):
-            arr = [random.randrange(0, 69)] * n
+            arr = [0] * n
             return arr
 
         myList = mulList(10000)
@@ -302,15 +302,20 @@ while running:
 
         # Using for loop to print all items in dictionary.
         def printSword(obj):
-            for item, item2 in obj.items():
-                print(item, " : ", "'", item2, "'")
+            for item1, item2 in obj.items():
+                print(item1, " : ", "'", item2, "'")
 
         printSword(sword)
 
         # Or just easy and simple way:
         print(sword)
 
-        # Changing the positions of an item
+        # ----------------------------------------------------------------------------
+        # DOES NOT WORK :(
+
+        # Changing the positions of an item.
+        # Dictionaries are unordered so moving an item wouldn't really change anything,
+        # Therefore
         # first we need user input to see what item we want to move:
         obj, index, arr = input('What item do you want to change : '), None, []
 
@@ -335,18 +340,34 @@ while running:
         while True:
             if changeObj in arr:
                 index2 = arr.index(changeObj)
-                #sword[arr[index]], sword[arr[index2]] = sword[arr[index2]], sword[arr[index]]
+
                 print("Item : ", arr[index], "Switched place's with : ", arr[index2])
                 break
             print("Item : ", changeObj, " is not in the dictionary")
 
-        for items in sword:
-            if items == obj:
-                sword[0].pop(items)
+        for item1, item2 in sword.items():
+            item1 = item1.upper()
+
+        print(sword)
 
         del obj, changeObj, arr, index, index2
+        # ----------------------------------------------------------------------------
 
+        # Turning a list into a tuple and vise versa.
 
+        myList = [1,5,1,2,3,6,8,1,2,4,7,9,2,1,4,7,3,1,1,2,3,5,7,4,3,1,1,1,2,3,5,7,4,3,1,1,1,2,3,5,7]
+
+        # One can easily turn a tuple into a list with the tuple() command:
+
+        myTuple = tuple(myList)
+
+        del myList
+
+        print("my tuple : ", myTuple)
+
+        myList = list(myTuple)
+
+        print("New list with the same values : ", myList)
 
 
     if command == "M":
