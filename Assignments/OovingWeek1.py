@@ -1,5 +1,4 @@
-import sympy
-import math
+import random, math, sympy
 
 print("OovingWeek1.py - Python")
 
@@ -16,10 +15,10 @@ The code runs indefinitely until the user writes command: "Q".
 
 def menu():
     print("Command : ""1"". Checking different types of variables and different types of arithmetic's operations.")
-    print("Command : ""2"". Different loops.")
+    print("Command : ""2"". Different types of loops.")
     print("Command : ""3"". Functions.")
     print("Command : ""4"". Sympy library.")
-    print("Command : ""5"". Creating list with 10000 number's no range, tuple and dictionaries.")
+    print("Command : ""5"". Creating list with 10000 number's no range, dictionaries and tuples.")
     print("Command : ""M"". Writes menu.")
     print("Command : ""Q"". Ends Program.")
 
@@ -29,11 +28,12 @@ menu()
 while running:
     '''
     User input that tells which part of code to run,
-    input type str since I want to use letters and since,
-    I have no reason to do math on the numbers I can just,
-    store them as the data type string.
+    input type str since I want to use letters furthermore,
+    I have no reason to do math on the numbers that gets inputted,
+    so i can just store them as a string, or use eval() ;) if i,
+    really want to do some math with the inputs.
     '''
-    command = input("Enter command: ")
+    command = input("Enter command: ").upper()
 
     if command == "1":
         x = 100
@@ -49,16 +49,16 @@ while running:
         del x
 
         # Integer division deletes the rest eks:
-        print(14//5)  # == 2
+        print(14//5)  # = 2
 
         # Modulo divides and prints the rest eks:
-        print(14%5)  # == 4
+        print(14%5)  # = 4
 
         # Float division eks:
-        print(14/5)  # ==2.8
+        print(14/5)  # = 2.8
 
         # Squared:
-        print(14**5)  # == 537824
+        print(14**5)  # = 537824
 
         # Double assignments.
         x, y = 10, 20
@@ -73,8 +73,7 @@ while running:
 
     if command == "2":
         # while loop:
-        i = 0
-        j = 0
+        i, j = 0, 0
         print("While loop : ")
         while i < 5:
             # "i" starts as 0 and increments all the way up to 4.
@@ -90,7 +89,7 @@ while running:
             j += 1
 
         # for loop:
-        # if variables such as "i" overlaps changes old one.
+        # if variables such as variable : "i" overlaps changes old "i" into new "i".
         print("for loop ""1"": ")
         for i in range(10):
             # Does not need to increment "i" as in while loop.
@@ -110,11 +109,11 @@ while running:
 
         x = 0
         # Nested for loops can be seen as squaring two numbers,
-        # Eks: two for loops from 0-5 will run = 5^5 times = 3125 times.
+        # Eks: two for loops from 0-5 will run = 5^2 times = 25 times.
         for i in range(3):
             for j in range(3):
                 x += 1
-        # Runs 3^3 times = 9, x should be = 9.
+        # Runs 3^2 times = 9, x should be = 9.
         print("x is now : ", x)
 
         # Deleting variables.
@@ -122,7 +121,7 @@ while running:
 
     if command == "3":
         # Simple addition function for two numbers.
-        def add(x,y):
+        def add(x, y):
             return x+y
 
         print(add(10,20))
@@ -142,7 +141,7 @@ while running:
         print(squared(int(input("Enter number x : "))))
 
         '''
-        Lambda functions are anonymous functions which means they are not bound to a variable.
+        Lambda functions are anonymous functions which means they are not necessarily bound to a variable.
         lambda functions can only have single line expressions, it assumes that the first line
         of code is whats being returned.
         '''
@@ -172,7 +171,7 @@ while running:
         https://www.youtube.com/playlist?list=PLSE7WKf_qqo1T5VV1nqXTj2iNiSpFk72T
         
         Sympy is symbolic, which means that it uses symbols instead of numerical values.
-        Eks: sqrt(2)^2 numerically is = 2.000...004 whilst sqrt(2)^2 = 2 symbolically.
+        Eks: sqrt(2)^2 numerically is = 2.000...004 whilst sqrt(2)^2 = 2, symbolically.
         '''
         print("Numerical : ", math.sqrt(2)**2)
         print("Symbolical : ", sympy.sqrt(2)**2)
@@ -185,7 +184,7 @@ while running:
         # sympy will not understand.
         print(sympy.cos(x)**2+sympy.sin(x)**2) # Should be = 1, but sympy doesn't understand.
 
-        # Sympy can also substitute symbols in expression:
+        # Sympy can also substitute symbols in expressions:
         expr = 5*x+5
         print(expr.subs('x',2)) # = 15
 
@@ -197,7 +196,7 @@ while running:
         print(sympy.N(expr.subs('x',sympy.pi))) # = 20.7079.....
 
         # With sympy you can calculate equations, normally on paper one would write:
-        # x+2 = 5 but in Python the "=" sign is reserved for variable assignment.
+        # x+2 = 5 but in Python the "=" is reserved for variable assignment.
         # In sympy we create an equation with sympy.Eq(expr, equates).
         eq = sympy.Eq(expr,15)
         print(eq)
@@ -220,7 +219,7 @@ while running:
         sympyList = [sympy.solveset(eq,x)]
         print(sympyList)
 
-        del eq
+        del eq, sympyList
 
         # Sympy can solve trigonometric equations:
         # Pretty hard to understand if you don't have a pretty printer,
@@ -239,7 +238,7 @@ while running:
         eq1 = sympy.Eq(5*x+5*y-3, 4)
         eq2 = sympy.Eq(x-7*y-1, 2)
 
-        print(sympy.linsolve([eq1, eq2], x,y))
+        print(sympy.linsolve([eq1, eq2], x, y))
 
         del eq1, eq2
 
@@ -255,10 +254,10 @@ while running:
         We are not looking for whats inside the index's but just that the list is n long.
         '''
 
-        # multiply index function:
-        # we create the first index[0] then multiply by how many index's we want "n".
+        # Multiply index function:
+        # We create the first index then multiply by how many index's we want "n".
         def mulList(n):
-            arr = [69] * n
+            arr = [random.randrange(0, 69)] * n
             return arr
 
         myList = mulList(10000)
@@ -308,13 +307,15 @@ while running:
 
         printSword(sword)
 
-        # Or just easy way:
+        # Or just easy and simple way:
         print(sword)
 
         # Changing the positions of an item
-        # first we need user input to see what we want to move:
+        # first we need user input to see what item we want to move:
         obj, index, arr = input('What item do you want to change : '), None, []
 
+        # Fills arr array with sword's variable names, to find if input is in
+        # array, then index of variable.
         for item in sword:
             arr.append(item)
 
@@ -328,12 +329,13 @@ while running:
         if index is not None:
             print("Moving item : ", obj)
 
+        # User input for item to switch with former user inputted item.
         changeObj = input('Enter item to change its position : ')
 
         while True:
             if changeObj in arr:
                 index2 = arr.index(changeObj)
-                sword[arr[index]], sword[arr[index2]] = sword[arr[index2]], sword[arr[index]]
+                #sword[arr[index]], sword[arr[index2]] = sword[arr[index2]], sword[arr[index]]
                 print("Item : ", arr[index], "Switched place's with : ", arr[index2])
                 break
             print("Item : ", changeObj, " is not in the dictionary")
