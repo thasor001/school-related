@@ -1,4 +1,4 @@
-import pyglet
+import pyglet, time, random
 
 windowX, windowY = 1280, 720
 
@@ -6,19 +6,29 @@ window = pyglet.window.Window(windowX, windowY, caption='PygletTest')
 
 shapes = []
 
+godMode = False
+
 shapes.append([pyglet.shapes.Circle(200, 200, radius=100, color=(255, 0, 0)), 1, 1])
 shapes.append([pyglet.shapes.Circle(100, 100, radius=50, color=(0, 255, 255)), 1, 1])
+
+
+def motion(mx, my, shape):
+    while abs(shape.x - mx) >= 1 and abs(shape.y - my) >= 1:
+        distX, distY = mx - shape.x, my - shape.y
+        ratio = min(1, 1 / max(abs(distX), abs(distY)))
+        shape.x += distX * ratio
+        shape.y += distY * ratio
+        print(abs(shape.x - mx), abs(shape.y - my))
+
 
 
 @window.event
 def on_mouse_drag(mx, my, dx, dy, buttons, modifiers):
     for shape, vx, vy in shapes:
-        if (mx, my) in shape:
-            motionX = abs(abs(shape.x) - abs(mx))
-            motionY = abs(abs(shape.y) - abs(my))
-            print("Motion X: ", motionX, "Motion Y: ", motionY)
-            shape.x = mx
-            shape.y = my
+        if buttons == pyglet.window.mouse.RIGHT:
+            if (mx, my) in shape:
+                motion(mx, my, shape)
+                print(godMode)
 
 
 @window.event

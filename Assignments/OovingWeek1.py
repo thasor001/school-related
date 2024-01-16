@@ -359,16 +359,12 @@ while running:
 
         # One can easily turn a tuple into a list with the tuple() command:
 
-        myTuple = tuple(myList)
+        myList = tuple(myList)
+        print("List is now tuple : ", myList)
 
-        del myList
+        myList = list(myList)
 
-        print("my tuple : ", myTuple)
-
-        myList = list(myTuple)
-
-        print("New list with the same values : ", myList)
-
+        print("List is now list : ", myList)
 
     if command == "M":
         menu()
