@@ -1,23 +1,20 @@
-import pyglet, random
+import pyglet
+from random import randint, choice
 
-windowX, windowY = 1280, 720
+wx, wy = 1280, 720
 
-window = pyglet.window.Window(windowX, windowY, caption='@Author Tharald Roland Sørensen')
-
-fps = 5
+window = pyglet.window.Window(wx, wy, caption='@Author Tharald Roland Sørensen')
 
 shapes = []
+lines = []
 mouse = [0, 0]
+pos = [0, 0, 0, 0]
 
-shapes.append([pyglet.shapes.Circle(200, 200, radius=100, color=(0, 0, 255)), 1, 1, False])
-shapes.append([pyglet.shapes.Circle(500, 200, radius=50, color=(0, 0, 255)), -1, 1, False])
+count = 0
 
+collisions = True
 
-def update(dt):
-    print("frame rage = ", fps)
-
-
-pyglet.clock.schedule_interval(update, 1.0 / fps)
+shapes.append([pyglet.shapes.Circle(200, 200, radius=50, color=(255, 0, 0)), 0, 0, True])
 
 
 def motion(mx, my, shape):
@@ -34,20 +31,59 @@ def on_mouse_press(x, y, button, modifiers):
         index = 0
         for shape, vx, vy, control in shapes:
             if (x, y) in shape:
+                print("Shape Captured")
                 shapes[index][3] = True
                 shape.color = (255, 0, 0)
             index += 1
+    if button == pyglet.window.mouse.LEFT:
+        global count
+        count += 1
+        if count == 1:
+            pos[count-1] = x
+            pos[count] = y
+        elif count == 2:
+            pos[count] = x
+            pos[count+1] = y
+            drawLine(pos[0], pos[1], pos[2], pos[3])
+            count = 0
+
+
+def drawLine(x1, y1, x2, y2):
+    lines.append(pyglet.shapes.Line(x1, y1, x2, y2, color=(0, 255, 0)))
 
 
 @window.event
 def on_key_press(symbol, modifiers):
-    if symbol == pyglet.window.key.D:
+    if symbol == pyglet.window.key.R:
+        print("Shapes Released")
         index = 0
         for shape, vx, vy, control in shapes:
-            if shapes[index][3] == True:
+            if shapes[index][3]:
                 shapes[index][3] = False
                 shape.color = (0, 0, 255)
             index += 1
+    if symbol == pyglet.window.key.M:
+        if len(shapes) <= 1000:
+            global collisions
+            print("10X shapes!!!")
+            for i in range((len(shapes))*10-len(shapes)):
+                radius = randint(10, 50)
+                rx = randint(0+radius, wx-radius)
+                ry = randint(0+radius, wy-radius)
+                rc = randint(50, 255)
+                vx, vy = choice([2, -2]), choice([2, -2])
+                shapes.append([pyglet.shapes.Circle(rx, ry, radius=radius, color=(0, 0, rc)), vx, vy, False])
+            if len(shapes) == 1000:
+                print("Collisions turned off for 1000 shapes.")
+                collisions = False
+        else:
+            print("Too many shapes.")
+    if symbol == pyglet.window.key.D:
+        if len(shapes) > 1:
+            for i in range(len(shapes)):
+                print("a")
+        else:
+            print("Cant divide only 1 shape")
 
 @window.event
 def on_mouse_motion(x, y, dx, dy):
@@ -58,12 +94,14 @@ def on_mouse_motion(x, y, dx, dy):
 def on_draw():
     window.clear()
     index = 0
+    for line in lines:
+        line.draw()
     # Bounce off walls.
     for shape, vx, vy, control in shapes:
         if not shapes[index][3]:
-            if shape.x >= windowX-shape.radius or shape.x <= 0+shape.radius:
+            if shape.x >= wx-shape.radius or shape.x <= 0+shape.radius:
                 vx *= -1
-            elif shape.y >= windowY-shape.radius or shape.y <= 0+shape.radius:
+            elif shape.y >= wy-shape.radius or shape.y <= 0+shape.radius:
                 vy *= -1
             shape.x += (1 * vx)
             shape.y += (1 * vy)
