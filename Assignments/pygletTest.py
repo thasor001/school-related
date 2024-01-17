@@ -14,7 +14,7 @@ shapes.append([pyglet.shapes.Circle(500, 200, radius=50, color=(0, 0, 255)), -1,
 
 
 def update(dt):
-    print("frame")
+    print("frame rage = ", fps)
 
 
 pyglet.clock.schedule_interval(update, 1.0 / fps)
