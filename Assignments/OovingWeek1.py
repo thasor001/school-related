@@ -20,11 +20,11 @@ Also I did alot of sympy when i took R2 but since it has been a little while sin
 the resource listed in the sympy section.
 
 Important parts for assignment:
-line 77 - 124: loops
-line 117 - 121: nested for loop
-line 127 - 172: functions
-line 257 - 273: create a long list with of 10000 numbers without using range
-line 363 - 374: turn a list into a tuple and vice versa
+line 77 - 124: loops.
+line 117 - 121: nested for loop.
+line 127 - 172: functions.
+line 257 - 273: create a long list with of 10000 numbers without using range.
+line 363 - 374: turn a list into a tuple and vice versa.
 '''
 
 def menu():

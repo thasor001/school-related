@@ -9,7 +9,7 @@ from random import randint, choice
 @Author Tharald Roland Sørensen.
 
 The shapes sometimes "clump together" and can then escape the screen, this happens due to the way i handle,
-collisions, fixing it would take a lot of time so im just leaving it as it is. :)
+collisions, fixing it would take a lot of time so im just leaving it as it is.
 
 recourses used:
 https://pyglet.readthedocs.io/en/latest/index.html
