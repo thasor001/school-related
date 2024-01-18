@@ -1,12 +1,18 @@
-from pyglet.shapes import Circle, Line
+from pyglet.shapes import Circle, Line, Rectangle, Star
 from pyglet import window
 from pyglet.window import key, mouse
 from pyglet.app import run
+from pyglet.graphics import Batch
 from random import randint, choice
 
 '''
 @Author Tharald Roland Sørensen.
 
+The shapes sometimes "clump together" and can then escape the screen, this happens due to the way i handle,
+collisions, fixing it would take a lot of time so im just leaving it as it is. :)
+
+recourses used:
+https://pyglet.readthedocs.io/en/latest/index.html
 
 Menu:
 M - Multiply circles by 10x, there can be a max of 100 circles before,
@@ -19,6 +25,8 @@ D - Deletes all circles except first one. collisional re turned on again.
 R - Release controlled Circle, controlled circles are colored red and move,
 towards the cursor.
 
+H - Draw assignment shapes.
+
 Right Click - Control Circle, controlled circles are colored Red and move,
 towards the cursor. Controlled circles Do not collide with anything.
 
@@ -26,43 +34,64 @@ Left Click - Click on two different x and y positions, creates a line between th
 '''
 
 # Window size
-wx, wy = 1280, 720
+wx, wy = 1920, 1080
 
-window = window.Window(wx, wy, caption='@Author Tharald Roland Sørensen')
+# Creates the window
+window = window.Window(wx, wy, caption='@Author Tharald Roland Sørensen', fullscreen=True)
 
+# Creates a batch that is used to quickly draw all lines.
+batch = Batch()
+batch2 = Batch()
+
+# List of the different shapes.
 shapes = []
-lines = []
+Lines = []
+shapesForAssignment = []
+
+# Mouse position [x,y] shows where the mouse position is at all times through the inbuilt on_mouse_motion function.
 mousepos = [0, 0]
+
+# List that saves the two last positions that the mouse has left-clicked, used to draw lines inbetween them.
 pos = [0, 0, 0, 0]
 
+# A list that is used to map all the positions of shapes, used to check for collisions.
 collisionMap = []
 
+# Counter that keeps track on how many times the user has left-clicked, used to tell the program when to draw,
+# a line between the two stored positions in the "pos" list.
 count = 0
 
+# collisions activates and deactivates collisions,
+# spawn used to tell the program to spawn more and when it cant spawn more shapes.
+# assignmetShapes used to tell the program that the assignment shapes should be drawn.
 collisions = True
 spawn = False
+assignmentShapes = False
 
+# Creates the first shape, the first shape starts off ass shapes[0][3] = True, which indicates that
+# it is being controlled by the mouse.
 shapes.append([Circle(200, 200, radius=50, color=(255, 0, 0)), 1, 1, True])
 
-
+# Motion function for the mouse.
 def motion(mx, my, shape):
+    # continues to run until the distance between the shapes x, y and the mouse x, y coordinate are less than 1.
     while abs(shape.x - mx) >= 1 and abs(shape.y - my) >= 1:
         distX, distY = mx - shape.x, my - shape.y
         ratio = min(1, 1 / max(abs(distX), abs(distY)))
-        shape.x += distX * ratio/10
-        shape.y += distY * ratio/10
+        shape.x += distX * ratio/15
+        shape.y += distY * ratio/15
 
 
+# Inbuilt on_mouse_press function. used to check if user is pressing right or left,
+# if left; capture shape if mouse x, y in shape x, y + radius
 @window.event
 def on_mouse_press(x, y, button, modifiers):
     if button == mouse.RIGHT:
-        index = 0
-        for shape, vx, vy, control in shapes:
+        for index, (shape, vx, vy, control) in enumerate(shapes):
             if (x, y) in shape:
                 print("Shape Captured")
                 shapes[index][3] = True
                 shape.color = (255, 0, 0)
-            index += 1
     if button == mouse.LEFT:
         global count
         count += 1
@@ -76,10 +105,15 @@ def on_mouse_press(x, y, button, modifiers):
             count = 0
 
 
+# function that takes in the pos list coordinates and draws a line inbetween them.
 def drawLine(x1, y1, x2, y2):
-    lines.append(Line(x1, y1, x2, y2, color=(0, 255, 0)))
+    Lines.append(Line(x1, y1, x2, y2, color=(0, 255, 0), batch=batch))
 
 
+# Inbuilt function that checks the key presses, used to check if key = R, M or D,
+# R; releases the shapes that the user has captured, M; Multiplies current amount of shapes by 10x,
+# D; deletes all current shapes except the first one.
+# H; draw assignment shapes.
 @window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.R:
@@ -91,6 +125,7 @@ def on_key_press(symbol, modifiers):
     if symbol == key.M:
         global spawn
         global collisions
+        global assignmentShapes
         if len(shapes) < 10000:
             print("10X shapes")
             spawn = True
@@ -102,18 +137,27 @@ def on_key_press(symbol, modifiers):
         for i in range(len(shapes)-1):
             shapes.pop(-1)
         collisions = True
+        assignmentShapes = False
+    if symbol == key.H:
+        shapesForAssignment.append(Circle(700, 150, 100, color=(50, 225, 30), batch=batch2))
+        shapesForAssignment.append(Rectangle(200, 200, 200, 200, color=(55, 55, 255), batch=batch2))
+        shapesForAssignment.append(Line(100, 100, 100, 200, width=19, batch=batch2))
+        shapesForAssignment.append(Star(800, 400, 60, 40, num_spikes=20, color=(255, 255, 0), batch=batch2))
+        assignmentShapes = True
 
 
+# Function used to map out the valid spawns for a new circle,
+# Makes it so that the circles do not spawn inside each other.
 def circleSpawn(shapelist, n):
     global collisions
     while len(shapes) < n:
         radius = randint(15, 25)
         rx = randint(0 + radius, wx - radius)
         ry = randint(0 + radius, wy - radius)
-        rc = randint(50, 255)
+        rr, rg, rb = randint(0, 255), randint(0, 255), randint(0, 255)
         vx, vy = choice([2, -2]), choice([2, -2])
         if len(shapes) >= 101:
-            shapes.append([Circle(rx, ry, radius, color=(0, 0, rc)), vx, vy, False])
+            shapes.append([Circle(rx, ry, radius, color=(rr, rg, rb)), vx, vy, False])
             collisions = False
         else:
             canSpawn = True
@@ -123,30 +167,36 @@ def circleSpawn(shapelist, n):
                     canSpawn = False
                     break
             if canSpawn:
-                shapes.append([Circle(rx, ry, radius, color=(0, 0, rc)), vx, vy, False])
+                shapes.append([Circle(rx, ry, radius, color=(rr, rg, rb)), vx, vy, False])
 
 
-
+# Inbuilt function that checks where the mouse is, used to send current pos into mousepos list.
 @window.event
 def on_mouse_motion(x, y, dx, dy):
     mousepos[0] = x
     mousepos[1] = y
 
 
+# Inbuild function that runs all the time
 @window.event
 def on_draw():
     window.clear()
     global spawn
-    for line in lines:
-        line.draw()
     global collisionMap
+    global assignmentShapes
     collisionMap = []
+    batch.draw()
+    if assignmentShapes:
+        batch2.draw()
+    # Fills the collisionMap list with all the positions of the shapes.
     for shape in shapes:
         collisionMap.append([shape[0].x, shape[0].y, shape[0].radius, shape[1], shape[2]])
+    # Creates 10x shapes using circleSpawn function.
     if spawn:
         circleSpawn(shapes, len(shapes) * 10)
         print(len(shapes), " shapes")
         spawn = False
+    # controls all movement and collisions
     for index, (shape, vx, vy, control) in enumerate(shapes):
         if not shapes[index][3]:
             if shape.x >= wx-shape.radius or shape.x <= 0+shape.radius:
@@ -172,4 +222,5 @@ def on_draw():
             shapes[index][2] = vy
         shape.draw()
 
+# runs the code.
 run()

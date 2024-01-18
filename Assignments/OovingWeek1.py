@@ -1,4 +1,4 @@
-import random, math, sympy
+import math, sympy
 
 print("OovingWeek1.py - Python")
 
@@ -11,6 +11,20 @@ code you want to run, so that the terminal doesn't get to cluttered,
 instructions about the different commands will be written below in,
 a function called Menu.
 The code runs indefinitely until the user writes command: "Q".
+
+I have already done alot of python before so most of the things that are written in this code,
+i knew form before. except for line 281 - 324 where i tried to rearrange a dictionary, until i remembered that,
+dictionaries are unordered and you cant change their position, so i just gave up.
+
+Also I did alot of sympy when i took R2 but since it has been a little while since i used it i freshened it up with,
+the resource listed in the sympy section.
+
+Important parts for assignment:
+line 77 - 124: loops
+line 117 - 121: nested for loop
+line 127 - 172: functions
+line 257 - 273: create a long list with of 10000 numbers without using range
+line 363 - 374: turn a list into a tuple and vice versa
 '''
 
 def menu():
