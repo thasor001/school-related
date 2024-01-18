@@ -104,12 +104,11 @@ def on_key_press(symbol, modifiers):
         collisions = True
 
 
-def circleSpawn(map,n):
+def circleSpawn(shapelist, n):
     global collisions
     while len(shapes) < n:
-        radius = randint(20, 30)
+        radius = randint(15, 25)
         rx = randint(0 + radius, wx - radius)
-        print(rx)
         ry = randint(0 + radius, wy - radius)
         rc = randint(50, 255)
         vx, vy = choice([2, -2]), choice([2, -2])
@@ -118,10 +117,11 @@ def circleSpawn(map,n):
             collisions = False
         else:
             canSpawn = True
-            for colX, colY, cradius, cvx, cvy in map:
-                distance = ((rx - colX) ** 2 + (ry - colY) ** 2) ** 0.5
-                if distance <= radius + cradius:
+            for index, (shape, svx, svy, control) in enumerate(shapelist):
+                distance = ((rx - shape.x) ** 2 + (ry - shape.y) ** 2) ** 0.5
+                if distance <= 10 + radius + shape.radius:
                     canSpawn = False
+                    break
             if canSpawn:
                 shapes.append([Circle(rx, ry, radius, color=(0, 0, rc)), vx, vy, False])
 
@@ -140,11 +140,11 @@ def on_draw():
     for line in lines:
         line.draw()
     global collisionMap
+    collisionMap = []
     for shape in shapes:
         collisionMap.append([shape[0].x, shape[0].y, shape[0].radius, shape[1], shape[2]])
     if spawn:
-        print(len(shapes)* 10)
-        circleSpawn(collisionMap, len(shapes) * 10)
+        circleSpawn(shapes, len(shapes) * 10)
         print(len(shapes), " shapes")
         spawn = False
     for index, (shape, vx, vy, control) in enumerate(shapes):
@@ -161,16 +161,15 @@ def on_draw():
             for cindex, (colX, colY, radius, cvx, cvy) in enumerate(collisionMap):
                 if (shape.x, shape.y) != (colX, colY):
                     distance = ((shape.x - colX) ** 2 + (shape.y - colY) ** 2) ** 0.5
-                    if distance <= shape.radius + radius:
+                    if distance <= 5 + shape.radius + radius:
                         if not shapes[cindex][3]:
                             vx, cvx = cvx, vx
                             vy, cvy = cvy, vy
-        shape.x += (1*vx)
-        shape.y += (1*vy)
-        shapes[index][1] = vx
-        shapes[index][2] = vy
+        if not shapes[index][3]:
+            shape.x += (1*vx)
+            shape.y += (1*vy)
+            shapes[index][1] = vx
+            shapes[index][2] = vy
         shape.draw()
-
-    collisionMap = []
 
 run()
