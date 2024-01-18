@@ -42,7 +42,7 @@ count = 0
 collisions = True
 spawn = False
 
-shapes.append([Circle(200, 200, radius=50, color=(255, 0, 0)), 1, -1, True])
+shapes.append([Circle(200, 200, radius=50, color=(255, 0, 0)), 1, 1, True])
 
 
 def motion(mx, my, shape):
