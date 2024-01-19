@@ -1,4 +1,4 @@
-from pyglet.shapes import Circle, Line, Rectangle, Star
+from pyglet.shapes import Circle, Line, Rectangle, Star, Triangle, Arc, Ellipse, Sector
 from pyglet import window
 from pyglet.window import key, mouse
 from pyglet.app import run
@@ -8,19 +8,13 @@ from random import randint, choice
 '''
 @Author Tharald Roland Sørensen.
 
-The shapes sometimes "clump together" and can then escape the screen, this happens due to the way i handle,
-collisions, fixing it would take a lot of time so im just leaving it as it is.
-
-recourses used:
-https://pyglet.readthedocs.io/en/latest/index.html
-
 Menu:
 M - Multiply circles by 10x, there can be a max of 100 circles before,
 collisions with other circles are turned off due to performance,
 maximum of 10000 circles again due to performance. Spawned circles sometimes,
 spawn into each other and get stuck.
 
-D - Deletes all circles except first one. collisional re turned on again.
+D - Deletes all circles except first one and assignment shapes. collisional re-turned on again.
 
 R - Release controlled Circle, controlled circles are colored red and move,
 towards the cursor.
@@ -74,6 +68,7 @@ assignmentShapes = False
 
 # Creates the first shape, the first shape starts off ass shapes[0][3] = True, which indicates that
 # it is being controlled by the mouse.
+# The shapes list contains a lists of [shape, velocity X, velocity Y, Controlled]
 shapes.append([Circle(200, 200, radius=50, color=(255, 0, 0)), 1, 1, True])
 
 # Motion function for the mouse.
@@ -143,10 +138,15 @@ def on_key_press(symbol, modifiers):
         collisions = True
         assignmentShapes = False
     if symbol == key.H:
-        shapesForAssignment.append(Circle(700, 150, 100, color=(50, 225, 30), batch=batch2))
-        shapesForAssignment.append(Rectangle(200, 200, 200, 200, color=(55, 55, 255), batch=batch2))
-        shapesForAssignment.append(Line(100, 100, 100, 200, width=19, batch=batch2))
-        shapesForAssignment.append(Star(800, 400, 60, 40, num_spikes=20, color=(255, 255, 0), batch=batch2))
+        shapesForAssignment.append(Circle(300, 200, 100, color=(50, 225, 30), batch=batch2))
+        shapesForAssignment.append(Rectangle(400, 100, 100, 200, color=(55, 55, 255), batch=batch2))
+        shapesForAssignment.append(Line(200, 200, 100, 400, width=19, batch=batch2))
+        shapesForAssignment.append(Star(900, 500, 65, 40, num_spikes=12, color=(255, 255, 0), batch=batch2))
+        shapesForAssignment.append(Triangle(100, 200, 100, 40, 414, 27, color=(55, 15, 255), batch=batch2))
+        shapesForAssignment.append(Arc(200, 200, 100, color=(15, 55, 155), batch=batch2))
+        shapesForAssignment.append(Ellipse(700, 900, 100, 400, color=(255, 55, 55), batch=batch2))
+        shapesForAssignment.append(Sector(800, 400, 100, 400, color=(255, 255, 255), batch=batch2))
+
         assignmentShapes = True
 
 
@@ -215,13 +215,13 @@ def on_draw():
             for cindex, (colX, colY, radius, cvx, cvy) in enumerate(collisionMap):
                 if (shape.x, shape.y) != (colX, colY):
                     distance = ((shape.x - colX) ** 2 + (shape.y - colY) ** 2) ** 0.5
-                    if distance <= 5 + shape.radius + radius:
+                    if distance <= shape.radius + radius:
                         if not shapes[cindex][3]:
                             vx, cvx = cvx, vx
                             vy, cvy = cvy, vy
         if not shapes[index][3]:
-            shape.x += (1*vx)
-            shape.y += (1*vy)
+            shape.x += vx
+            shape.y += vy
             shapes[index][1] = vx
             shapes[index][2] = vy
         shape.draw()
