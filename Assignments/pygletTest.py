@@ -33,13 +33,17 @@ towards the cursor. Controlled circles Do not collide with anything.
 Left Click - Click on two different x and y positions, creates a line between them.
 '''
 
-# Window size
-wx, wy = 1920, 1080
 
 # Creates the window
-window = window.Window(wx, wy, caption='@Author Tharald Roland Sørensen', fullscreen=True)
+window = window.Window(caption='@Author Tharald Roland Sørensen', fullscreen=True)
 
-# Creates a batch that is used to quickly draw all lines.
+# Fetching the fullscreen window size.
+size = list(window.get_size())
+
+# Putting window size into variables used to map the edges of the screen.
+wx, wy = size[0], size[1]
+
+# Creates a batch that is used to quickly draw all lines and assignment shapes.
 batch = Batch()
 batch2 = Batch()
 
@@ -63,7 +67,7 @@ count = 0
 
 # collisions activates and deactivates collisions,
 # spawn used to tell the program to spawn more and when it cant spawn more shapes.
-# assignmetShapes used to tell the program that the assignment shapes should be drawn.
+# assignmentShapes used to tell the program that the assignment shapes should be drawn.
 collisions = True
 spawn = False
 assignmentShapes = False
