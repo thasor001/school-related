@@ -2,10 +2,8 @@
 * Week 2, Task 4.
 */
 
-#include "LesData.h"
-#include <iomanip>
-#include <string>
 #include <iostream>
+
 using namespace std;
 
 struct Time{
@@ -14,58 +12,52 @@ struct Time{
     seconds;
 };
 
-void menu() {
-    cout << "N - Stops program"
-    << "\nJ - Check what time is biggest";
-}
+float biggestTime(const struct Time t1, const struct Time t2) {
+    float time1 = (t1.hour + t1.minute/100.0 + t1.seconds/10000.0);
+    float time2 = (t2.hour + t2.minute/100.0 + t2.seconds/10000.0);
 
-void createTime() {
-    struct Time time1;
-    time1.hour = 2;
-    time1.minute = 10;
-    time1. seconds = 50;
-
-    struct Time time2;
-    time2.hour = 2;
-    time2.minute = 11;
-    time2.seconds = 10;
-
-    struct Time time3;
-    time3.hour = 1;
-    time3.minute = 12;
-    time3.seconds = 10;
-
-    struct Time time4;
-    time4.hour = 5;
-    time4.minute = 11;
-    time4.seconds = 56;
-}
-
-void biggestTime(const struct time, const struct time) {
-
+    return (time1>time2) ? time1 : time2;
 }
 
 int main() {
-    menu();
-    createTime();
+    Time time1;
+    time1.hour = 12;
+    time1.minute = 11;
+    time1. seconds = 13;
 
-    char ans;
+    Time time2;
+    time2.hour = 12;
+    time2.minute = 11;
+    time2.seconds = 10;
 
-    do {
-        ans = lesChar("\n\nAdd time structs ");
+    Time time3;
+    time3.hour = 10;
+    time3.minute = 12;
+    time3.seconds = 10;
 
-        switch (ans) {
-            case 'J':
+    Time time4;
+    time4.hour = 5;
+    time4.minute = 11;
+    time4.seconds = 56;
 
-                break;
-            default:
-                cout << "\nWrong" << ans << " command";
-                break;
-        }
+    int hour, minute, second;
 
+    float num1 = biggestTime(time1, time2);
+    float num2 = biggestTime(time3, time4);
 
-
-    } while (ans != 'N');
+    if (num1 > num2) {
+        hour = num1;
+        minute = num1*100 - hour*100;
+        second = num1*10000 - minute*100 - hour*10000;
+        cout << "Highest time is: ";
+        cout << hour <<" Hours " << minute <<" Minutes " << second <<" Seconds";
+    } else {
+        hour = num2;
+        minute = num2*100 - hour*100;
+        second = num2*10000 - minute*100 - hour*10000;
+        cout << "Highest time is: ";
+        cout << hour <<" Hours " << minute <<" Minutes " << second <<" Seconds";
+    }
 
     return 0;
 }
