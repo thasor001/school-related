@@ -1,11 +1,12 @@
-#include "LesData.h"
-#include <iomanip>
+#include "LesData2.h"
+#include <cstring>
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
 const int STRLEN = 40;
-const int MAXFORELESNINGER = 1;
+const int MAXFORELESNINGER = 2;
 
 struct lecture {
     char subject[STRLEN/2],
@@ -17,18 +18,25 @@ struct lecture {
 
 
 void lectureReadData(lecture* l) {
-     char sub[STRLEN/2] = "Math";
+    string campus[2] = {"Gjoovik", "Trondheim"};
+
+    char sub[STRLEN/2] = "Programming";
     strcpy(l->subject, sub);
-    strcpy(l->lecturer, sub);
-    strcpy(l->place, sub);
-    l->hourStart = 2;
-    l->minuteStart = 15;
-    l->hourEnd = 6;
+
+    srand(time(nullptr));
+    strcpy(l->place, campus[rand() % 2].c_str());
+
+    l->hourStart = rand() % 12;
+    l->minuteStart = rand() % 60+1;
+    l->hourEnd = rand() % (12+1 - l->hourStart) + l->hourStart;
     l->minuteEnd = 5;
 }
 
 void lectureWriteData(const lecture* l) {
-    cout << l->subject;
+    cout << l->subject << "\n";
+    cout << "Hour start: " << l->hourStart << " Minute start: " << l->minuteStart << "\n";
+    cout << "Hour end: " << l->hourEnd << " Minute end: " << l->minuteEnd << "\n";
+    cout << "Place: " << l->place << "\n";
 }
 
 

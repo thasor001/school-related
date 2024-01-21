@@ -1,62 +1,41 @@
-/**
-* Week 2, Task 4.
-*/
-
-#include <iostream>
-
+#include "iostream"
 using namespace std;
 
-struct Time{
-    int hour,
-    minute,
-    seconds;
+struct Tid{
+    int time;
+    int minutt;
+    int sekund;
 };
 
-float biggestTime(const struct Time t1, const struct Time t2) {
-    float time1 = (t1.hour + t1.minute/100.0 + t1.seconds/10000.0);
-    float time2 = (t2.hour + t2.minute/100.0 + t2.seconds/10000.0);
 
-    return (time1>time2) ? time1 : time2;
+struct Tid storst(const struct Tid tid1, const struct Tid tid2) {
+    int total1 = tid1.time * 3600 + tid1.minutt * 60 + tid1.sekund;
+    int total2 = tid2.time * 3600 + tid2.minutt * 60 + tid2.sekund;
+
+    if (total1 > total2){
+        return tid1;
+    } else
+        return tid2;
 }
 
-int main() {
-    Time time1;
-    time1.hour = 12;
-    time1.minute = 11;
-    time1. seconds = 13;
 
-    Time time2;
-    time2.hour = 12;
-    time2.minute = 11;
-    time2.seconds = 10;
+int main(){
+    struct Tid tid1, tid2, tid3, tid4;
 
-    Time time3;
-    time3.hour = 10;
-    time3.minute = 12;
-    time3.seconds = 10;
+    tid1 = {14, 53, 38};
+    tid2 = {12, 26, 8};
+    tid3 = {13, 54, 11};
+    tid4 = {14, 25, 25};
 
-    Time time4;
-    time4.hour = 5;
-    time4.minute = 11;
-    time4.seconds = 56;
+    int total1 = storst(tid1, tid2).time * 3600 + storst(tid1, tid2).minutt * 60 + storst(tid1, tid2).sekund;
+    int total2 = storst(tid3, tid4).time * 3600 + storst(tid3, tid4).minutt * 60 + storst(tid3, tid4).sekund;;
 
-    int hour, minute, second;
-
-    float num1 = biggestTime(time1, time2);
-    float num2 = biggestTime(time3, time4);
-
-    if (num1 > num2) {
-        hour = num1;
-        minute = num1*100 - hour*100;
-        second = num1*10000 - minute*100 - hour*10000;
-        cout << "Highest time is: ";
-        cout << hour <<" Hours " << minute <<" Minutes " << second <<" Seconds";
+    if (total1 > total2){
+        cout << "Time : " << storst(tid1, tid2).time << " Minutt : " << storst(tid1, tid2).minutt
+        << " Sekund : " << storst(tid1, tid2).sekund << "\n";
     } else {
-        hour = num2;
-        minute = num2*100 - hour*100;
-        second = num2*10000 - minute*100 - hour*10000;
-        cout << "Highest time is: ";
-        cout << hour <<" Hours " << minute <<" Minutes " << second <<" Seconds";
+        cout << "Time : " << storst(tid3, tid4).time << " Minutt : " << storst(tid4, tid4).minutt
+             << " Sekund : " << storst(tid4, tid4).sekund << "\n";
     }
 
     return 0;
