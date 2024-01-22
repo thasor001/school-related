@@ -1,8 +1,12 @@
+
+# Math imports
+from random import *
+
+# Pyglet imports
 from pyglet.shapes import *
 from pyglet.window import *
 from pyglet.app import *
 from pyglet.graphics import *
-from random import *
 
 '''
 @Author Tharald Roland Sørensen.
@@ -75,22 +79,27 @@ class MainWindow(Window):
 
     # Motion function for the mouse.
     def motion(self, mx, my, shape):
+
         # continues to run until the distance between the shapes x, y and the mouse x, y coordinate are less than 1.
         while abs(shape.x - mx) >= 1 and abs(shape.y - my) >= 1:
+
             distX, distY = mx - shape.x, my - shape.y
             ratio = min(1, 1 / max(abs(distX), abs(distY)))
+
             shape.x += distX * ratio / 15
             shape.y += distY * ratio / 15
 
     # Inbuilt on_mouse_press function. used to check if user is pressing right or left,
     # if left; capture shape if mouse x, y in shape x, y + radius
     def on_mouse_press(self, x, y, button, modifiers):
+
         if button == mouse.RIGHT:
             for index, (shape, vx, vy, control) in enumerate(window.shapes):
                 if (x, y) in shape:
                     print("Shape Captured")
                     window.shapes[index][3] = True
                     shape.color = (255, 0, 0)
+
         if button == mouse.LEFT:
             window.count += 1
             if window.count == 1:
@@ -107,30 +116,44 @@ class MainWindow(Window):
 
     # function that takes in the pos list coordinates and draws a line inbetween them.
     def drawLine(self, x1, y1, x2, y2):
-        window.Lines.append(Line(x1, y1, x2, y2, color=(0, 255, 0), batch=window.batch))
+        window.Lines.append(Line(
+            x1,
+            y1,
+            x2,
+            y2,
+            color=(0, 255, 0),
+            batch=window.batch)
+        )
 
     # Inbuilt function that checks the key presses, used to check if key = R, M or D,
     # R; releases the shapes that the user has captured, M; Multiplies current amount of shapes by 10x,
     # D; deletes all current shapes except the first one.
     # H; draw assignment shapes.
     def on_key_press(self, symbol, modifiers):
+
         if symbol == key.R:
             print("Shapes Released")
             for index, (shape, vx, vy, control) in enumerate(window.shapes):
+
                 if window.shapes[index][3]:
                     window.shapes[index][3] = False
                     shape.color = (0, 0, 255)
+
         if symbol == key.M:
             if len(window.shapes) < 10000:
                 print("10X shapes")
                 window.spawn = True
+
             else:
                 print("Too many shapes.")
+
         if symbol == key.D:
             if len(window.shapes) == 1:
                 print("Cant delete last circle.")
+
             for i in range(len(window.shapes) - 1):
                 window.shapes.pop(-1)
+
             window.collisions = True
             window.assignmentShapes = False
 
@@ -161,8 +184,7 @@ class MainWindow(Window):
                 batch=window.batch2)
             )
 
-            window.shapesForAssignment.append(
-                Star(
+            window.shapesForAssignment.append(Star(
                     x=900,
                     y=500,
                     outer_radius=65,
@@ -172,15 +194,15 @@ class MainWindow(Window):
                     batch=window.batch2)
             )
 
-            window.shapesForAssignment.append(
-                Triangle(x=100,
-                         y=200,
-                         x2=100,
-                         y2=40,
-                         x3=414,
-                         y3=27,
-                         color=(55, 15, 255),
-                         batch=window.batch2)
+            window.shapesForAssignment.append(Triangle(
+                x=100,
+                y=200,
+                x2=100,
+                y2=40,
+                x3=414,
+                y3=27,
+                color=(55, 15, 255),
+                batch=window.batch2)
             )
 
             window.shapesForAssignment.append(Arc(
@@ -213,73 +235,106 @@ class MainWindow(Window):
     # Function used to map out the valid spawns for a new circle,
     # Makes it so that the circles do not spawn inside each other.
     def circleSpawn(self, shapelist, n):
-        global collisions
+
         while len(window.shapes) < n:
+
             radius = randint(15, 25)
+
             rx = randint(0 + radius, window.wx - radius)
             ry = randint(0 + radius, window.wy - radius)
+
             rr, rg, rb = randint(0, 255), randint(0, 255), randint(0, 255)
             vx, vy = choice([2, -2]), choice([2, -2])
+
             if len(window.shapes) >= 101:
+
                 window.shapes.append([Circle(rx, ry, radius, color=(rr, rg, rb)), vx, vy, False])
-                collisions = False
+                window.collisions = False
+
             else:
                 canSpawn = True
+
                 for index, (shape, svx, svy, control) in enumerate(shapelist):
                     distance = ((rx - shape.x) ** 2 + (ry - shape.y) ** 2) ** 0.5
+
                     if distance <= 10 + radius + shape.radius:
                         canSpawn = False
                         break
+
                 if canSpawn:
                     window.shapes.append([Circle(rx, ry, radius, color=(rr, rg, rb)), vx, vy, False])
 
     # Inbuilt function that checks where the mouse is, used to send current pos into mousepos list.
     def on_mouse_motion(self, x, y, dx, dy):
+
         window.mousepos[0] = x
         window.mousepos[1] = y
 
     # Inbuild function that runs all the time
     def on_draw(self):
+
         window.clear()
         window.batch.draw()
+
         if window.assignmentShapes:
             window.batch2.draw()
+
         # Fills the collisionMap list with all the positions of the shapes.
         for shape in window.shapes:
-            window.collisionMap.append([shape[0].x, shape[0].y, shape[0].radius, shape[1], shape[2]])
+            window.collisionMap.append(
+                [shape[0].x,
+                 shape[0].y,
+                 shape[0].radius,
+                 shape[1],
+                 shape[2]]
+            )
+
         # Creates 10x shapes using circleSpawn function.
         if window.spawn:
             window.circleSpawn(window.shapes, len(window.shapes) * 10)
             print(len(window.shapes), " shapes")
             window.spawn = False
+
         # controls all movement and collisions
         for index, (shape, vx, vy, control) in enumerate(window.shapes):
+
             if not window.shapes[index][3]:
                 if shape.x >= window.wx - shape.radius or shape.x <= 0 + shape.radius:
                     vx *= -1
+
                 elif shape.y >= window.wy - shape.radius or shape.y <= 0 + shape.radius:
                     vy *= -1
+
                 window.shapes[index][1] = vx
                 window.shapes[index][2] = vy
+
             else:
                 window.motion(window.mousepos[0], window.mousepos[1], shape)
+
             if window.collisions:
                 for cindex, (colX, colY, radius, cvx, cvy) in enumerate(window.collisionMap):
                     if (shape.x, shape.y) != (colX, colY):
                         distance = ((shape.x - colX) ** 2 + (shape.y - colY) ** 2) ** 0.5
+
                         if distance <= shape.radius + radius:
                             if cindex < len(window.shapes) and not window.shapes[cindex][3]:
+
                                 vx, cvx = cvx, vx
                                 vy, cvy = cvy, vy
+
             if not window.shapes[index][3]:
+
                 shape.x += vx
                 shape.y += vy
+
                 window.shapes[index][1] = vx
                 window.shapes[index][2] = vy
+
             shape.draw()
 
 
 if __name__ == '__main__':
+
     # Window properties
     window = MainWindow(caption='@Author Tharald Roland Sørensen', fullscreen=True)
     run()
