@@ -1,4 +1,4 @@
-import random, math, sympy
+import math, sympy
 
 print("OovingWeek1.py - Python")
 
@@ -6,11 +6,31 @@ running = True
 
 '''
 @Author Tharald Roland Sørensen
+
+resources used:
+Python01.ipynb - File from capquiz
+
 I decided to use a system where you write what section of the,
 code you want to run, so that the terminal doesn't get to cluttered,
 instructions about the different commands will be written below in,
 a function called Menu.
 The code runs indefinitely until the user writes command: "Q".
+
+I have already done alot of python before so most of the things that are written in this code,
+i knew form before. except for line 281 - 324 where i tried to rearrange a dictionary, until i remembered that,
+dictionaries are unordered and you cant change their position, so i just gave up.
+
+Also I did alot of sympy when i took R2 but since it has been a little while since i used it i freshened it up with,
+the resource listed in the sympy section.
+
+Other than that it took me one day to write this code, i was just writing down different commands that i remembered.
+
+Important parts for assignment:
+line 77 - 124: loops.
+line 117 - 121: nested for loop.
+line 127 - 172: functions.
+line 257 - 273: create a long list with of 10000 numbers without using range.
+line 363 - 374: turn a list into a tuple and vice versa.
 '''
 
 def menu():
@@ -146,14 +166,14 @@ while running:
         of code is whats being returned.
         '''
         # lambda example of previous function add(x,y):
-        print((lambda x,y: x+y)(10,20))
+        print((lambda x, y: x+y)(10,20))
 
         '''
         lambda functions are often used in conjunction with higher tier functions and are sent in as
         a variable. in this higher tier function "cube" i send inn a list and a lambda function that
         cubes a variable x.
         '''
-        list = [1,2,3,4,5,6,7,8,9,10]
+        list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
         def cube(func, arr):
             result = []
