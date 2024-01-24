@@ -18,6 +18,19 @@ class MyWindow(pyglet.window.Window):
 
         self.assignment = True
 
+    def length(self, vecU):
+        return (vecU[0]**2 + vecU[1]**2)**0.5
+
+    def project(self, vecU, vecV, lengthV):
+        proj = (vecU[0] * vecV[0] + vecU[1] * vecV[1]) / lengthV**2
+        nx = vecV[0] * proj
+        ny = vecV[1] * proj
+        return [nx, ny]
+
+    def dot(self, vecU, vecV):
+        return vecU[0] * vecV[0] + vecU[1] * vecV[1]
+
+
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.SPACE:
             window.assignment = False
@@ -54,8 +67,9 @@ class MyWindow(pyglet.window.Window):
                 if (circle[0].x, circle[0].y) != (collision[0], collision[1]):
 
                     if distance < circle[0].radius + collision[2]:
-                        window.shapesCircle[index][0].color = (255, 0, 0)
-                        window.shapesCircle[cindex][0].color = (255, 0, 0)
+                        #window.shapesCircle[index][0].color = (255, 0, 0)
+                        #window.shapesCircle[cindex][0].color = (255, 0, 0)
+                        pass
 
             circle[0].x += circle[1]
             circle[0].y += circle[2]
@@ -88,6 +102,22 @@ class MyWindow(pyglet.window.Window):
             line[0].y2 += line[2]
 
 
+        for circle in window.shapesCircle:
+            for line in window.shapesLine:
+                vector_v = [line[0].x2 - line[0].x, line[0].y2 - line[0].y]
+                vector_u = [circle[0].x - line[0].x, circle[0].y - line[0].y]
+                vecUlength = window.length(vector_u)
+                vecVlength = window.length(vector_v)
+
+                cos = window.dot(vector_u, vector_v) / vecUlength * vecVlength
+
+                if cos > 0:
+                    distance = vecUlength - (window.length(window.project(vector_u, vector_v, vecVlength)))
+                    if distance < circle[0].radius:
+                        circle[0].color = (255, 255, 255)
+                        line[0].color = (255, 255, 255)
+
+
 
     def draw1(self):
         print("1")
@@ -104,7 +134,7 @@ class MyWindow(pyglet.window.Window):
 
 if __name__ == "__main__":
     window = MyWindow(width=1080, height=720, caption="AssignmentWeek03", resizable=True)
-    for i in range(100):
+    for i in range(10):
         radius = randint(15, 30)
         x = randint(0 + radius, window.size[0] - radius)
         y = randint(0 + radius, window.size[1] - radius)
@@ -115,7 +145,7 @@ if __name__ == "__main__":
                                                          batch=window.batch1),
                                    choice([-2, -1, 1, 2]),
                                    choice([-2, -1, 1, 2])])
-    for i in range(25):
+    for i in range(5):
         x1 = (randint(50, window.size[0]))
         y1 = (randint(50, window.size[1]))
         x2 = x1 + choice([-1, 1]) * randint(40, 100)
