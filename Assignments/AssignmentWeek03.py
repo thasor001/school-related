@@ -100,8 +100,57 @@ def dot(u, v):
     x = u[0] * v[0]
     y = u[1] * v[1]
     z = u[2] * v[2]
-    return [x, y, z]
+    return x+y+z
 
 def vabs(u):
     return m.sqrt(u[0]**2+u[1]**2+u[2]**2)
 
+'''Task 5'''
+
+#
+# u, v are lists of the form [a,b,c].
+#
+
+import math as m
+
+
+def cross(u, v):
+    x = u[1] * v[2] - u[2] * v[1]
+    y = -(u[0] * v[2] - u[2] * v[0])
+    z = u[0] * v[1] - u[1] * v[0]
+    return [x, y, z]
+
+
+# the unit vector in the same direction of u
+def normalise(u):
+    x = u[0] / m.sqrt(u[0] ** 2 + u[1] ** 2 + u[2] ** 2)
+    y = u[1] / m.sqrt(u[0] ** 2 + u[1] ** 2 + u[2] ** 2)
+    z = u[2] / m.sqrt(u[0] ** 2 + u[1] ** 2 + u[2] ** 2)
+    return [x, y, z]
+
+
+# projection of u onto v
+def project(v, u):
+    Dotproduct = u[0] * v[0] + u[1] * v[1] + u[2] * v[2]
+    Length = u[0] ** 2 + u[1] ** 2 + u[2] ** 2
+    x = v[0] * Dotproduct / Length
+    y = v[1] * Dotproduct / Length
+    z = v[2] * Dotproduct / Length
+    return [x, y, z]
+
+
+'''Task 6'''
+
+def counter(someList):
+    count = 1
+    arr = []
+    if len(someList) == 0:
+        return 0
+    for i in range(len(someList)):
+        if i != len(someList) - 1:
+            if someList[i] < someList[i+1]:
+                count += 1
+            else:
+                arr.append(count)
+                count = 1
+    return max(arr)
