@@ -4,7 +4,6 @@ from random import randint, choice
 import pyglet
 
 
-
 class MyWindow(pyglet.window.Window):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,17 +18,16 @@ class MyWindow(pyglet.window.Window):
         self.assignment = True
 
     def length(self, vecU):
-        return (vecU[0]**2 + vecU[1]**2)**0.5
+        return (vecU[0] ** 2 + vecU[1] ** 2) ** 0.5
 
     def project(self, vecU, vecV, lengthV):
-        proj = (vecU[0] * vecV[0] + vecU[1] * vecV[1]) / lengthV**2
+        proj = (vecU[0] * vecV[0] + vecU[1] * vecV[1]) / lengthV ** 2
         nx = vecV[0] * proj
         ny = vecV[1] * proj
         return [nx, ny]
 
     def dot(self, vecU, vecV):
         return vecU[0] * vecV[0] + vecU[1] * vecV[1]
-
 
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.SPACE:
@@ -105,13 +103,14 @@ class MyWindow(pyglet.window.Window):
                     projection = window.project(circle_vec, line_vec, line_length)
 
                     linedistance = window.length([circle_vec[0] - projection[0], circle_vec[1] - projection[1]])
-                    circledistance = ((circle[0].x - collision[0])**2 + (circle[0].y - collision[1])**2)**0.5
 
                     if linedistance <= circle[0].radius:
                         dot_product = window.dot(projection, line_vec)
 
                         if 0 <= dot_product <= line_length ** 2:
                             circle[0].color = (128, 0, 128)
+
+                    circledistance = ((circle[0].x - collision[0]) ** 2 + (circle[0].y - collision[1]) ** 2) ** 0.5
 
                     if (circle[0].x, circle[0].y) != (collision[0], collision[1]):
 
@@ -122,10 +121,8 @@ class MyWindow(pyglet.window.Window):
             circle[0].x += circle[1]
             circle[0].y += circle[2]
 
-
     def draw1(self):
-        print("1")
-
+        pass
 
     def on_draw(self):
         window.clear()
@@ -147,8 +144,8 @@ if __name__ == "__main__":
                                                          x=x,
                                                          y=y,
                                                          batch=window.batch1),
-                                   choice([-2, -1, 1, 2]),
-                                   choice([-2, -1, 1, 2])])
+                                    choice([-2, -1, 1, 2]),
+                                    choice([-2, -1, 1, 2])])
     for i in range(10):
         x1 = (randint(50, window.size[0]))
         y1 = (randint(50, window.size[1]))
