@@ -3,10 +3,10 @@
 //
 
 #include <iomanip>
+#include <iostream>
 #include "LesData2.h"
 #include <string>
 using namespace std;
-
 
 struct Time {
     int hour,
@@ -24,22 +24,21 @@ int main() {
     string str[3];
     struct Time t[3];
 
-    for (int i = 0; i < 3; i++) {
+    for(int i = 0; i < 3; i++) {
         read(str[i]);
     }
 
-    for (int i = 0; i < 3; i++) {
+    for(int i = 0; i < 3; i++) {
         read(t[i]);
     }
 
-    for (int i = 0; i < 3; i++) {
+    for(int i = 0; i < 3; i++) {
         cout << str[i] << "\n";
     }
 
-    for (int i = 0; i < 3; ++i) {
+    for(int i = 0; i < 3; ++i) {
         write(t[i]);
     }
-
 
     return 0;
 }
@@ -48,7 +47,7 @@ void read(string & s) {
     do {
         cout << "\nWrite Shit : ";
         getline(cin, s);
-    } while (s == "\0");
+    } while (s.empty());
 }
 
 void read(Time & t) {
