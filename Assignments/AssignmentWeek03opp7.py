@@ -44,37 +44,13 @@ class MyWindow(pyglet.window.Window):
 
         collisionMapCircle = []
 
-        for shape, vx, vy in window.shapesCircle:
-            collisionMapCircle.append([shape.x, shape.y, shape.radius])
+        # Creating a collision map for circles.
+        for shape in window.shapesCircle:
+            collisionMapCircle.append([shape[0].x, shape[0].y, shape[0].radius])
 
-        for index, (circle) in enumerate(window.shapesCircle):
-            if circle[0].x + circle[0].radius < 0:
-                circle[0].x = window.size[0] - circle[1]
-
-            if circle[0].x - circle[0].radius > window.size[0]:
-                circle[0].x = 0 + circle[1]
-
-            if circle[0].y + circle[0].radius < 0:
-                circle[0].y = window.size[1] - circle[2]
-
-            if circle[0].y - circle[0].radius > window.size[1]:
-                circle[0].y = 0 + circle[2]
-
-            window.shapesCircle[index][0].color = (0, 0, 255)
-
-            for cindex, (collision) in enumerate(collisionMapCircle):
-                distance = ((circle[0].x - collision[0])**2 + (circle[0].y - collision[1])**2)**0.5
-                if (circle[0].x, circle[0].y) != (collision[0], collision[1]):
-
-                    if distance < circle[0].radius + collision[2]:
-                        #window.shapesCircle[index][0].color = (255, 0, 0)
-                        #window.shapesCircle[cindex][0].color = (255, 0, 0)
-                        pass
-
-            circle[0].x += circle[1]
-            circle[0].y += circle[2]
-
+        # Collision between screen and line.
         for line in window.shapesLine:
+            line[0].color = (0, 255, 0)
             tempX = line[0].x
             tempX2 = line[0].x2
             tempY = line[0].y
@@ -101,22 +77,50 @@ class MyWindow(pyglet.window.Window):
             line[0].x2 += line[1]
             line[0].y2 += line[2]
 
+        for index, (circle) in enumerate(window.shapesCircle):
+            if circle[0].x + circle[0].radius < 0:
+                circle[0].x = window.size[0] - circle[1]
 
-        for circle in window.shapesCircle:
-            for line in window.shapesLine:
-                vector_v = [line[0].x2 - line[0].x, line[0].y2 - line[0].y]
-                vector_u = [circle[0].x - line[0].x, circle[0].y - line[0].y]
-                vecUlength = window.length(vector_u)
-                vecVlength = window.length(vector_v)
+            if circle[0].x - circle[0].radius > window.size[0]:
+                circle[0].x = 0 + circle[1]
 
-                cos = window.dot(vector_u, vector_v) / vecUlength * vecVlength
+            if circle[0].y + circle[0].radius < 0:
+                circle[0].y = window.size[1] - circle[2]
 
-                if cos > 0:
-                    distance = vecUlength - (window.length(window.project(vector_u, vector_v, vecVlength)))
-                    if distance < circle[0].radius:
-                        circle[0].color = (255, 255, 255)
-                        line[0].color = (255, 255, 255)
+            if circle[0].y - circle[0].radius > window.size[1]:
+                circle[0].y = 0 + circle[2]
 
+            window.shapesCircle[index][0].color = (0, 0, 255)
+
+            for cindex, (collision) in enumerate(collisionMapCircle):
+                for line in window.shapesLine:
+
+                    line_vec = [line[0].x2 - line[0].x,
+                                line[0].y2 - line[0].y]
+
+                    circle_vec = [circle[0].x - line[0].x,
+                                  circle[0].y - line[0].y]
+
+                    line_length = window.length(line_vec)
+                    projection = window.project(circle_vec, line_vec, line_length)
+
+                    linedistance = window.length([circle_vec[0] - projection[0], circle_vec[1] - projection[1]])
+                    circledistance = ((circle[0].x - collision[0])**2 + (circle[0].y - collision[1])**2)**0.5
+
+                    if linedistance <= circle[0].radius:
+                        dot_product = window.dot(projection, line_vec)
+
+                        if 0 <= dot_product <= line_length ** 2:
+                            circle[0].color = (128, 0, 128)
+
+                    if (circle[0].x, circle[0].y) != (collision[0], collision[1]):
+
+                        if circledistance < circle[0].radius + collision[2]:
+                            window.shapesCircle[index][0].color = (255, 0, 0)
+                            window.shapesCircle[cindex][0].color = (255, 0, 0)
+
+            circle[0].x += circle[1]
+            circle[0].y += circle[2]
 
 
     def draw1(self):
@@ -134,7 +138,7 @@ class MyWindow(pyglet.window.Window):
 
 if __name__ == "__main__":
     window = MyWindow(width=1080, height=720, caption="AssignmentWeek03", resizable=True)
-    for i in range(10):
+    for i in range(20):
         radius = randint(15, 30)
         x = randint(0 + radius, window.size[0] - radius)
         y = randint(0 + radius, window.size[1] - radius)
@@ -145,7 +149,7 @@ if __name__ == "__main__":
                                                          batch=window.batch1),
                                    choice([-2, -1, 1, 2]),
                                    choice([-2, -1, 1, 2])])
-    for i in range(5):
+    for i in range(10):
         x1 = (randint(50, window.size[0]))
         y1 = (randint(50, window.size[1]))
         x2 = x1 + choice([-1, 1]) * randint(40, 100)
