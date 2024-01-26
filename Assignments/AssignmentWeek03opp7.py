@@ -10,12 +10,17 @@ class MyWindow(pyglet.window.Window):
 
         self.shapesCircle = []
         self.shapesLine = []
+
+        self.figure = []
+
         self.batch1 = pyglet.graphics.Batch()
         self.batch2 = pyglet.graphics.Batch()
 
         self.size = (1080, 720)
 
-        self.assignment = True
+        self.body = [200, 200, 50, 150]
+
+        self.assignment = 0
 
     def length(self, vecU):
         return (vecU[0] ** 2 + vecU[1] ** 2) ** 0.5
@@ -31,11 +36,12 @@ class MyWindow(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.SPACE:
-            window.assignment = False
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == pyglet.window.key.SPACE:
-            window.assignment = True
+            window.assignment += 1
+        if window.assignment % 2 != 0:
+            if symbol == pyglet.window.key.D:
+                window.figure[0].x += 50
+            if symbol == pyglet.window.key.W:
+                window.figure[0].y += 50
 
     def draw0(self):
         window.batch1.draw()
@@ -122,12 +128,12 @@ class MyWindow(pyglet.window.Window):
             circle[0].y += circle[2]
 
     def draw1(self):
-        pass
+        window.batch2.draw()
 
     def on_draw(self):
         window.clear()
         window.size = list(window.get_size())
-        if self.assignment:
+        if self.assignment % 2 == 0:
             window.draw0()
         else:
             window.draw1()
@@ -159,4 +165,11 @@ if __name__ == "__main__":
                                                      batch=window.batch1),
                                   choice([-2, -1, 1, 2]),
                                   choice([-2, -1, 1, 2])])
+
+    window.figure.append(pyglet.shapes.Rectangle(x=window.body[0],
+                                                 y=window.body[1],
+                                                 width=window.body[2],
+                                                 height=window.body[3],
+                                                 color=(255, 255, 255),
+                                                 batch=window.batch2))
     pyglet.app.run()

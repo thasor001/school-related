@@ -154,3 +154,8 @@ def counter(someList):
                 arr.append(count)
                 count = 1
     return max(arr)
+
+
+array = [1,2,3,4,5,6,7,8,9,9,9]
+
+'''Task Xd'''
