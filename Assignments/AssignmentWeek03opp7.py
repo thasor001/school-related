@@ -22,6 +22,9 @@ class MyWindow(pyglet.window.Window):
 
         self.assignment = 0
 
+        self.G = 5
+        self.terminalVelocity = -10
+
     def length(self, vecU):
         return (vecU[0] ** 2 + vecU[1] ** 2) ** 0.5
 
@@ -61,16 +64,15 @@ class MyWindow(pyglet.window.Window):
             tempY2 = line[0].y2
 
             if (line[0].x < 0) and (line[0].x2 < 0):
-                line[0].x = window.size[0] + abs(tempX2)
-                line[0].x2 = window.size[0] + abs(tempX)
-
+                line[0].x = window.size[0] + abs(tempX)
+                line[0].x2 = window.size[0] + abs(tempX2)
             if (line[0].x > window.size[0]) and (line[0].x2 > window.size[0]):
                 line[0].x = window.size[0] - abs(tempX2)
                 line[0].x2 = window.size[0] - abs(tempX)
 
             if (line[0].y < 0) and (line[0].y2 < 0):
-                line[0].y = window.size[1] + abs(tempY2)
-                line[0].y2 = window.size[1] + abs(tempY)
+                line[0].y = window.size[1] + abs(tempY)
+                line[0].y2 = window.size[1] + abs(tempY2)
 
             if (line[0].y > window.size[1]) and (line[0].y2 > window.size[1]):
                 line[0].y = window.size[1] - abs(tempY2)
@@ -127,8 +129,14 @@ class MyWindow(pyglet.window.Window):
             circle[0].x += circle[1]
             circle[0].y += circle[2]
 
+
     def draw1(self):
         window.batch2.draw()
+
+
+
+
+
 
     def on_draw(self):
         window.clear()
@@ -166,10 +174,11 @@ if __name__ == "__main__":
                                   choice([-2, -1, 1, 2]),
                                   choice([-2, -1, 1, 2])])
 
-    window.figure.append(pyglet.shapes.Rectangle(x=window.body[0],
-                                                 y=window.body[1],
-                                                 width=window.body[2],
-                                                 height=window.body[3],
-                                                 color=(255, 255, 255),
-                                                 batch=window.batch2))
+    window.figure.append([pyglet.shapes.Rectangle(x=window.body[0],
+                                                  y=window.body[1],
+                                                  width=window.body[2],
+                                                  height=window.body[3],
+                                                  color=(255, 255, 255),
+                                                  batch=window.batch2),
+                          0, 0, 0])
     pyglet.app.run()
