@@ -1,7 +1,11 @@
 from random import randint, choice
 
 # pyglet imports:
-import pyglet
+from pyglet.window import Window
+from pyglet.window import key
+from pyglet.app import run
+from pyglet.shapes import Line, Circle, Rectangle
+from pyglet.graphics import Batch
 
 class Human:
     def __init__(self, x, y):
@@ -9,111 +13,110 @@ class Human:
         self.parentX = x
         self.parentY = y
 
-        self.batch = pyglet.graphics.Batch()
-        self.body = pyglet.shapes.Rectangle(x=self.parentX,
-                                            y=self.parentY,
-                                            width=50,
-                                            height=100,
-                                            color=(200, 200, 200),
-                                            batch=self.batch)
-        self.head = pyglet.shapes.Circle(x=self.parentX+25,
-                                         y=self.parentY+125,
-                                         radius=25,
-                                         color=(255, 255, 255),
-                                         batch=self.batch)
-        self.rightArm = pyglet.shapes.Rectangle(x=self.parentX+self.body.width,
-                                                y=self.parentY+self.body.height,
-                                                width=10,
-                                                height=-40,
-                                                color=(200, 200, 200),
-                                                batch=self.batch)
-        self.leftArm = pyglet.shapes.Rectangle(x=self.parentX-10,
-                                               y=self.parentY + self.body.height,
-                                               width=10,
-                                               height=-40,
-                                               color=(200, 200, 200),
-                                               batch=self.batch)
-        self.rightLeg = pyglet.shapes.Rectangle(x=self.parentX+self.body.width-20,
-                                                y=self.parentY,
-                                                width=20,
-                                                height=-45,
-                                                color=(165, 42, 42),
-                                                batch=self.batch)
-        self.leftLeg = pyglet.shapes.Rectangle(x=self.parentX,
-                                               y=self.parentY,
-                                               width=20,
-                                               height=-45,
-                                               color=(165, 42, 42),
-                                               batch=self.batch)
-        self.rightForehand = pyglet.shapes.Rectangle(x=self.rightArm.x,
-                                                     y=self.rightArm.y+self.rightArm.height,
-                                                     width=10,
-                                                     height=-35,
-                                                     color=(255, 255, 255),
-                                                     batch=self.batch)
-        self.leftForehand = pyglet.shapes.Rectangle(x=self.leftArm.x,
-                                                    y=self.leftArm.y + self.leftArm.height,
-                                                    width=10,
-                                                    height=-35,
-                                                    color=(255, 255, 255),
-                                                    batch=self.batch)
+        self.batch = Batch()
+        self.body = Rectangle(x=self.parentX,
+                              y=self.parentY,
+                              width=50,
+                              height=100,
+                              color=(200, 200, 200),
+                              batch=self.batch)
+        self.head = Circle(x=self.parentX+25,
+                           y=self.parentY+125,
+                           radius=25,
+                           color=(255, 255, 255),
+                           batch=self.batch)
+        self.rightArm = Rectangle(x=self.parentX+self.body.width,
+                                  y=self.parentY+self.body.height,
+                                  width=10,
+                                  height=-40,
+                                  color=(200, 200, 200),
+                                  batch=self.batch)
+        self.leftArm = Rectangle(x=self.parentX-10,
+                                 y=self.parentY + self.body.height,
+                                 width=10,
+                                 height=-40,
+                                 color=(200, 200, 200),
+                                 batch=self.batch)
+        self.rightLeg = Rectangle(x=self.parentX+self.body.width-20,
+                                  y=self.parentY,
+                                  width=20,
+                                  height=-45,
+                                  color=(165, 42, 42),
+                                  batch=self.batch)
+        self.leftLeg = Rectangle(x=self.parentX,
+                                 y=self.parentY,
+                                 width=20,
+                                 height=-45,
+                                 color=(165, 42, 42),
+                                 batch=self.batch)
+        self.rightForehand = Rectangle(x=self.rightArm.x,
+                                       y=self.rightArm.y+self.rightArm.height,
+                                       width=10,
+                                       height=-35,
+                                       color=(255, 255, 255),
+                                       batch=self.batch)
+        self.leftForehand = Rectangle(x=self.leftArm.x,
+                                      y=self.leftArm.y + self.leftArm.height,
+                                      width=10,
+                                      height=-35,
+                                      color=(255, 255, 255),
+                                      batch=self.batch)
+        self.rightChin = Rectangle(x=self.rightLeg.x,
+                                   y=self.rightLeg.y+self.rightLeg.height,
+                                   width=20,
+                                   height=-40,
+                                   color=(255, 255, 255),
+                                   batch=self.batch)
+        self.leftChin = Rectangle(x=self.leftLeg.x,
+                                  y=self.leftLeg.y+self.leftLeg.height,
+                                  width=20,
+                                  height=-40,
+                                  color=(255, 255, 255),
+                                  batch=self.batch)
+        self.rightHand = Circle(x=self.rightForehand.x+5,
+                                y=self.rightForehand.y+self.rightForehand.height,
+                                radius=10,
+                                color=(255, 255, 255),
+                                batch=self.batch)
+        self.leftHand = Circle(x=self.leftForehand.x + 5,
+                               y=self.leftForehand.y + self.leftForehand.height,
+                               radius=10,
+                               color=(255, 255, 255),
+                               batch=self.batch)
+        self.rightFoot = Rectangle(x=self.rightChin.x,
+                                   y=self.rightChin.y+self.rightChin.height,
+                                   width=30,
+                                   height=10,
+                                   color=(0, 255, 255),
+                                   batch=self.batch)
+        self.leftFoot = Rectangle(x=self.leftChin.x-10,
+                                  y=self.leftChin.y + self.leftChin.height,
+                                  width=30,
+                                  height=10,
+                                  color=(0, 255, 255),
+                                  batch=self.batch)
+        self.hatBrim = Rectangle(x=self.head.x-30,
+                                 y=self.head.y+10,
+                                 width=60,
+                                 height=10,
+                                 color=(100, 100, 100),
+                                 batch=self.batch)
+        self.hatTop = Rectangle(x=self.hatBrim.x+self.hatBrim.width/4,
+                                y=self.hatBrim.y+self.hatBrim.height,
+                                width=30,
+                                height=20,
+                                color=(100, 100, 100),
+                                batch=self.batch)
 
-        self.rightChin = pyglet.shapes.Rectangle(x=self.rightLeg.x,
-                                                 y=self.rightLeg.y+self.rightLeg.height,
-                                                 width=20,
-                                                 height=-40,
-                                                 color=(255, 255, 255),
-                                                 batch=self.batch)
-        self.leftChin = pyglet.shapes.Rectangle(x=self.leftLeg.x,
-                                                y=self.leftLeg.y+self.leftLeg.height,
-                                                width=20,
-                                                height=-40,
-                                                color=(255, 255, 255),
-                                                batch=self.batch)
-        self.rightHand = pyglet.shapes.Circle(x=self.rightForehand.x+5,
-                                              y=self.rightForehand.y+self.rightForehand.height,
-                                              radius=10,
-                                              color=(255, 255, 255),
-                                              batch=self.batch)
-        self.leftHand = pyglet.shapes.Circle(x=self.leftForehand.x + 5,
-                                             y=self.leftForehand.y + self.leftForehand.height,
-                                             radius=10,
-                                             color=(255, 255, 255),
-                                             batch=self.batch)
-        self.rightFoot = pyglet.shapes.Rectangle(x=self.rightChin.x,
-                                                 y=self.rightChin.y+self.rightChin.height,
-                                                 width=30,
-                                                 height=10,
-                                                 color=(0, 255, 255),
-                                                 batch=self.batch)
-        self.leftFoot = pyglet.shapes.Rectangle(x=self.leftChin.x-10,
-                                                y=self.leftChin.y + self.leftChin.height,
-                                                width=30,
-                                                height=10,
-                                                color=(0, 255, 255),
-                                                batch=self.batch)
-        self.hatBrim = pyglet.shapes.Rectangle(x=self.head.x-30,
-                                               y=self.head.y+10,
-                                               width=60,
-                                               height=10,
-                                               color=(100, 100, 100),
-                                               batch=self.batch)
-        self.hatTop = pyglet.shapes.Rectangle(x=self.hatBrim.x+self.hatBrim.width/4,
-                                              y=self.hatBrim.y+self.hatBrim.height,
-                                              width=30,
-                                              height=20,
-                                              color=(100, 100, 100),
-                                              batch=self.batch)
 
-
-class MyWindow(pyglet.window.Window):
+class MyWindow(Window):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.shapesCircle = []
         self.shapesLine = []
 
-        self.batch = pyglet.graphics.Batch()
+        self.batch = Batch()
 
         self.size = (1080, 720)
 
@@ -137,21 +140,21 @@ class MyWindow(pyglet.window.Window):
         return [((self.dot(vecU, vecV) / (self.length(vecV)**2))*vecV[j]) for j in range(2)]
 
     def on_key_press(self, symbol, modifiers):
-        if symbol == pyglet.window.key.SPACE:
+        if symbol == key.SPACE:
             self.assignment += 1
         if self.assignment % 2 != 0:
-            if symbol == pyglet.window.key.D:
+            if symbol == key.D:
                 self.x += 10
-            if symbol == pyglet.window.key.A:
+            if symbol == key.A:
                 self.x -= 10
-            if symbol == pyglet.window.key.W:
+            if symbol == key.W:
                 self.y += 10
-            if symbol == pyglet.window.key.S:
+            if symbol == key.S:
                 self.y -= 10
 
     def draw0(self):
         self.batch.draw()
-        # Collision between screen and line.
+
         for line in self.shapesLine:
             line[0].color = (0, 255, 0)
             tempX = line[0].x
@@ -209,7 +212,7 @@ class MyWindow(pyglet.window.Window):
                     linedistance = self.length([circle_vec[0] - projection[0], circle_vec[1] - projection[1]])
 
                     if linedistance <= circle[0].radius:
-                        dot_product = window.dot(projection, line_vec)
+                        dot_product = self.dot(projection, line_vec)
 
                         if 0 <= dot_product <= line_length ** 2:
                             circle[0].color = (128, 0, 128)
@@ -224,11 +227,9 @@ class MyWindow(pyglet.window.Window):
             circle[0].x += circle[1]
             circle[0].y += circle[2]
 
-
     def draw1(self):
         self.human.batch.draw()
         self.human = Human(self.x, self.y)
-
 
     def on_draw(self):
         self.clear()
@@ -245,11 +246,11 @@ if __name__ == "__main__":
         radius = randint(15, 30)
         x = randint(0 + radius, window.size[0] - radius)
         y = randint(0 + radius, window.size[1] - radius)
-        window.shapesCircle.append([pyglet.shapes.Circle(radius=radius,
-                                                         color=(0, 0, 255),
-                                                         x=x,
-                                                         y=y,
-                                                         batch=window.batch),
+        window.shapesCircle.append([Circle(radius=radius,
+                                           color=(0, 0, 255),
+                                           x=x,
+                                           y=y,
+                                           batch=window.batch),
                                     choice([-2, -1, 1, 2]),
                                     choice([-2, -1, 1, 2])])
     for i in range(10):
@@ -257,13 +258,12 @@ if __name__ == "__main__":
         y1 = (randint(50, window.size[1]))
         x2 = x1 + choice([-1, 1]) * randint(40, 100)
         y2 = y1 + choice([-1, 1]) * randint(40, 100)
-        window.shapesLine.append([pyglet.shapes.Line(x=x1,
-                                                     y=y1,
-                                                     x2=x2,
-                                                     y2=y2,
-                                                     color=(0, 255, 0),
-                                                     batch=window.batch),
+        window.shapesLine.append([Line(x=x1,
+                                       y=y1,
+                                       x2=x2,
+                                       y2=y2,
+                                       color=(0, 255, 0),
+                                       batch=window.batch),
                                   choice([-2, -1, 1, 2]),
                                   choice([-2, -1, 1, 2])])
-
-    pyglet.app.run()
+    run()
