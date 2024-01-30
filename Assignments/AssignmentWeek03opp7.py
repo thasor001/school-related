@@ -198,7 +198,7 @@ class MyWindow(Window):
             self.shapesCircle[index][0].color = (0, 0, 255)
 
             for collision in self.shapesCircle:
-                for line in self.shapesLine:
+                for lindex, (line) in enumerate(self.shapesLine):
 
                     line_vec = [line[0].x2 - line[0].x,
                                 line[0].y2 - line[0].y]
@@ -215,7 +215,8 @@ class MyWindow(Window):
                         dot_product = self.dot(projection, line_vec)
 
                         if 0 <= dot_product <= line_length ** 2:
-                            circle[0].color = (128, 0, 128)
+                            circle[0].color = (255, 0, 255)
+                            self.shapesLine[lindex][0].color = (128, 128, 128)
 
                     circledistance = ((circle[0].x - collision[0].x) ** 2 + (circle[0].y - collision[0].y) ** 2) ** 0.5
 
@@ -253,7 +254,7 @@ if __name__ == "__main__":
                                            batch=window.batch),
                                     choice([-2, -1, 1, 2]),
                                     choice([-2, -1, 1, 2])])
-    for i in range(10):
+    for i in range(5):
         x1 = (randint(50, window.size[0]))
         y1 = (randint(50, window.size[1]))
         x2 = x1 + choice([-1, 1]) * randint(40, 100)
