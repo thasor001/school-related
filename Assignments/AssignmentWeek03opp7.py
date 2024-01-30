@@ -217,6 +217,14 @@ class MyWindow(Window):
                         if 0 <= dot_product <= line_length ** 2:
                             circle[0].color = (255, 0, 255)
                             self.shapesLine[lindex][0].color = (128, 128, 128)
+                        else:
+                            circle_vec2 = [circle[0].x - line[0].x2,
+                                          circle[0].y - line[0].y2]
+                            if (self.length(circle_vec) < circle[0].radius) \
+                                    or (self.length(circle_vec2) < circle[0].radius):
+                                circle[0].color = (255, 0, 255)
+                                self.shapesLine[lindex][0].color = (128, 128, 128)
+
 
                     circledistance = ((circle[0].x - collision[0].x) ** 2 + (circle[0].y - collision[0].y) ** 2) ** 0.5
 
