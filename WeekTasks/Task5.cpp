@@ -41,7 +41,7 @@ void lectureWriteData(const lecture* l) {
 
 
 int main() {
-    struct lecture lectures[MAXFORELESNINGER];
+    lecture lectures[MAXFORELESNINGER];
 
     for (int i = 0; i < MAXFORELESNINGER; i++) {
         lectureReadData(&lectures[i]);
