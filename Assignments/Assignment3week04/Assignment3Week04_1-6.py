@@ -1,5 +1,5 @@
 from numpy import array
-from sympy import sin, cos, pi, sqrt, symbols
+from sympy import sin, cos, pi, sqrt, symbols, S
 
 
 def cross(u, v):
@@ -19,11 +19,11 @@ def dot(u, v):
 
 
 def project(u, v):
-    return [dot(u, v) / length(v)**2 * v[j] for j in range(2)]
+    return array([dot(u, v) / length(v)**2 * v[j] for j in range(2)])
 
 
 def matXvec(u, m):
-    return array([sum(u[j] * m[i, j] for j in range(len(m))) for i in range(len(u))])
+    return array([sum(u[j] * m[i, j] for j in range(len(u))) for i in range(len(m))])
 
 
 def matRotation(u, angle):
@@ -50,8 +50,12 @@ def matmat(m1, m2):
     return array([[m1[j, i] + m2[j, i] for i in range(len(m1))] for j in range(len(m2))])
 
 
+u = array([3, 4])
 
-u = array([2, 3])
+mat = array([[S(9/34), S(15/34)], [S(15/34), S()]])
+
+
+u = array([1, 1])
 v1 = array([2, 5])
 v2 = array([-5, 4])
 v3 = array([1,2,3])
@@ -93,8 +97,8 @@ matX = array([
 ])
 
 mat1 = array([
-    [cos(pi/4), -sin(pi/4)],
-    [sin(pi/4), cos(pi/4)]
+    [0, 2],
+    [3, 0]
 ])
 
 mat2 = array([
