@@ -43,4 +43,4 @@ expr5 = A*(1-t)**3+3*B*((1-t)**2)*t+3*C*(1-t)*t**2+D*t**3
 
 ph = diff(expr5, t)
 
-print(ph.subs("t", 0))
+print(ph.subs("t", 1))
