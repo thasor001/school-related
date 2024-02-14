@@ -72,7 +72,7 @@ void writeMenu() {
 
 /**
  * Print elements of one struct.
- * @param r
+ * @param Restaurant pointer
  */
 void writeRestaurant(const struct Restaurant* r) {
     cout <<"Name : " << r->name <<"\n";
@@ -93,7 +93,7 @@ void writeAllRestaurants() {
 
 /**
  * Assigns data members for every variable in the new struct.
- * @param res
+ * @param Restuarant referance
  */
 void newRestaurant(Restaurant & res) {
     cout <<"Name : "; getline(cin, res.name);
