@@ -69,8 +69,8 @@ if __name__ == "__main__":
     setUp(window.items[4], (255, 0, 0), 2, [0], [50])
 
     window.items.append(Circle(255, window.height-300, 50)); window.items[5].s = True
-    setUp(window.items[5], (0, 255, 0), 2, [0, 255, 0, 50], [255, 255, 0, 25])
+    setUp(window.items[5], (0, 255, 0), 2, [1, 254, 1, 50], [254, 254, 1, 25])
 
     window.items.append(Circle(155, window.height-300, 50))
-    setUp(window.items[6], (0, 255, 0), 2, [0, 255, 0], [255, 0, 0])
+    setUp(window.items[6], (0, 255, 0), 2, [1, 254, 1], [254, 1, 1])
     app.run()
