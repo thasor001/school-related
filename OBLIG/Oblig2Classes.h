@@ -10,32 +10,37 @@
 #include <string>
 using namespace std;
 
+// resource for std::move() : https://stackoverflow.com/questions/3413470/what-is-stdmove-and-when-should-it-be-used
+
 class Dyr {
 private:
     string name;
+
 public:
     Dyr() {name = "";}
-    void readName(string name) {this->name = name;}
+    Dyr(string name) {this->name = name;}
+
     void readData() {
         cout << "Name : ";
         getline(cin, name);
     }
+
     void writeData() {
-        cout << "Name : " << name << "\n";
+        cout << "\n\nName : " << name << "\n";
     }
 };
 
 class DyrILuft : public Dyr {
 private:
     float wingSpan;
+
 public:
-    DyrILuft() {
-        wingSpan = 0;
-        Dyr::readData();
-    }
+    DyrILuft() {wingSpan = 0; Dyr::readData();}
+
     void readData() {
         wingSpan = lesFloat("Write Wing Span ", 0, 1.44);
     }
+
     void writeData() {
         Dyr::writeData();
         cout << "Wing span : " << wingSpan << "\n";
@@ -45,14 +50,14 @@ public:
 class Innsekt : public DyrILuft {
 private:
     int legs;
+
 public:
-    Innsekt() {
-        legs = 0;
-        DyrILuft::readData();
-    }
+    Innsekt() {legs = 0; DyrILuft::readData();}
+
     void readData() {
         legs = lesInt("How many legs ", 0, 1000);
     }
+
     void writeData() {
         DyrILuft::writeData();
         cout << "Legs : " << legs << "\n";
@@ -62,11 +67,9 @@ public:
 class Fugl : public DyrILuft {
 private:
     int topVelocity;
+
 public:
-    Fugl() {
-        topVelocity = 0;
-        DyrILuft::readData();
-    }
+    Fugl() {topVelocity = 0; DyrILuft::readData();}
     void readData() {
         topVelocity = lesInt("Top Velocity m/s ", 0, 50);
     }
@@ -79,14 +82,18 @@ public:
 class DyrIVann : public Dyr {
 private:
     int preferedDepth;
+
 public:
-    DyrIVann() {
-        preferedDepth = 0;
-        Dyr::readData();
+    DyrIVann() {preferedDepth = 0; Dyr::readData();}
+    DyrIVann(string n) : Dyr(std::move(n)) {
+        Dyr::writeData();
+        DyrIVann::readData();
     }
+
     void readData() {
         preferedDepth = lesInt("Which depth does it live at km ", 0, 10);
     }
+
     void writeData() {
         Dyr::writeData();
         cout << "Prefered depth : " << preferedDepth << "\n";
@@ -96,15 +103,15 @@ public:
 class Fisk : public DyrIVann {
 private:
     int fins;
+
 public:
-    Fisk() {
-        fins = 0;
-        DyrIVann::readData();
-    }
-    Fisk(string name) {Dyr::readName(name);}
+    Fisk() {fins = 0; DyrIVann::readData();}
+    Fisk(string n) : DyrIVann(std::move(n)) {Fisk::readData();}
+
     void readData() {
         fins = lesInt("How many fins ", 2, 6);
     }
+
     void writeData() {
         DyrIVann::writeData();
         cout << "Fins : " << fins << "\n";
@@ -114,19 +121,18 @@ public:
 class Skalldyr : public DyrIVann {
 private:
     int legs;
+
 public:
-    Skalldyr() {
-        legs = 4;
-        DyrIVann::readData();
-    }
+    Skalldyr() {legs = 4; DyrIVann::readData();}
+
     void readData() {
         legs = lesInt("How many legs ", 4, 10);
     }
+
     void writeData() {
         DyrIVann::writeData();
         cout << "Legs : " << legs << "\n";
     }
 };
-
 
 #endif //CPP_OBLIG2CLASSES_H
