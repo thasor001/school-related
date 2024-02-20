@@ -34,7 +34,7 @@ private:
 
 public:
     // Constructors.
-    Dyr() {name = "";}
+    Dyr() {Dyr::readData();}
     Dyr(std::string name) {this->name = std::move(name);}
 
     // No need to make this virtual as it does not need to be overridden later (not used in main program).
@@ -61,11 +61,12 @@ private:
 
 public:
     // Constructor.
-    DyrILuft() {wingSpan = 0; Dyr::readData();}
+    DyrILuft() {DyrILuft::readData();}
 
     /**
      * Read and writeData. Reads and writes data :)!
      * Will be basically the same for every class.
+     * WriteData's calls upon parent writeData's if they have them.
      */
     void readData() {wingSpan = lesFloat("Write Wing Span ", 0, 1.5);}
 
@@ -86,7 +87,7 @@ private:
 
 public:
     // Constructor.
-    Innsekt() {DyrILuft::readData(); Innsekt::readData();}
+    Innsekt() {Innsekt::readData();}
 
     void readData() {legs = lesInt("How many legs ", 0, 1000);}
 
@@ -108,7 +109,7 @@ private:
 
 public:
     // Constructor.
-    Fugl() {DyrILuft::readData(); Fugl::readData();}
+    Fugl() {Fugl::readData();}
 
     void readData() {topVelocity = lesInt("Top Velocity m/s ", 0, 50);}
 
@@ -131,7 +132,7 @@ private:
 
 public:
     // Constructor.
-    DyrIVann() {preferedDepth = 0; Dyr::readData();}
+    DyrIVann() {DyrIVann::readData();}
     DyrIVann(std::string n) : Dyr(std::move(n)) {
         Dyr::writeData();
         DyrIVann::readData();
@@ -156,7 +157,7 @@ private:
 
 public:
     // Constructors.
-    Fisk() {DyrIVann::readData(); Fisk::readData();}
+    Fisk() {Fisk::readData();}
     Fisk(std::string n) : DyrIVann(std::move(n)) {Fisk::readData();}
 
     void readData() {fins = lesInt("How many fins ", 2, 6);}
@@ -179,7 +180,7 @@ private:
 
 public:
     // Constructor.
-    Skalldyr() {DyrIVann::readData(); Skalldyr::readData();}
+    Skalldyr() {Skalldyr::readData();}
 
     void readData() {legs = lesInt("How many legs ", 4, 10);}
 

@@ -3,11 +3,8 @@
 // Finished 20/02/2024.
 //
 
-#include "LesData2.h"
-// Header file containing all the classes.
+// Header file containing all the classes. and "LesData2", "iostream" and "string".
 #include "Oblig2Classes.h"
-#include <iostream>
-#include <string>
 #include <vector>
 
 void menu() {
