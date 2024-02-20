@@ -14,12 +14,13 @@
 // Its overkill and I am not even sure if it makes the program even one nanosecond faster, but just wanted to try :).
 // Changes the variable from "Ivalue" (Named variable) to a "Xvalue" which makes the compiler instead of making a copy,
 // of a variable and store that in a new variable, rather swap that old variable into the new one.
+// Seemingly works like "&" (working with the original).
 
 /***********************************************************************************************************************
  *  ... Header File with all the classes for "Oblig 2".
  *  ... Wanted to use a module for all the classes but found out that modules aren't well supported in c++.
  *  ... These classes could've been in the main file but i wanted the files to look a little "cleaner" so I,
- *  ... Opted to split the program, and just have the main functionality in the main file and fillers such,
+ *  ... Opted to split the program, and just have the main functionality in the main file and "fillers" such,
  *  ... as classes which will clutter the screen and make you have to scroll down in a separate file.
  **********************************************************************************************************************/
 
