@@ -10,53 +10,63 @@
 using namespace std;
 
 void menu() {
-    cout << "V - DyrUnderVann " << "\tL - DyrILuft\n"
-    << "V->F - Fish " << "\t\tL->I - Bug \n"
-    << "V->C - Crustacean" << "\tL->B - Bird\n"
+    cout << "F - Fish " << "\t\tI - Bug \n"
+    << "C - Crustacean" << "\t\tB - Bird\n"
     << "Q - End Program " << "\tW - Write All\n\n";
 }
 
-
+vector <Dyr*> gDyr;
 
 int main() {
     Fisk * newFish;
     Innsekt * newBug;
     Fugl * newBird;
     Skalldyr * newCrab;
+    string name;
 
     menu();
-    char command = lesChar("Write command ");
+    char command = lesChar("\nWrite command ");
 
     while (command != 'Q') {
         switch (command) {
-            case 'V':
-                command = lesChar("Fish or Crab (F/C) ");
-                switch (command) {
-                    case 'F':
-
-                        break;
-                    case 'C':
-
-                        break;
+            case 'B':
+                newBird = new Fugl;
+                gDyr.push_back(newBird);
+                break;
+            case 'I':
+                newBug = new Innsekt;
+                gDyr.push_back(newBug);
+                break;
+            case 'F':
+                cout << "Name : "; getline(cin, name);
+                if (name != "\n") {
+                    newFish = new Fisk(name);
+                    gDyr.push_back(newFish);
+                } else {
+                    newFish = new Fisk;
+                    gDyr.push_back(newFish);
                 }
                 break;
-            case 'L':
-                command = lesChar("Bird or Bug (B/I) ");
-                switch (command) {
-                    case 'B':
-
-                        break;
-                    case 'I':
-
-                        break;
-                }
-            default:
-                cout << "Illegal Command : " << command << "\n";
+            case 'C':
+                newCrab = new Skalldyr;
+                gDyr.push_back(newCrab);
                 break;
+            case 'W':
+                for (auto & dyr : gDyr) {
+                    dyr->writeData();
+                }
+                break;
+            default: cout << "Illegal Command : " << command << "\n"; break;
         }
-
-        command = lesChar("Write command ");
+        cout << "\nF->Fish ; I->Bug ; C->Crab ; B->Brid ; W->Write";
+        command = lesChar("\nWrite command ");
     }
+
+    for (auto & val : gDyr) {
+        delete val;
+    }
+    gDyr.clear();
+    cout << "\n\t--Program Terminated--\n";
 
     return 0;
 }

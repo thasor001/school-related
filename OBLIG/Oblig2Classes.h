@@ -8,25 +8,24 @@
 #include "LesData2.h"
 #include <iostream>
 #include <string>
-using namespace std;
 
 // resource for std::move() : https://stackoverflow.com/questions/3413470/what-is-stdmove-and-when-should-it-be-used
 
 class Dyr {
 private:
-    string name;
+    std::string name;
 
 public:
     Dyr() {name = "";}
-    Dyr(string name) {this->name = name;}
+    Dyr(std::string name) {this->name = name;}
 
     void readData() {
-        cout << "Name : ";
-        getline(cin, name);
+        std::cout << "Name : ";
+        getline(std::cin, name);
     }
 
-    void writeData() {
-        cout << "\n\nName : " << name << "\n";
+    virtual void writeData() const {
+        std::cout << "\n\nName : " << name << "\n";
     }
 };
 
@@ -41,9 +40,9 @@ public:
         wingSpan = lesFloat("Write Wing Span ", 0, 1.44);
     }
 
-    void writeData() {
+    void writeData() const {
         Dyr::writeData();
-        cout << "Wing span : " << wingSpan << "\n";
+        std::cout << "Wing span : " << wingSpan << "\n";
     }
 };
 
@@ -58,9 +57,9 @@ public:
         legs = lesInt("How many legs ", 0, 1000);
     }
 
-    void writeData() {
+    void writeData() const override {
         DyrILuft::writeData();
-        cout << "Legs : " << legs << "\n";
+        std::cout << "Legs : " << legs << "\n";
     }
 };
 
@@ -70,12 +69,14 @@ private:
 
 public:
     Fugl() {topVelocity = 0; DyrILuft::readData();}
+
     void readData() {
         topVelocity = lesInt("Top Velocity m/s ", 0, 50);
     }
-    void writeData() {
+
+    void writeData() const override {
         DyrILuft::writeData();
-        cout << "Top velocity : " << topVelocity << "\n";
+        std::cout << "Top velocity : " << topVelocity << "\n";
     }
 };
 
@@ -85,7 +86,7 @@ private:
 
 public:
     DyrIVann() {preferedDepth = 0; Dyr::readData();}
-    DyrIVann(string n) : Dyr(std::move(n)) {
+    DyrIVann(std::string n) : Dyr(std::move(n)) {
         Dyr::writeData();
         DyrIVann::readData();
     }
@@ -94,9 +95,9 @@ public:
         preferedDepth = lesInt("Which depth does it live at km ", 0, 10);
     }
 
-    void writeData() {
+    void writeData() const {
         Dyr::writeData();
-        cout << "Prefered depth : " << preferedDepth << "\n";
+        std::cout << "Prefered depth : " << preferedDepth << "\n";
     }
 };
 
@@ -105,16 +106,16 @@ private:
     int fins;
 
 public:
-    Fisk() {fins = 0; DyrIVann::readData();}
-    Fisk(string n) : DyrIVann(std::move(n)) {Fisk::readData();}
+    Fisk() {fins = 2; DyrIVann::readData();}
+    Fisk(std::string n) : DyrIVann(std::move(n)) {Fisk::readData();}
 
     void readData() {
         fins = lesInt("How many fins ", 2, 6);
     }
 
-    void writeData() {
+    void writeData() const override {
         DyrIVann::writeData();
-        cout << "Fins : " << fins << "\n";
+        std::cout << "Fins : " << fins << "\n";
     }
 };
 
@@ -129,9 +130,9 @@ public:
         legs = lesInt("How many legs ", 4, 10);
     }
 
-    void writeData() {
+    void writeData() const override {
         DyrIVann::writeData();
-        cout << "Legs : " << legs << "\n";
+        std::cout << "Legs : " << legs << "\n";
     }
 };
 
