@@ -28,8 +28,10 @@ public:
     ~Customer() {
         std::cout << "\t-Deleted Customer : -" << name
         << "- And " << accounts->size() << " Associated Accounts" << "\n";
-        ///< Clears the vector (--Unsure if this will create a memory leak--)
+        // Clears the account vector.
         accounts->clear();
+        // Deletes the accounts' pointer.
+        delete accounts;
     }
     // Getname function that compares names (sends in const of original).
     bool getName(const std::string & name) {
