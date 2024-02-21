@@ -3,7 +3,7 @@
 // Finished 20/02/2024.
 //
 
-// Header file containing all the classes. and "LesData2", "iostream" and "string".
+// Header file containing all the classes. and "LesData2", "iostream(inside LesDate2)" and "string".
 #include "Oblig2Classes.h"
 #include <vector>
 
@@ -37,7 +37,8 @@ int main() {
                 newBird = new Fugl;
                 // Pushing this instance to the back of gDyr vector.
                 // This instance can be pushed into a vector with pointers to Dyr even though,
-                // it isn't a Dyr class, but it is a subclass of Dyr.
+                // it isn't a Dyr class, but it is a subclass of Dyr. The logic goes like this:
+                // Fugl != Dyr class, but it's still an "animal".
                 gDyr.push_back(newBird);
                 break;
             case 'I':
@@ -47,8 +48,8 @@ int main() {
             case 'F':
                 std::cout << "Name : ";
                 getline(std::cin, name);
-                // using name.empty instead of == '\n' since getline reads until '\n' then,
-                // removes it, so therefore == '\n' wouldn't work since it is not stored in name.
+                // using .empty instead of == '\n' since getline reads until '\n' then removes it,
+                // therefore == '\n' wouldn't work since it is not stored in name variable.
                 if (name.empty()) {
                     newFish = new Fisk;
                     gDyr.push_back(newFish);
@@ -64,8 +65,8 @@ int main() {
             case 'W':
                 // Go through all gDyr pointers and writeData, this does not just write their name,
                 // since the writeData in Dyr class is a virtual and is overridden by the writeData in,
-                // the subclasses in "Fisk, Fugl, Innsekt and Skalldyr", which means it will run writeData,
-                // of the subclasses.
+                // the subclasses "Fisk, Fugl, Innsekt and Skalldyr", which means it will run the writeData,
+                // of these classes.
                 for (auto & dyr : gDyr) {
                     dyr->writeData();
                 }

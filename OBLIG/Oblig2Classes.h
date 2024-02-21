@@ -7,7 +7,6 @@
 #define CPP_OBLIG2CLASSES_H
 
 #include "LesData2.h"
-#include <iostream>
 #include <string>
 
 // resource for std::move() : https://stackoverflow.com/questions/3413470/what-is-stdmove-and-when-should-it-be-used
