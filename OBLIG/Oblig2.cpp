@@ -21,10 +21,7 @@ std::vector <Dyr*> gDyr;
  */
 int main() {
     // Class pointers for different animals
-    Fisk * newFish;
-    Innsekt * newBug;
-    Fugl * newBird;
-    Skalldyr * newCrab;
+    Dyr * newDyr;
     std::string name;
 
     menu();
@@ -34,16 +31,16 @@ int main() {
         switch (command) {
             case 'B':
                 // Creating a new instance of Class.
-                newBird = new Fugl;
+                newDyr = new Fugl;
                 // Pushing this instance to the back of gDyr vector.
                 // This instance can be pushed into a vector with pointers to Dyr even though,
                 // it isn't a Dyr class, but it is a subclass of Dyr. The logic goes like this:
                 // Fugl != Dyr class, but it's still an "animal".
-                gDyr.push_back(newBird);
+                gDyr.push_back(newDyr);
                 break;
             case 'I':
-                newBug = new Innsekt;
-                gDyr.push_back(newBug);
+                newDyr = new Innsekt;
+                gDyr.push_back(newDyr);
                 break;
             case 'F':
                 std::cout << "Name : ";
@@ -51,16 +48,16 @@ int main() {
                 // using .empty instead of == '\n' since getline reads until '\n' then removes it,
                 // therefore == '\n' wouldn't work since it is not stored in name variable.
                 if (name.empty()) {
-                    newFish = new Fisk;
-                    gDyr.push_back(newFish);
+                    newDyr = new Fisk;
+                    gDyr.push_back(newDyr);
                 } else {
-                    newFish = new Fisk(name);
-                    gDyr.push_back(newFish);
+                    newDyr = new Fisk(name);
+                    gDyr.push_back(newDyr);
                 }
                 break;
             case 'C':
-                newCrab = new Skalldyr;
-                gDyr.push_back(newCrab);
+                newDyr = new Skalldyr;
+                gDyr.push_back(newDyr);
                 break;
             case 'W':
                 // Go through all gDyr pointers and writeData, this does not just write their name,

@@ -16,7 +16,7 @@ private:
     ///< Vector with float's pointing to accounts.
     std::vector <float>* accounts;
 public:
-    Customer(const int n) : accounts(new std::vector <float>()){
+    Customer(const int n) : accounts(new std::vector <float>){
         // Line above allocates space for an "accounts" vector.
         for (int i = 0; i < n; i++) {
             // Fills vector up with 0.0
