@@ -51,11 +51,4 @@ def brighten():
     cirlceColor = circleColor * 1/2
 
 
-B = array([[2, 3], [0, 5]])
-A = array([[1, 3], [-2, 4]])
-C = array([[3, 5, 7], [-2, 6, 0]])
-D = array([[4, 2], [-3, 6], [5, 7]])
-
-print(A@A)
-
 
