@@ -315,7 +315,7 @@ void lesFraFil() {
         std::cout << "Could not find file" << std::endl;
         return;
     }
-    std::cout << "Hello";
+
     while (file >> nr >> type) {
         switch (type) {
             case 'A':
@@ -342,7 +342,7 @@ void nyPerson() {
     Person * newPes;
     char type = lesChar("Write Type (A/S)");
     int nr;
-
+    
     std::cout << std::endl;
     switch (type) {
         case 'A':
