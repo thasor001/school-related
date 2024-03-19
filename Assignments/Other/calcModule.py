@@ -1,7 +1,7 @@
 from sympy import N, diff, symbols, sqrt
-from numpy import array
+from numpy import array, meshgrid, shape, clip, transpose
 
-t, B, A, C, D = symbols("t B A C D")
+# t, B, A, C, D = symbols("t B A C D")
 
 def numDerivation(f, t, dt):
     return N((f.subs("t", t+dt) - f.subs("t", t-dt))/(2*dt))
@@ -46,12 +46,9 @@ def matPmat(m1, m2):
     return array([[m1[j, i] + m2[j, i] for i in range(len(m1))] for j in range(len(m2))])
 
 
-circleColor = array([[1.0, 0.5, 1.0, 1.0],
-                     [1.0, 0.5, 0.7, 1.0],
-                     [0.3, 0.8, 0.1, 1.0]])
-
 def brighten():
     global circleColor
     cirlceColor = circleColor * 1/2
-    print(circleColor)
+
+
 
