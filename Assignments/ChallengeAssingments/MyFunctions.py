@@ -13,11 +13,9 @@ def quadBezierColor(obj):
     for i in range(obj.numberTriangles):
         obj.triangles[i].color = (
             min(255, max(0, int(obj.start_Colors[i][0] * (1 - obj.tc) ** 2 + 120 * obj.tc * (1 - obj.tc) + obj.start_Colors[i][0]-100 * obj.tc ** 2))),
-            int(35 * (1 - obj.tc) ** 2 + 240 * obj.tc * (1 - obj.tc) + 100 * obj.tc ** 2),
+            int(0 * (1 - obj.tc) ** 2 + 240 * obj.tc * (1 - obj.tc) + 35 * obj.tc ** 2),
             min(255, max(0, int(obj.start_Colors[i][2] * (1 - obj.tc) ** 2 + 240 * obj.tc * (1 - obj.tc) + obj.start_Colors[i][2]+50 * obj.tc ** 2)))
         )
-
-
 
 def s(obj):
     if obj.ts:
