@@ -16,15 +16,13 @@ weights = np.meshgrid(weight, weight)
 weights = weights[0]
 vel = np.zeros((n, 2))
 
-print(weights)
-
 def gravity(dt):
     global vel, weights, disks
     x_mesh, y_mesh = np.meshgrid(disks[:, 0], disks[:, 1])
 
     disp = np.dstack((x_mesh - x_mesh.T, y_mesh - y_mesh.T))
     dist = np.sqrt(np.sum(disp ** 2, axis=2))
-    vel += np.sum(np.nan_to_num((dt*-10 * weights.reshape(n**2, 1))/(dist.reshape(n**2, 1)**2) * disp.flatten().reshape(n**2, 2)).reshape(n, -1, 2)[:, :, :], axis=1)
+    vel += dt*np.sum(np.nan_to_num((-15 * weights.reshape(n**2, 1))/(dist.reshape(n**2, 1)**2) * disp.flatten().reshape(n**2, 2)).reshape(n, -1, 2)[:, :, :], axis=1)
     disks += vel * dt
 
 
@@ -35,5 +33,5 @@ def on_draw():
         shapes.Circle(x=disks[i][0], y=disks[i][1], radius=weights[0, i]).draw()
 
 
-clock.schedule_interval(gravity, 1/60)
+clock.schedule_interval(gravity, 1/30)
 app.run()
