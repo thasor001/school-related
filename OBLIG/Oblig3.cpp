@@ -109,6 +109,8 @@ int main(void)  {
 
     skrivTilFil();
 
+    
+
     return 0;
 }
 
