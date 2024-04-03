@@ -1,8 +1,7 @@
 from pyglet import *
 from math import *
 from MyFunctions import *
-from pyglet.window import mouse
-from random import random, randint
+from pyglet.window import mouse, key
 
 triangle_batch = graphics.Batch()
 
@@ -19,7 +18,6 @@ class myCircle:
     color_direction = 1
     ts = False
     vel = 1/2
-    controlled = False
 
     def __init__(self, init_pos, radius, direction):
         self.center = init_pos[0]
@@ -33,6 +31,7 @@ class myCircle:
         self.start_Colors = []
         self.numberTriangles = 100
         self.count = 0
+        self.controlled = False
 
         for i in range(self.numberTriangles):
             self.angles.append(2*pi*i/self.numberTriangles)
@@ -61,31 +60,35 @@ class myCircle:
             self.angles[i] += angle*self.direction
             self.triangles[i].x2 = self.center[0] + self.radius * cos(self.angles[i])
             self.triangles[i].y2 = self.center[1] + self.radius * sin(self.angles[i])
-            self.triangles[i].x3 = self.center[0] + self.radius * cos((self.angles[i]+pi/50))
-            self.triangles[i].y3 = self.center[1] + self.radius * sin((self.angles[i]+pi/50))
+            self.triangles[i].x3 = self.center[0] + self.radius * cos((self.angles[i] + pi / 50))
+            self.triangles[i].y3 = self.center[1] + self.radius * sin((self.angles[i] + pi / 50))
 
     def colorRotation(self):
         quadBezierColor(self)
 
-
     @classmethod
     def updateTime(cls, dt):
         for shape in window.circles:
-            if shape.count == 3:
+            if shape.controlled:
                 followMouse(shape, window.mouse_pos)
             else:
-                if shape.count == 1:
-                    myCircle.colorRotation(shape)
-                    shape.tc += dt/2 * shape.color_direction
-                    if shape.tc > 1:
-                        shape.tc = 1
-                        shape.color_direction *= -1
-                    elif shape.tc < 0:
-                        shape.tc = 0
-                        shape.color_direction *= -1
-
                 posUptade(shape, dt)
                 quadBezier(shape)
+            if shape.count >= 1:
+                myCircle.colorRotation(shape)
+                shape.tc += dt/2 * shape.color_direction
+                if shape.tc > 1:
+                    shape.tc = 1
+                    shape.color_direction *= -1
+                elif shape.tc < 0:
+                    shape.tc = 0
+                    shape.color_direction *= -1
+                if shape.count == 2:
+                    shape.ts = True
+                elif shape.count > 2:
+                    shape.count = 0
+                    shape.ts = False
+
 
 
 class MyWindow(window.Window):
@@ -111,18 +114,57 @@ class MyWindow(window.Window):
                 self.temp.clear()
                 self.tri_pos.clear()
                 self.counter = 0
+
         if button == mouse.RIGHT:
             cur_pos = [x, y]
             for i in range(len(self.circles)):
                 vec = [self.circles[i].center[0] - cur_pos[0], self.circles[i].center[1] - cur_pos[1]]
                 dist = sqrt(vec[0]**2 + vec[1]**2)
                 if dist < self.circles[i].radius:
-                    if self.circles[i].count == 3:
-                        self.circles[i].t = 1/2
-                        self.circles[i].control = [self.circles[i].center[0], self.circles[i].center[1]]
-                        self.circles[i].count = 0
-                    else:
-                        self.circles[i].count += 1
+                    self.circles[i].count += 1
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.D:
+            for shape in self.circles:
+                vec = [shape.center[0] - self.mouse_pos[0], shape.center[1] - self.mouse_pos[1]]
+                dist = sqrt(vec[0]**2 + vec[1]**2)
+                if dist < shape.radius:
+                    self.circles.remove(shape)
+                    print("Shape Removed")
+        if symbol == key.C:
+            for shape in self.circles:
+                vec = [shape.center[0] - self.mouse_pos[0], shape.center[1] - self.mouse_pos[1]]
+                dist = sqrt(vec[0] ** 2 + vec[1] ** 2)
+                if dist < shape.radius:
+                    shape.controlled = True
+        if symbol == key.K:
+            for shape in self.circles:
+                shape.controlled = True
+        if symbol == key.A:
+            for shape in self.circles:
+                shape.count = 1
+        if symbol == key.S:
+            for shape in self.circles:
+                shape.ts = True
+
+    def on_key_release(self, symbol, modifiers):
+        if symbol == key.C:
+            for shape in self.circles:
+                if shape.controlled:
+                    shape.controlled = False
+                    shape.t = 1 / 2
+                    shape.control = [shape.center[0], shape.center[1]]
+        if symbol == key.K:
+            for shape in self.circles:
+                shape.controlled = False
+                shape.t = 1 / 2
+                shape.control = [shape.center[0], shape.center[1]]
+        if symbol == key.A:
+            for shape in self.circles:
+                shape.count = 0
+        if symbol == key.S:
+            for shape in self.circles:
+                shape.ts = False
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.mouse_pos = [x, y]
@@ -132,6 +174,7 @@ class MyWindow(window.Window):
     def update(self, dt):
         for shape in window.circles:
             myCircle.rotate(shape, pi*dt)
+            pass
 
 
     def on_draw(self):

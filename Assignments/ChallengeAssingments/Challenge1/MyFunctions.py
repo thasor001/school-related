@@ -1,5 +1,4 @@
 from Challenge1 import myCircle
-import pyglet
 
 
 def quadBezier(obj):
@@ -12,10 +11,11 @@ def quadBezier(obj):
 def quadBezierColor(obj):
     for i in range(obj.numberTriangles):
         obj.triangles[i].color = (
-            min(255, max(0, int(obj.start_Colors[i][0] * (1 - obj.tc) ** 2 + 120 * obj.tc * (1 - obj.tc) + obj.start_Colors[i][0]-100 * obj.tc ** 2))),
-            int(0 * (1 - obj.tc) ** 2 + 240 * obj.tc * (1 - obj.tc) + 35 * obj.tc ** 2),
-            min(255, max(0, int(obj.start_Colors[i][2] * (1 - obj.tc) ** 2 + 240 * obj.tc * (1 - obj.tc) + obj.start_Colors[i][2]+50 * obj.tc ** 2)))
+            min(255, max(0, int(obj.start_Colors[i][0] * (1 - obj.tc) ** 3 + 3 * (1 - obj.tc) ** 2 * obj.tc * 100 + 3 * (1 - obj.tc) * obj.tc ** 2 * 120 + obj.tc ** 3 * (obj.start_Colors[i][0] - 100)))),
+            min(255, max(0, int(obj.start_Colors[i][1] * (1 - obj.tc) ** 3 + 3 * (1 - obj.tc) ** 2 * obj.tc * 35 + 3 * (1 - obj.tc) * obj.tc ** 2 * 70*2 + obj.tc ** 3 * 220))),
+            min(255, max(0, int(obj.start_Colors[i][2] * (1 - obj.tc) ** 3 + 3 * (1 - obj.tc) ** 2 * obj.tc * 240*2 + 3 * (1 - obj.tc) * obj.tc ** 2 * 180 + obj.tc ** 3 * (obj.start_Colors[i][2] - 75))))
         )
+
 
 def s(obj):
     if obj.ts:
@@ -25,7 +25,7 @@ def s(obj):
 
 def followMouse(obj, mousePos):
     distX, distY = mousePos[0] - obj.center[0], mousePos[1] - obj.center[1]
-    ratio = min(1, 2 / max(abs(distX), abs(distY)))
+    ratio = min(1, 2 / max(1, max(abs(distX), abs(distY))))
 
     myCircle.move(
         obj,
@@ -43,5 +43,3 @@ def posUptade(shape, dt):
         shape.direction *= -1
         shape.t = 0
         shape.vel *= -1
-
-

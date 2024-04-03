@@ -1,4 +1,3 @@
-from numba import *
 from pyglet import *
 from random import randint, uniform
 import numpy as np
@@ -12,6 +11,8 @@ batch = graphics.Batch()
 n = 100
 
 weights = np.array([randint(2, 22) for _ in range(n)])
+
+bitMap = np.zeros((n, n), dtype=bool)
 
 disks = np.array([
     shapes.Circle(x=0,
@@ -47,7 +48,7 @@ radii = col_vec + weights
 # We do this since a disk's radius will + with itself and result in for instance: a combined radius of 20.
 # while the distance between itself and itself will be 0 this will then tell the machine
 # that there is a collision here since 0 < 20.
-# we don't want that, therefore we make the disk + itself = 0 then 0(Dist) > 0(radii) = False
+# we don't want that, therefore we make the disk + itself = 0 then 0(Dist) < 0(radii) = False
 np.fill_diagonal(radii, 0)
 
 
@@ -63,29 +64,51 @@ np.fill_diagonal(radii, 0)
 
 # Checking time of 1 iteration (as long as it's under 0.16 we good :) )
 average_time = 0
-for i in range(1):
-        start_time = time()
+for _ in range(n):
+    start_time = time()
 
-        for index, disk in enumerate(disks):
-            disk.x = pos[index, 0]
-            disk.y = pos[index, 1]
+    for index, disk in enumerate(disks):
+        disk.x = pos[index, 0]
+        disk.y = pos[index, 1]
 
-        pos[:] += vel[:] * 0
+    pos[:] += vel[:] * 0
 
-        test_x_mesh, test_y_mesh = np.meshgrid(pos[:, 0], pos[:, 1])
-        test_disp = np.dstack((test_x_mesh - test_x_mesh.T, test_y_mesh - test_y_mesh.T))
-        test_dist = np.sqrt(np.einsum('...i,...i', test_disp, test_disp))
+    test_x_mesh, test_y_mesh = np.meshgrid(pos[:, 0], pos[:, 1])
+    test_disp = np.dstack((test_x_mesh - test_x_mesh.T, test_y_mesh - test_y_mesh.T))
+    test_dist = np.sqrt(np.einsum('...i,...i', test_disp, test_disp))
 
-        for i in range(n):
-            for j in range(n):
-                if test_dist[i, j] < radii[i, j]:
-                    un = test_disp[i, j] / test_dist[i, j]
-                    tan = (-un[1], un[0])
-                    pos[i] += -un * (radii[i, j] - test_dist[i, j])
-                    vn = (test_dist[i, j] * (weights[i] - weights[j]) + 2 * weights[j] * test_dist[j, i]) / radii[i, j]
+    # Checking for collisions
+    collisions = np.where(test_dist < radii)
 
-        end_time = time()
-        average_time += end_time - start_time
+    collisions_indices = np.column_stack((collisions[0], collisions[1]))
+
+    # Sort each pair of indices
+    collisions_indices = np.sort(collisions_indices, axis=1)
+
+    # Keep only unique pairs
+    collisions_indices = np.unique(collisions_indices, axis=0)
+
+    # Handeling the collisions
+    for i, j in collisions_indices:
+        Un = test_disp[i, j] / test_dist[i, j]
+        pos[i] += (radii[i, j] - test_dist[i, j]) * Un / 2
+        pos[j] -= (radii[i, j] - test_dist[i, j]) * Un / 2
+        tan = np.array([-Un[1], Un[0]])
+        vel1n = Un[0] * vel[i, 0] + Un[1] * vel[i, 1]
+        vel2n = Un[0] * vel[j, 0] + Un[1] * vel[j, 1]
+        vel1t = tan[0] * vel[i, 0] + tan[1] * vel[i, 1]
+        vel2t = tan[0] * vel[j, 0] + tan[1] * vel[j, 1]
+        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[i] * vel2n) / radii[i, j]
+        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[j] * vel1n) / radii[i, j]
+        vel1n = newvel1n * Un
+        vel2n = newvel2n * Un
+        newvel1t = vel1t * tan
+        newvel2t = vel2t * tan
+        vel[i] = vel1n + newvel1t
+        vel[j] = vel2n + newvel2t
+
+    end_time = time()
+    average_time += end_time - start_time
 
 print("One Iteration takes : ", average_time/n, " Seconds to complete")
 
@@ -106,13 +129,37 @@ def update(dt):
     # Calculating distances using dot product.
     dist = np.sqrt(np.einsum('...i,...i', disp, disp))
 
-    for i in range(n):
-        for j in range(n):
-            if dist[i, j] < radii[i, j]:
-                Un = disp[i, j]/dist[i, j]
-                tan = (-un[1], un[0])
-                pos[i] += -un * (radii[i, j] - dist[i, j])
-                vel[i] *= -1
+    # Checking for collisions
+    collisions = np.where(dist < radii)
+
+    # Stacking them in pairs of 2.
+    collisions_indices = np.column_stack((collisions[0], collisions[1]))
+
+    # Sort each pair of indices
+    collisions_indices = np.sort(collisions_indices, axis=1)
+
+    # Keep only unique pairs
+    collisions_indices = np.unique(collisions_indices, axis=0)
+
+
+    # Handeling the collisions
+    for i, j in collisions_indices:
+        Un = disp[i, j] / dist[i, j]
+        pos[i] += (radii[i, j] - dist[i, j]) * Un / 2
+        pos[j] -= (radii[i, j] - dist[i, j]) * Un / 2
+        tan = np.array([-Un[1], Un[0]])
+        vel1n = Un[0] * vel[i, 0] + Un[1] * vel[i, 1]
+        vel2n = Un[0] * vel[j, 0] + Un[1] * vel[j, 1]
+        vel1t = tan[0] * vel[i, 0] + tan[1] * vel[i, 1]
+        vel2t = tan[0] * vel[j, 0] + tan[1] * vel[j, 1]
+        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[i] * vel2n) / radii[i, j]
+        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[j] * vel1n) / radii[i, j]
+        vel1n = newvel1n * Un
+        vel2n = newvel2n * Un
+        newvel1t = vel1t * tan
+        newvel2t = vel2t * tan
+        vel[i] = vel1n + newvel1t
+        vel[j] = vel2n + newvel2t
 
 
 @window.event
