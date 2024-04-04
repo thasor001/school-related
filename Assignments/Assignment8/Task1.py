@@ -27,7 +27,7 @@ pos = np.array([[
     for _ in range(n)])
 
 vel = np.array([np.array([
-    uniform(-50, 50), uniform(-50, 50),
+    uniform(-50, 50), uniform(-50, 50)
 ])for _ in range(n)])
 
 # I make the weights into a colum vector containing one of the different elements each
@@ -44,13 +44,11 @@ col_vec = weights[:, np.newaxis]
 # radius of itself + itself, then itself + disk2 then itself + disk3, if dist[0, :] < radii[0, :] then collision.
 radii = col_vec + weights
 
-
 # We do this since a disk's radius will + with itself and result in for instance: a combined radius of 20.
 # while the distance between itself and itself will be 0 this will then tell the machine
 # that there is a collision here since 0 < 20.
 # we don't want that, therefore we make the disk + itself = 0 then 0(Dist) < 0(radii) = False
 np.fill_diagonal(radii, 0)
-
 
 # Fastest way i could find to create vectors between all points was this:
 # x_mesh, y_mesh = np.meshgrid(pos[:, 0], pos[:, 1])
@@ -166,6 +164,7 @@ def update(dt):
 def on_draw():
     window.clear()
     batch.draw()
+
 
 clock.schedule_interval(update, 1/60)
 app.run()
