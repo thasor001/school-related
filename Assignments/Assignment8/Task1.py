@@ -8,7 +8,7 @@ window = window.Window(width=1000, height=750, caption="Author@Tharald")
 
 batch = graphics.Batch()
 
-n = 100
+n = 50
 
 weights = np.array([randint(2, 22) for _ in range(n)])
 

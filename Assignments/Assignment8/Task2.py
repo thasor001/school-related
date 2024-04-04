@@ -1,7 +1,6 @@
 from pyglet import *
 import numpy as np
-from random import uniform
-from time import time
+from random import uniform, randint
 
 
 window = window.Window(1000, 750, caption="Author@Tharald")
@@ -11,18 +10,21 @@ batch = graphics.Batch()
 disks = []
 
 # Max number of disks
-n = 1000
+n = 1200
 
+# Position array
 pos = np.array([[
     500.,
     375.
 ]for _ in range(n)])
 
+# Velocity array
 vel = np.array([[
     uniform(-75, 75),
-    uniform(0, 150)
+    uniform(75, 150)
 ]for _ in range(n)])
 
+# Time, direction and wind direction.
 t = 0
 direction = 1
 wind_dir = 1
@@ -45,7 +47,14 @@ def update(dt):
     # Creating 5 disks every frame.
     for _ in range(5):
         if len(disks) < n:
-            disks.append(shapes.Circle(radius=uniform(3, 15), x=500, y=375, batch=batch))
+            disks.append(shapes.Circle(
+                radius=uniform(3, 15),
+                x=500,
+                y=375,
+                batch=batch,
+                color=(0, 0, randint(25, 255))
+                )
+            )
 
     # To see how many disks that are alive
     length = len(disks)
@@ -54,7 +63,7 @@ def update(dt):
     pos[:length] += vel[:length] * dt
 
     # Calculating wind force
-    newvel = 100 * t
+    newvel = 150 * t
 
     # Wind (x), and gravity (y), 60 <- Gravity
     vel[:length] -= [newvel * wind_dir * dt, 60 * dt]
@@ -68,8 +77,6 @@ def update(dt):
     # Turning it from idarray (or something, not really sure what it is) into a normal array.
     outside = outside[0]
 
-    print(outside)
-
     # Deleting the elements that correspond to the indexes found in outside.
     if len(outside) > 0:
         disks = [disks[i] for i in range(len(disks)) if i not in outside]
@@ -77,10 +84,10 @@ def update(dt):
         vel = np.delete(vel, outside, axis=0)
         for i in range(len(outside)):
             pos = np.insert(pos, n-len(outside)+i, np.array([[500., 375.]]), axis=0)
-            vel = np.insert(vel, n-len(outside)+i, np.array([uniform(-75, 75), uniform(0, 150)]), axis=0)
+            vel = np.insert(vel, n-len(outside)+i, np.array([uniform(-75, 75), uniform(75, 150)]), axis=0)
 
     # Updating time.
-    t += dt * direction/2
+    t += dt * direction/4
 
     if t > 1:
         t = 1
@@ -89,7 +96,6 @@ def update(dt):
         t = 0
         direction *= -1
         wind_dir *= -1
-
 
 clock.schedule_interval(update, 1/60.0)
 app.run()
