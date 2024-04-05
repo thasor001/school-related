@@ -8,7 +8,7 @@ window = window.Window(width=1000, height=750, caption="Author@Tharald")
 
 batch = graphics.Batch()
 
-n = 50
+n = 100
 
 weights = np.array([randint(2, 22) for _ in range(n)])
 
@@ -96,8 +96,8 @@ for _ in range(n):
         vel2n = Un[0] * vel[j, 0] + Un[1] * vel[j, 1]
         vel1t = tan[0] * vel[i, 0] + tan[1] * vel[i, 1]
         vel2t = tan[0] * vel[j, 0] + tan[1] * vel[j, 1]
-        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[i] * vel2n) / radii[i, j]
-        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[j] * vel1n) / radii[i, j]
+        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[j] * vel2n) / radii[i, j]
+        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[i] * vel1n) / radii[j, i]
         vel1n = newvel1n * Un
         vel2n = newvel2n * Un
         newvel1t = vel1t * tan
