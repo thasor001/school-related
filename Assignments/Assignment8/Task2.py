@@ -26,6 +26,9 @@ disks = []
 # Max number of disks
 n = 1200
 
+# Spawned Disks per frame.
+per_frame = 5
+
 # Position array
 pos = np.array([[
     window.width/2,
@@ -52,7 +55,7 @@ def on_draw():
 
 
 def update(dt):
-    global vel, pos, t, direction, wind_dir, disks, wind_line, label
+    global vel, pos, t, direction, wind_dir, disks, label
 
     # Updating pos.
     for index, disk in enumerate(disks):
@@ -60,7 +63,7 @@ def update(dt):
         disk.y = pos[index, 1]
 
     # Creating 5 disks every frame.
-    for _ in range(5):
+    for _ in range(per_frame):
         if len(disks) < n:
             disks.append(shapes.Circle(
                 radius=uniform(3, 15),
@@ -119,7 +122,7 @@ def update(dt):
             vel = np.insert(vel, n-len(outside)+i, np.array([uniform(-75, 75), uniform(75, 150)]), axis=0)
 
     # Updating time.
-    t += dt * direction/4
+    t += dt * direction/5
 
     if t > 1:
         t = 1
