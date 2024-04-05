@@ -9,6 +9,18 @@ window = window.Window(width, height, caption="Author@Tharald")
 
 batch = graphics.Batch()
 
+wind_line = shapes.Line(
+    x=width//2,
+    y=height-100,
+    x2=width//2,
+    y2=height-100,
+    color=(0, 200, 0),
+    width=3,
+    batch=batch
+)
+
+label = text.Label()
+
 disks = []
 
 # Max number of disks
@@ -35,11 +47,12 @@ wind_dir = 1
 @window.event
 def on_draw():
     window.clear()
+    label.draw()
     batch.draw()
 
 
 def update(dt):
-    global vel, pos, t, direction, wind_dir, disks
+    global vel, pos, t, direction, wind_dir, disks, wind_line, label
 
     # Updating pos.
     for index, disk in enumerate(disks):
@@ -64,7 +77,7 @@ def update(dt):
     # Updating pos based on velocity
     pos[:length] += vel[:length] * dt
 
-    # Gravity konstant and top wind speed.
+    # Gravity constant and top wind speed.
     gravity = 60
     speed = 150
 
@@ -74,18 +87,31 @@ def update(dt):
     # Wind (x), and gravity (y), 60 <- Gravity
     vel[:length] -= [new_vel * wind_dir * dt, gravity * dt]
 
-    # Checking if they are outside of bounds.
+    # Moving the wind line to show what dir and speed wind has.
+    wind_line.x2 = window.width//2 - new_vel * wind_dir
+
+    # Updating label to show speed
+    label = text.Label(
+        f"{round(-new_vel * wind_dir, 3)}, m/s",
+        font_size=10,
+        color=(0, 255, 0, 255),
+        x=window.width//2,
+        y=window.height-80,
+        anchor_x='center',
+        anchor_y='center'
+    )
+
+    # Checking if disks are outside of bounds.
     outside = np.where(np.logical_or((pos[:length, 0] < 0),
                                      (pos[:length, 0] > window.width)
                                      | (pos[:length, 1] < 0))
                        )
 
-    # Turning it from idarray (or something, not really sure what it is) into a normal array.
     outside = outside[0]
 
     # Deleting the elements that correspond to the indices found in outside array.
     if len(outside) > 0:
-        disks = [disks[i] for i in range(len(disks)) if i not in outside]
+        disks = [disks[i] for i in range(length) if i not in outside]
         pos = np.delete(pos, outside, axis=0)
         vel = np.delete(vel, outside, axis=0)
         for i in range(len(outside)):
@@ -102,6 +128,7 @@ def update(dt):
         t = 0
         direction *= -1
         wind_dir *= -1
+
 
 clock.schedule_interval(update, 1/60.0)
 app.run()
