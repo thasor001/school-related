@@ -110,6 +110,7 @@ for _ in range(n):
 
 print("One Iteration takes : ", average_time/n, " Seconds to complete")
 
+
 def update(dt):
     global pos, radii
     # Updating all disks positions.
@@ -150,8 +151,8 @@ def update(dt):
         vel2n = Un[0] * vel[j, 0] + Un[1] * vel[j, 1]
         vel1t = tan[0] * vel[i, 0] + tan[1] * vel[i, 1]
         vel2t = tan[0] * vel[j, 0] + tan[1] * vel[j, 1]
-        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[i] * vel2n) / radii[i, j]
-        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[j] * vel1n) / radii[i, j]
+        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[j] * vel2n) / radii[i, j]
+        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[i] * vel1n) / radii[j, i]
         vel1n = newvel1n * Un
         vel2n = newvel2n * Un
         newvel1t = vel1t * tan
