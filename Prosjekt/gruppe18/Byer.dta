@@ -1,0 +1,126 @@
+City :
+1. KYOTO, Japan
+   - K Kinkaku-ji
+       Description: The Golden Pavilion, a Zen Buddhist temple known for its stunning architecture.
+       Address:     Kyoto, Japan
+       Email:       Kinkakuji@mail.com
+       Type:        Kapell
+       Year built:  1397
+       Capacity:    100
+   - K Fushimi Inari-taisha
+       Description: The head shrine of the god Inari, featuring thousands of torii gates.
+       Address:     Kyoto, Japan
+       Email:       Fushimi_Inari@mail.com
+       Type:        Kirke
+       Year built:  711
+       Capacity:    300
+   - K Kiyomizu-dera
+       Description: A historic Buddhist temple offering panoramic views of Kyoto.
+       Address:     Kyoto, Japan
+       Email:       Kiyomizu_Dera@mail.com
+       Type:        Katedral
+       Year built:  778
+       Capacity:    200
+   - S Arashiyama Bamboo Grove
+       Description: A peaceful bamboo grove popular for walks and sightseeing.
+       Address:     Arashiyama, Kyoto
+       Email:       Arashiyama_Bamboo@mail.com
+       Highlight:   Bamboo forest known for its serene atmosphere.
+City :
+2. OSAKA, Japan
+   - S Dotonbori
+       Description: A bustling area filled with restaurants, shops, and nightlife.
+       Address:     Sakai, Japan
+       Email:       Dotonbori@mail.com
+       Highlight:   Vibrant entertainment district with neon lights and street food.
+   - K Osaka Castle
+       Description: A historic Japanese castle with a museum and gardens.
+       Address:     Osaka, Japan
+       Email:       Osaka_Castle@mail.com
+       Type:        Katedral
+       Year built:  1583
+       Capacity:    500
+   - M Universal Studios Japan
+       Description: An exciting theme park with rides, shows, and movie-themed attractions.
+       Address:     Osaka, Japan
+       Email:       Universal_Studios@mail.com
+       Highlight:   Theme park featuring attractions based on popular movies.
+   - K Shitenno-ji Temple
+       Description: One of Japan's oldest Buddhist temples, known for its architecture and gardens.
+       Address:     Osaka, Japan
+       Email:       Shitennoji_Temple@mail.com
+       Type:        Kirke
+       Year built:  593
+       Capacity:    400
+City :
+3. HIRO, Japan
+   - S Hiroshima Peace Memorial Park
+       Description: A memorial park commemorating the victims of the atomic bomb, with monuments and museums.
+       Adress:      Hiroshima, Japan
+       Email:       Hiroshima_Peace_Park@mail.com
+       Highlight:   Park dedicated to the victims of the atomic bombing.
+   - K Itsukushima Shrine
+       Description: A UNESCO World Heritage site known for its floating torii gate.
+       Address:     Hiroshima, Japan
+       Email:       Itsukushima_Shrine@mail.com
+       Type:        Katedral
+       Year built:  593
+       Capacity:    300
+   - K Hiroshima Castle
+       Description: A reconstructed castle with a museum and panoramic views of the city.
+       Address:     Hiroshima, Japan
+       Email:       Hiroshima_Castle@mail.com
+       Type:        Katedral
+       Year built:  1591
+       Capacity:    200
+   - S Shukkeien Garden
+       Description: A scenic garden with landscaped ponds, bridges, and tea houses.
+       Address:     Hiroshima, Japan
+       Email:       Shukkeien_Garden@mail.com
+       Highlight:   Traditional Japanese garden with ponds and tea houses.
+City :
+4. NARA, Japan
+   - K Todai-ji
+       Description: A Buddhist temple complex housing Japan's largest bronze Buddha statue.
+       Address:     Nara, Japan
+       Email:       Todaiji@mail.com
+       Type:        Katedral
+       Year built:  752
+       Capacity:    1000
+   - S Nara Park
+       Description: A large park famous for its friendly deer, temples, and cultural attractions.
+       Address:     Nara, Japan
+       Email:       Nara_Park@mail.com
+       Highlight:   Park with free-roaming deer, temples, and museums.
+   - K Kasuga Taisha
+       Description: A Shinto shrine known for its lanterns and woodland setting.
+       Address:     Nara, Japan
+       Email:       Kasuga_Taisha@mail.com
+       Type:        Kirke
+       Year built:  768
+       Capacity:    300
+   - M Nara National Museum
+       Description: A museum exhibiting a wide range of Buddhist artworks and historical artifacts.
+       Address:     Nara, Japan
+       Email:       Nara_National_Museum@mail.com
+       Highlight:   Museum showcasing Buddhist art and artifacts.
+City :
+5. SAPPORO, Japan
+   - M Sapporo Beer Museum
+       Description: A museum showcasing the history and process of beer brewing in Sapporo.
+       Address:     Sapporo, Japan
+       Email:       Sapporo_Beer_Museum@mail.com
+       Highlight:   Museum dedicated to the history of beer brewing.
+   - S Odori Park
+       Description: A spacious park featuring gardens, sculptures, and seasonal events.
+       Address:     Sapporo, Hokkaido
+       Email:       Odori_Park@mail.com
+       Highlight:   Large park with gardens and sculptures.
+   - K Sapporo Clock Tower
+       Description: A historic clock tower offering city views and exhibitions.
+       Address:     Sapporo, Japan
+       Email:       Sapporo_Clock_Tower@mail.com
+       Type:        Kapell
+       Year built:  1878
+       Capacity:    200
+END
