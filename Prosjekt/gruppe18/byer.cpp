@@ -15,8 +15,10 @@ std::string Byer::sjekkEntydig(std::string& input) {
         if (it->first.substr(0, input.length()) == input) {
             name = it->first; count++;
         }
-        if (count > 1)
+        if (count > 1) {
+            sm::sys_info("\n" + input + " er ikke Entydig\n");
             return input;
+        }
     }
     return name;
 }
@@ -77,16 +79,19 @@ void Byer::handling(char valg) {
                     }
                     break;
                 case '1':
-                    Byer::Entydig(navn);
+                    if (!Byer::Entydig(navn))
+                        return;
                     sm::sys_info("\nNavn : " + navn + " ");
                     byerMap[navn]->skrivData();
                     break;
                 case 'N':
-                    Byer::Entydig(navn);
+                    if (!Byer::Entydig(navn))
+                        return;
                     byerMap[navn] = new By();
                     break;
                 case 'F':
-                    Byer::Entydig(navn);
+                    if (!Byer::Entydig(navn))
+                        return;
 
                     delete byerMap[navn];
                     byerMap.erase(navn);
@@ -98,11 +103,13 @@ void Byer::handling(char valg) {
             valg2 = egenLesChar("Skriv char her", "NFQ");
             switch (valg2) {
                 case 'N':
-                    Byer::Entydig(navn);
+                    if (!Byer::Entydig(navn))
+                        return;
                     byerMap[navn]->nyAttraksjon();
                     break;
                 case 'F':
-                    Byer::Entydig(navn);
+                    if (!Byer::Entydig(navn))
+                        return;
 
                     byerMap[navn]->skrivData();
                     byerMap[navn]->slettAttraksjon();

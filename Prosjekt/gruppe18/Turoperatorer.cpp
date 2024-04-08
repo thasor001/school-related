@@ -60,8 +60,10 @@ std::string Turoperatorer::sjekkEntydig(std::string& input) {
         if (it->first.substr(0, input.length()) == input) {
             name = it->first; count++;
         }
-        if (count > 1)
+        if (count > 1) {
+            sm::sys_info("\n" + input + " er ikke Entydig\n");
             return input;
+        }
     }
     return name;
 }
@@ -83,27 +85,32 @@ void Turoperatorer::handlinger() {
             }
             break;
         case '1':
-            Turoperatorer::Entydig(navn);
+            if (!Turoperatorer::Entydig(navn))
+                return;
             sm::sys_info("\n\t" + navn + "\t");
             turOp[navn]->skrivData();
             break;
         case 'N':
-            Turoperatorer::Entydig(navn);
+            if (!Turoperatorer::Entydig(navn))
+                return;
             turOp[navn] = new Turoperator(navn);
             break;
         case 'E':
-            Turoperatorer::Entydig(navn);
+            if (!Turoperatorer::Entydig(navn))
+                return;
             sm::sys_info("\nEndrer paa : " + navn + "\n");
 
             turOp[navn]->endreData();
             Turoperator * nyTurOp;
             nyTurOp = turOp[navn];
 
+            turOp[navn] = nullptr;
             turOp.erase(navn);
             turOp[nyTurOp->hentNavn()] = nyTurOp;
             break;
         case 'F':
-            Turoperatorer::Entydig(navn);
+            if (!Turoperatorer::Entydig(navn))
+                return;
 
             delete turOp[navn];
             turOp.erase(navn);

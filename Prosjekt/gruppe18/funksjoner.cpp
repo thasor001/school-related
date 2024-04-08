@@ -6,6 +6,9 @@
 #include "algorithm"
 namespace sm = system_messages;
 
+// For changing Text Color in terminal.
+HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+
 void skrivMeny(){
     std::cout << std::setw(3)
               << "--------Meny----------\n"
@@ -25,29 +28,24 @@ void skrivMeny(){
 }
 
 char egenLesChar(std::string && text, std::string && choices) {
-    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-    char c = choices[0];
-    std::cout << std::endl;
+    char c;
     std::transform(choices.begin(), choices.end(), choices.begin(), ::toupper);
 
     do {
         if (choices.find('Q') == std::string::npos) {
             SetConsoleTextAttribute(h, 10);
-            std::cout << text << " (" + choices << ") : ";
+            std::cout << "\n" << text << " (" + choices << ") : ";
             SetConsoleTextAttribute(h, 15);
         }
-        std::cin >> c; c = toupper(c);
+        std::cin >> c;
+        c = toupper(c);
         std::cin.ignore();
-        if (c == 'Q')
-            return c;
-    } while (choices.find(c) == std::string::npos);
+    } while (choices.find(c) == std::string::npos && c != 'Q');
 
     return c;
 }
 
 namespace system_messages {
-    // For changing text color in cout.
-    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
     void sys_print(const std::string& text) {
         SetConsoleTextAttribute(h, 2);
