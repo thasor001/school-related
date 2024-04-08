@@ -32,7 +32,7 @@ char egenLesChar(std::string && text, std::string && choices) {
 
     do {
         if (choices.find('Q') == std::string::npos) {
-            SetConsoleTextAttribute(h, 9);
+            SetConsoleTextAttribute(h, 10);
             std::cout << text << " (" + choices << ") : ";
             SetConsoleTextAttribute(h, 15);
         }
