@@ -5,9 +5,9 @@
 #ifndef CPP_OPPLEGG_H
 #define CPP_OPPLEGG_H
 
-#include <vector>
 #include "By.h"
 #include "Byer.h"
+#include <vector>
 #include <string>
 #include <fstream>
 #include <algorithm>

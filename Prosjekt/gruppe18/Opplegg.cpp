@@ -76,7 +76,7 @@ void Opplegg::nyttOpplegg(std::string & TurOpperator) {
         std::string buffer;
         std::string file = TurOpperator + "-";
 
-        buffer = std::to_string(antDager);
+        buffer = std::to_string(antOpplegg);
         while (buffer.size() < 3) {
             buffer.insert(0, "0");
         }

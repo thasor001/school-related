@@ -12,24 +12,24 @@ char egenLesChar(const std::string & text, std::string && choices);
 
 // Template Funksjoner skal være i header filer.
 template<typename P1, typename P2>
-bool Entydig(std::string && text, std::string & navn, P1 p_start, P2 p_end) {
+bool Entydig(const std::string & text, std::string & navn, P1 p_start, P2 p_end) {
     std::cout << "\nSkriv navn paa " << text << " : ";
     std::getline(std::cin, navn);
     std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
+    std::string original = navn;
     int count = 0;
 
     for (auto it = p_start; it != p_end; it++) {
-        if (it->first.substr(0, navn.length()) == navn) {
-            if (it->first == navn) {
-                navn = it->first;
-                return true;
-            }
+        if (it->first.substr(0, original.size()) == original) {
             navn = it->first; count++;
+            if (it->first == original)
+                return true;
         }
-        if (count > 1) {
-            std::cout << "\n" + navn + " er ikke Entydig\n\n";
-            return false;
-        }
+    }
+
+    if (count > 1) {
+        std::cout << "\n" + original + " er ikke Entydig\n\n";
+        return false;
     }
 
     auto predicate = [&](const auto & pair){return pair.first == navn;};
