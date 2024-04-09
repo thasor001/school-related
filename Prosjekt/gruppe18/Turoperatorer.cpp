@@ -12,7 +12,7 @@ Turoperatorer::Turoperatorer() {
     }
     sm::sys_print("File : Turoperatorer.dta Opened");
 
-    while(std::getline(inn, navn)) {
+    while(inn >> navn) {
         turOp[navn] = new Turoperator(inn, navn);
     }
 

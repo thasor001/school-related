@@ -9,6 +9,8 @@ extern Opplegg gOppleggsBase;
 Turoperator::Turoperator(std::ifstream &inn, std::string& navn) {
     std::string buffer;
 
+    inn >> turopplegg; inn.ignore();
+
     ff::get_lines(inn, gateadresse, 8);
     ff::get_lines(inn, kontaktpers, 8);
     ff::get_lines(inn, mail, 9);
@@ -18,7 +20,6 @@ Turoperator::Turoperator(std::ifstream &inn, std::string& navn) {
     inn >> buffer >> buffer >> buffer >> tlf;
     inn.ignore();
     this->navn = navn;
-    turopplegg = 0;
 }
 
 Turoperator::Turoperator(std::string & navn) {
