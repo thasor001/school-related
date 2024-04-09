@@ -32,7 +32,23 @@ By::By(std::string& name, std::ifstream &inn) {
     } while (buffer == '-');
 }
 
-void By::skrivTilFil(std::ofstream &ut) {
+By::By() {
+    std::cout << "\nSkriv Navn Paa Land : ";
+    std::getline(std::cin, land);
+}
+
+By::~By() {
+    for (auto & val : Attraksjoner) {
+        delete val;
+    }
+    Attraksjoner.clear();
+}
+
+std::list <Attraksjon*>& By::getList() {
+    return Attraksjoner;
+}
+
+void By::skrivTilFil(std::ofstream &ut) const {
     ut << land << std::endl;
     for (auto it = Attraksjoner.begin(); it != Attraksjoner.end(); it++) {
         ut << "\t- ";
@@ -40,13 +56,13 @@ void By::skrivTilFil(std::ofstream &ut) {
     }
 }
 
-void By::skrivEn() {
+void By::skrivEn() const {
     sm::sys_info("\t\tLand : "); std::cout << land;
     sm::sys_info("\t Ant Attraksjoner : ");
     std::cout << Attraksjoner.size(); std::cout << std::endl;
 }
 
-void By::skrivData() const {
+void By::skrivAlt() const {
     int size = 1;
 
     std::cout << " Land : " << land
@@ -54,8 +70,6 @@ void By::skrivData() const {
 
     for (const auto &val : Attraksjoner) {
         std::cout << size << ". " << "Attraksjons Type : ";
-        sm::sys_info(typeid(*val).name());
-        std::cout << " |";
 
         val->skrivData();
         std::cout << std::endl;
@@ -90,16 +104,4 @@ void By::slettAttraksjon() {
     } else {
         std::cout << "Ingen Attraksjoner" << std::endl;
     }
-}
-
-By::By() {
-    std::cout << "\nSkriv Navn Paa Land : ";
-    std::getline(std::cin, land);
-}
-
-By::~By() {
-    for (auto & val : Attraksjoner) {
-        delete val;
-    }
-    Attraksjoner.clear();
 }

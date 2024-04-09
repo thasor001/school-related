@@ -1,18 +1,12 @@
-//
-// Created by thara on 3/26/2024.
-//
 #include "Turoperatorer.h"
-#include "Turoperator.h"
-#include "iostream"
-#include "funksjoner.h"
-#include "algorithm"
+#include "Opplegg.h"
 namespace sm = system_messages;
 
-extern Turoperator gOprasjonsBase;
+extern Opplegg gOppleggsBase;
 
-void Turoperatorer::lesFraFil() {
+Turoperatorer::Turoperatorer() {
     std::ifstream inn("Turoperatorer.dta");
-    std::string name;
+    std::string navn;
 
     if (!inn) {
         sm::sys_error("Fant ikke fil Turoperatorer.dta");
@@ -20,55 +14,28 @@ void Turoperatorer::lesFraFil() {
     }
     sm::sys_print("File : Turoperatorer.dta Opened");
 
-    while(std::getline(inn, name)) {
-        turOp[name] = new Turoperator(inn);
+    while(std::getline(inn, navn)) {
+        turOp[navn] = new Turoperator(inn, navn);
     }
 
     sm::sys_print("Alle Turoperatorer Lest --" + std::to_string(turOp.size()));
-
     inn.close();
 }
 
-bool Turoperatorer::Entydig(std::string& navn) {
-    sm::sys_info("Skriv navn paa Tur Operator : ");
-    std::getline(std::cin, navn);
-    std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
-
-    navn = Turoperatorer::sjekkEntydig(navn);
-    if (turOp.find(navn) == turOp.end()) {
-        sm::sys_info("\nFinnes ikke i turOp\n");
-        return false;
-    }
-    return true;
-}
-
-void Turoperatorer::skrivTilFil() {
+void Turoperatorer::skrivTilFil() const {
     std::ofstream ut("Turoperatorer.dta2");
+    auto iter = turOp.begin();
+    std::advance(iter, turOp.size() - 1);
+
     for (auto it = turOp.begin(); it != turOp.end(); it++) {
         ut << it->first << std::endl;
         it->second->skrivTilFil(ut);
+        if (it != iter)
+            ut << std::endl;
     }
     sm::sys_info("\nLukker Turoperatorer.dta2\n");
     ut.close();
 }
-
-std::string Turoperatorer::sjekkEntydig(std::string& input) {
-    int count = 0;
-    std::string name;
-    std::transform(input.begin(), input.end(), input.begin(), ::toupper);
-    for (auto it = turOp.begin(); it != turOp.end(); it++) {
-        if (it->first.substr(0, input.length()) == input) {
-            name = it->first; count++;
-        }
-        if (count > 1) {
-            sm::sys_info("\n" + input + " er ikke Entydig\n");
-            return input;
-        }
-    }
-    return name;
-}
-
-
 
 void Turoperatorer::handlinger() {
     std::string navn;
@@ -85,31 +52,37 @@ void Turoperatorer::handlinger() {
             }
             break;
         case '1':
-            if (!Turoperatorer::Entydig(navn))
+            if (!Entydig("TurOperator", navn, turOp.begin(), turOp.end()))
                 return;
             sm::sys_info("\n\t" + navn + "\t");
             turOp[navn]->skrivData();
             break;
         case 'N':
-            if (!Turoperatorer::Entydig(navn))
-                return;
+            sm::sys_info("\nSkriv navn paa ny Turoperator");
+            std::getline(std::cin, navn);
+            std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
+            for (auto & val : turOp) {
+                if (navn == val.first)
+                    return;
+            }
+
             turOp[navn] = new Turoperator(navn);
             break;
         case 'E':
-            if (!Turoperatorer::Entydig(navn))
+            if (!Entydig("TurOperator", navn, turOp.begin(), turOp.end()))
                 return;
             sm::sys_info("\nEndrer paa : " + navn + "\n");
 
             turOp[navn]->endreData();
-            Turoperator * nyTurOp;
-            nyTurOp = turOp[navn];
-
-            turOp[navn] = nullptr;
-            turOp.erase(navn);
-            turOp[nyTurOp->hentNavn()] = nyTurOp;
+            break;
+        case 'O':
+            if (!Entydig("TurOperator", navn, turOp.begin(), turOp.end()))
+                return;
+            sm::sys_info("\nNavn : " + navn + "\n\n");
+            gOppleggsBase.nyttOpplegg(navn);
             break;
         case 'F':
-            if (!Turoperatorer::Entydig(navn))
+            if (!Entydig("TurOperator", navn, turOp.begin(), turOp.end()))
                 return;
 
             delete turOp[navn];

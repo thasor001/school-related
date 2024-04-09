@@ -12,10 +12,10 @@ struct Severdighet : public Attraksjon {
 private:
     std::string Opplevelser;
 public:
-    Severdighet(std::ifstream &inn);
-    virtual void skrivData() const override;
-    virtual void skrivTilFil(std::ofstream &ut) override;
     Severdighet();
+    explicit Severdighet(std::ifstream &inn);
+    void skrivData() const override;
+    void skrivTilFil(std::ofstream &ut) override;
 };
 
 

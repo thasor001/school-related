@@ -1,20 +1,16 @@
-//
-// Created by thara on 3/26/2024.
-//
-
 #include "Byer.h"
-#include "Turoperatorer.h"
-#include "iostream"
+#include <iostream>
+#include "Opplegg.h"
 #include "funksjoner.h"
+#include "Turoperatorer.h"
 namespace sm = system_messages;
 
 Byer gByerBase;
 Turoperatorer gOprasjonsBase;
+Opplegg gOppleggsBase;
 
 
 int main() {
-    gByerBase.lesFraFil();
-    gOprasjonsBase.lesFraFil();
 
     skrivMeny();
 

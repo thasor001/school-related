@@ -17,14 +17,14 @@ private:
     std::string land;
 public:
     By(std::string& land, std::ifstream & inn);
-    void skrivData() const;
-    void nyAttraksjon();
-    void slettAttraksjon();
-    void skrivTilFil(std::ofstream & ut);
-    void skrivEn();
     By();
     ~By();
-
+    void nyAttraksjon();
+    void skrivEn() const;
+    void skrivAlt() const;
+    void slettAttraksjon();
+    std::list <Attraksjon*>& getList();
+    void skrivTilFil(std::ofstream & ut) const;
 };
 
 #endif

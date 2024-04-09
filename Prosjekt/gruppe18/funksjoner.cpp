@@ -1,15 +1,13 @@
 #include "funksjoner.h"
 #include "windows.h"
 #include <iomanip>
-#include "Byer.h"
 #include "map"
-#include "algorithm"
 namespace sm = system_messages;
 
 // For changing Text Color in terminal.
 HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void skrivMeny(){
+void skrivMeny() {
     std::cout << std::setw(3)
               << "--------Meny----------\n"
                  "T A       - Skriver alle Turoperatorene\n"
@@ -27,7 +25,8 @@ void skrivMeny(){
                  "Q         - Quit/Avslutt\n";
 }
 
-char egenLesChar(std::string && text, std::string && choices) {
+
+char egenLesChar(const std::string & text, std::string && choices) {
     char c;
     std::transform(choices.begin(), choices.end(), choices.begin(), ::toupper);
 
@@ -74,10 +73,10 @@ namespace file_functions {
         inn >> country; inn.ignore();
     }
 
-    void get_lines(std::ifstream & inn, std::string & text, int t) {
+    void get_lines(std::ifstream & inn, std::string & country, int t) {
         std::string buffer;
         inn >> buffer >> buffer >> buffer; inn.ignore(t);
-        std::getline(inn, text);
+        std::getline(inn, country);
     }
 
     Ktype stringToEnum(const std::string &text) {

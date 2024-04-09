@@ -1,5 +1,24 @@
 City :
-1. KYOTO, Japan
+1. PARIS, France
+   - M Louvre Museum
+       Description: The world's largest art museum, housing thousands of works of art and historical artifacts.
+       Address:     Paris, France
+       Email:       Louvre_Museum@mail.com
+       Highlight:   Museum with iconic artworks like the Mona Lisa and Venus de Milo.
+   - K Notre-Dame Cathedral
+       Description: A Gothic masterpiece known for its flying buttresses and stained glass windows.
+       Address:     Paris, France
+       Email:       Notre_Dame_Cathedral@mail.com
+       Type:        Katedral
+       Year built:  1345
+       Capacity:    500
+   - S Eiffel Tower
+       Description: An iconic iron lattice tower offering panoramic views of Paris.
+       Address:     Paris, France
+       Email:       Eiffel_Tower@mail.com
+       Highlight:   Landmark tower with observation decks and restaurants.
+City :
+2. KYOTO, Japan
    - K Kinkaku-ji
        Description: The Golden Pavilion, a Zen Buddhist temple known for its stunning architecture.
        Address:     Kyoto, Japan
@@ -27,7 +46,7 @@ City :
        Email:       Arashiyama_Bamboo@mail.com
        Highlight:   Bamboo forest known for its serene atmosphere.
 City :
-2. OSAKA, Japan
+3. OSAKA, Japan
    - S Dotonbori
        Description: A bustling area filled with restaurants, shops, and nightlife.
        Address:     Sakai, Japan
@@ -53,7 +72,7 @@ City :
        Year built:  593
        Capacity:    400
 City :
-3. HIRO, Japan
+4. HIRO, Japan
    - S Hiroshima Peace Memorial Park
        Description: A memorial park commemorating the victims of the atomic bomb, with monuments and museums.
        Adress:      Hiroshima, Japan
@@ -79,7 +98,7 @@ City :
        Email:       Shukkeien_Garden@mail.com
        Highlight:   Traditional Japanese garden with ponds and tea houses.
 City :
-4. NARA, Japan
+5. NARA, Japan
    - K Todai-ji
        Description: A Buddhist temple complex housing Japan's largest bronze Buddha statue.
        Address:     Nara, Japan
@@ -105,7 +124,7 @@ City :
        Email:       Nara_National_Museum@mail.com
        Highlight:   Museum showcasing Buddhist art and artifacts.
 City :
-5. SAPPORO, Japan
+6. SAPPORO, Japan
    - M Sapporo Beer Museum
        Description: A museum showcasing the history and process of beer brewing in Sapporo.
        Address:     Sapporo, Japan
@@ -123,4 +142,85 @@ City :
        Type:        Kapell
        Year built:  1878
        Capacity:    200
+City :
+7. TOKYO, Japan
+   - S Shibuya Crossing
+       Description: A famous scramble crossing known for its busy pedestrian traffic.
+       Address:     Tokyo, Japan
+       Email:       Shibuya_Crossing@mail.com
+       Highlight:   Iconic intersection in Tokyo's Shibuya district.
+   - K Senso-ji Temple
+       Description: Tokyo's oldest temple, featuring a vibrant shopping street and pagoda.
+       Address:     Tokyo, Japan
+       Email:       Sensoji_Temple@mail.com
+       Type:        Katedral
+       Year built:  645
+       Capacity:    300
+   - M Tokyo Disneyland
+       Description: A magical theme park with classic Disney attractions and parades.
+       Address:     Tokyo, Japan
+       Email:       Tokyo_Disneyland@mail.com
+       Highlight:   Disney-themed amusement park with rides and shows.
+   - K Tokyo Skytree
+       Description: An iconic tower offering panoramic views of Tokyo and beyond.
+       Address:     Tokyo, Japan
+       Email:       Tokyo_Skytree@mail.com
+       Type:        Kirke
+       Year built:  2012
+       Capacity:    400
+   - S Ueno Park
+       Description: A large public park featuring museums, temples, and a zoo.
+       Address:     Tokyo, Japan
+       Email:       Ueno_Park@mail.com
+       Highlight:   Park with cultural attractions and cherry blossoms in spring.
+City :
+8. KYIV, Ukraine
+   - S Independence Square
+       Description: The central square of Kyiv, known for its historical significance and architecture.
+       Address:     Kyiv, Ukraine
+       Email:       Independence_Square@mail.com
+       Highlight:   Central square with monuments and fountains.
+   - K Saint Sophia's Cathedral
+       Description: A UNESCO World Heritage site featuring Byzantine architecture and frescoes.
+       Address:     Kyiv, Ukraine
+       Email:       Saint_Sophias_Cathedral@mail.com
+       Type:        Katedral
+       Year built:  1011
+       Capacity:    200
+   - M National Museum of History of Ukraine
+       Description: A museum showcasing Ukrainian history through artifacts and exhibits.
+       Address:     Kyiv, Ukraine
+       Email:       National_Museum_Ukraine@mail.com
+       Highlight:   Museum with exhibits on Ukrainian culture and heritage.
+   - K Kyiv Pechersk Lavra
+       Description: An Orthodox monastery complex known for its caves and golden-domed churches.
+       Address:     Kyiv, Ukraine
+       Email:       Kyiv_Pechersk_Lavra@mail.com
+       Type:        Kapell
+       Year built:  1051
+       Capacity:    300
+   - S Mariinsky Park
+       Description: A scenic park along the Dnieper River, featuring gardens and walking paths.
+       Address:     Kyiv, Ukraine
+       Email:       Mariinsky_Park@mail.com
+       Highlight:   Park with river views and recreational areas.
+City :
+9. ROME, Italy
+    - S Colosseum
+        Description: An ancient amphitheater known for its gladiatorial contests and historical significance.
+        Address:     Rome, Italy
+        Email:       Colosseum@mail.com
+        Highlight:   Iconic symbol of ancient Rome and its architectural prowess.
+    - M Vatican Museums
+        Description: A complex of art and history museums showcasing the papal collections.
+        Address:     Vatican City, Rome, Italy
+        Email:       Vatican_Museums@mail.com
+        Highlight:   Museums with renowned artworks like the Sistine Chapel ceiling.
+    - K Pantheon
+        Description: A former Roman temple and current church with a famous domed rotunda.
+        Address:     Rome, Italy
+        Email:       Pantheon@mail.com
+        Type:        Kapell
+        Year built:  126
+        Capacity:    300
 END

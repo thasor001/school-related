@@ -5,25 +5,7 @@
 namespace ff = file_functions;
 namespace sm = system_messages;
 
-extern Byer gByerBase;
-
-std::string Byer::sjekkEntydig(std::string& input) {
-    int count = 0;
-    std::string name;
-    std::transform(input.begin(), input.end(), input.begin(), ::toupper);
-    for (auto it = byerMap.begin(); it != byerMap.end(); it++) {
-        if (it->first.substr(0, input.length()) == input) {
-            name = it->first; count++;
-        }
-        if (count > 1) {
-            sm::sys_info("\n" + input + " er ikke Entydig\n");
-            return input;
-        }
-    }
-    return name;
-}
-
-void Byer::lesFraFil() {
+Byer::Byer() {
     std::ifstream inn("Byer.dta");
 
     std::string country, city, buffer;
@@ -47,80 +29,75 @@ void Byer::lesFraFil() {
     sm::sys_print(message);
 }
 
-bool Byer::Entydig(std::string& navn) {
-    sm::sys_info("Skriv navn paa By : ");
-    std::getline(std::cin, navn);
-    std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
-
-    navn = Byer::sjekkEntydig(navn);
-    if (byerMap.find(navn) == byerMap.end()) {
-        sm::sys_info("\nFinnes ikke i byerMap\n");
-        return false;
+Byer::~Byer() {
+    for (auto & val : byerMap) {
+        delete val.second;
     }
-    return true;
+    byerMap.clear();
+}
+
+std::map <std::string, By*>& Byer::getMap() {
+    return byerMap;
 }
 
 void Byer::handling(char valg) {
     char valg2;
-    int size = 1;
     std::string navn;
 
     switch (valg) {
         case 'B':
             valg2 = egenLesChar("Skriv char her", "A1NFQ");
             switch (valg2) {
-                case 'A':
-                    sm::sys_info("Skriver Byer Data : \n\n");
-                    sm::sys_info("\tFoolgende Byer Finnes : \n\n");
+            case 'A':
+            sm::sys_info("Skriver Byer Data : \n\n");
+            sm::sys_info("\tFoolgende Byer Finnes : \n\n");
 
-                    for (const auto &val : byerMap) {
-                        sm::sys_info("\tNavn : "); std::cout << val.first;
-                        val.second->skrivEn();
-                    }
-                    break;
-                case '1':
-                    if (!Byer::Entydig(navn))
-                        return;
-                    sm::sys_info("\nNavn : " + navn + " ");
-                    byerMap[navn]->skrivData();
-                    break;
-                case 'N':
-                    if (!Byer::Entydig(navn))
-                        return;
-                    byerMap[navn] = new By();
-                    break;
-                case 'F':
-                    if (!Byer::Entydig(navn))
-                        return;
+            for (const auto &val : byerMap) {
+                sm::sys_info("\tNavn : "); std::cout << val.first;
+                val.second->skrivEn();
+            }
+            break;
+            case '1':
+                if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                    return;
+                sm::sys_info("\nNavn : " + navn + " ");
+                byerMap[navn]->skrivAlt();
+                break;
+            case 'N':
+                if (Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                    return;
+                byerMap[navn] = new By();
+                break;
+            case 'F':
+                if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                    return;
 
-                    delete byerMap[navn];
-                    byerMap.erase(navn);
-                    sm::sys_info("Fjernet : " + navn);
-                    break;
+                delete byerMap[navn];
+                byerMap.erase(navn);
+                sm::sys_info("Fjernet : " + navn);
+                break;
             }
             break;
         case 'A':
             valg2 = egenLesChar("Skriv char her", "NFQ");
-            switch (valg2) {
-                case 'N':
-                    if (!Byer::Entydig(navn))
-                        return;
-                    byerMap[navn]->nyAttraksjon();
-                    break;
-                case 'F':
-                    if (!Byer::Entydig(navn))
-                        return;
+            if (valg2 == 'N') {
+                if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                    return;
 
-                    byerMap[navn]->skrivData();
-                    byerMap[navn]->slettAttraksjon();
-                    break;
+                byerMap[navn]->nyAttraksjon();
+            }
+            else if (valg2 == 'F') {
+                if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                    return;
+
+                byerMap[navn]->skrivAlt();
+                byerMap[navn]->slettAttraksjon();
             }
             break;
-        default: sm::sys_error("Unexpected Kommand i Byer::Handling"); return;
     }
 }
 
-void Byer::skrivTilFil() {
+void Byer::skrivTilFil() const {
     std::ofstream ut("Byer.dta2");
     int nr = 1;
 

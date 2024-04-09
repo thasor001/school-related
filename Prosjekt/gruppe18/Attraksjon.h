@@ -8,6 +8,7 @@
 #include "string"
 #include "fstream"
 #include "iostream"
+#include "funksjoner.h"
 
 class Attraksjon {
 private:
@@ -16,6 +17,7 @@ public:
     Attraksjon(std::ifstream &inn);
     virtual void skrivData() const;
     virtual void skrivTilFil(std::ofstream &ut);
+    std::string writeID() const;
     Attraksjon();
 };
 

@@ -14,10 +14,10 @@ private:
     int kapasitet;
     Ktype Type;
 public:
-    Kirke(std::ifstream &inn);
-    virtual void skrivData() const override;
-    virtual void skrivTilFil(std::ofstream &ut) override;
     Kirke();
+    explicit Kirke(std::ifstream &inn);
+    void skrivData() const override;
+    void skrivTilFil(std::ofstream &ut) override;
 };
 
 

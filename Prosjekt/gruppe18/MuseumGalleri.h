@@ -11,10 +11,10 @@ class MuseumGalleri : public Attraksjon {
 private:
     std::string hooydepunkter;
 public:
-    MuseumGalleri(std::ifstream &inn);
-    virtual void skrivData() const override;
-    virtual void skrivTilFil(std::ofstream &ut) override;
     MuseumGalleri();
+    explicit MuseumGalleri(std::ifstream &inn);
+    void skrivData() const override;
+    void skrivTilFil(std::ofstream &ut) override;
 };
 
 

@@ -11,11 +11,11 @@ class Byer {
 private:
     std::map <std::string, By*> byerMap;
 public:
-    void lesFraFil();
+    Byer();
+    ~Byer();
     void handling(char valg);
-    std::string sjekkEntydig(std::string& input);
-    void skrivTilFil();
-    bool Entydig(std::string& navn);
+    void skrivTilFil() const;
+    std::map <std::string, By*>& getMap();
 };
 
 #endif

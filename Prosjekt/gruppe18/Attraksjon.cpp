@@ -1,8 +1,5 @@
-//
-// Created by Tharald on 05/04/2024.
-//
-
 #include "Attraksjon.h"
+namespace sm = system_messages;
 
 Attraksjon::Attraksjon(std::ifstream &inn) {
     std::string buffer; inn.ignore();
@@ -20,6 +17,10 @@ Attraksjon::Attraksjon(std::ifstream &inn) {
     inn >> buffer; inn.ignore(7);
     std::getline(inn, buffer);
     website = buffer;
+}
+
+std::string Attraksjon::writeID() const {
+    return ID;
 }
 
 void Attraksjon::skrivTilFil(std::ofstream &ut) {

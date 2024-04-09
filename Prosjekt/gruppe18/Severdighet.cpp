@@ -1,8 +1,5 @@
-//
-// Created by Tharald on 06/04/2024.
-//
-
 #include "Severdighet.h"
+namespace sm = system_messages;
 
 Severdighet::Severdighet(std::ifstream &inn) : Attraksjon(inn) {
     std::string buffer;
@@ -12,6 +9,8 @@ Severdighet::Severdighet(std::ifstream &inn) : Attraksjon(inn) {
 }
 
 void Severdighet::skrivData() const {
+    sm::sys_info("Severdighet ");
+    std::cout << " |";
     Attraksjon::skrivData();
     std::cout << "\n\tOpplevelser : "
     << Opplevelser << std::endl;

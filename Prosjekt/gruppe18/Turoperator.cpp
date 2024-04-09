@@ -1,31 +1,25 @@
 #include "Turoperator.h"
-#include "iostream"
-#include "string"
-#include "funksjoner.h"
-#include "LesData3.h"
 namespace ff = file_functions;
 namespace sm = system_messages;
 
-Turoperator::Turoperator(std::ifstream &inn) {
+Turoperator::Turoperator(std::ifstream &inn, std::string& navn) {
     std::string buffer;
 
-    ff::get_lines(inn, gateadresse, 1);
-    ff::get_lines(inn, postnr, 3);
-    ff::get_lines(inn, kontaktpers, 1);
-    ff::get_lines(inn, mail, 2);
-    ff::get_lines(inn, website, 6);
+    ff::get_lines(inn, gateadresse, 8);
+    ff::get_lines(inn, kontaktpers, 8);
+    ff::get_lines(inn, mail, 9);
+    ff::get_lines(inn, website, 13);
+    ff::get_lines(inn, postnrsted, 10);
 
     inn >> buffer >> buffer >> buffer >> tlf;
     inn.ignore();
+    this->navn = navn;
     turopplegg = 0;
 }
 
-Turoperator::Turoperator(std::string &navn) {
-    std::cout << "Post Nummer : ";
-    std::getline(std::cin, postnr);
-
-    std::cout << "Sted : ";
-    std::getline(std::cin, sted);
+Turoperator::Turoperator(std::string & navn) {
+    std::cout << "Post/Sted Nummer : ";
+    std::getline(std::cin, postnrsted);
 
     std::cout << "Gate Adresse : ";
     std::getline(std::cin, gateadresse);
@@ -50,11 +44,11 @@ void Turoperator::endreData() {
     sm::sys_info("\nQ = Quit ");
     std::string name;
 
-    std::cout << "|N - Navn| ""|P - PostNr| ""|S - Sted| "
+    std::cout << "|P - PostNr| ""|S - Sted| "
     "|K - KontPers| ""|G - GateAdr| ""|M - Mail| ""|W - Webiste|\n";
 
     do {
-        valg = egenLesChar("Endre paa : ", "NPSKGMW");
+        valg = egenLesChar("Endre paa : ", "PKGMW");
         switch (valg) {
             case 'G':
                 std::cout << "\n\tNy GateAdr : ";
@@ -62,19 +56,11 @@ void Turoperator::endreData() {
                 break;
             case 'P':
                 std::cout << "\n\tNy Post Nr : ";
-                std::getline(std::cin, postnr);
-                break;
-            case 'S':
-                std::cout << "\n\tNytt Sted : ";
-                std::getline(std::cin, sted);
+                std::getline(std::cin, postnrsted);
                 break;
             case 'K':
                 std::cout << "\n\tNy Kontakt Pers : ";
                 std::getline(std::cin, kontaktpers);
-                break;
-            case 'N':
-                std::cout << "\n\tNytt Navn : ";
-                std::getline(std::cin, navn);
                 break;
             case 'M':
                 std::cout << "\n\tNy Mail : ";
@@ -93,21 +79,21 @@ void Turoperator::endreData() {
 
 void Turoperator::skrivData() const {
     std::cout << "\t" << turopplegg << " Opplegg\t" << website << std::endl;
-    std::cout << "\t" << gateadresse << ", " << postnr << std::endl;
+    std::cout << "\t" << gateadresse << ", " << postnrsted << std::endl;
     std::cout << "\t" << kontaktpers << ", "
     << tlf << ", " << mail << std::endl;
 }
 
-void Turoperator::skrivEn() {
+void Turoperator::skrivEn() const {
     std::cout << "\t\t" << turopplegg; sm::sys_info(" : Opplegg");
     sm::sys_info("\tEmail : "); std::cout << mail << std::endl;
 }
 
-void Turoperator::skrivTilFil(std::ofstream &ut) {
-    ut << " - Street Address: " << gateadresse << std::endl;
-    ut << " - Post Address:   " << postnr << std::endl;
-    ut << " - Contact Person: " << kontaktpers << std::endl;
-    ut << " - Email Address:  " << mail << std::endl;
-    ut << " - Home Page:      " << website << std::endl;
-    ut << " - Phone Number:   " << tlf << std::endl;
+void Turoperator::skrivTilFil(std::ofstream &ut) const {
+    ut << " - Street Address:        " << gateadresse << std::endl;
+    ut << " - Contact Person:        " << kontaktpers << std::endl;
+    ut << " - Email Address:         " << mail << std::endl;
+    ut << " - Home Page:             " << website << std::endl;
+    ut << " - Post/Sted Nr:          " << postnrsted << std::endl;
+    ut << " - Phone Number:          " << tlf;
 }

@@ -1,14 +1,47 @@
 #ifndef __funksjoner_h
 #define __funksjoner_h
 
-#include "iostream"
 #include "string"
 #include "fstream"
 #include "Enum.h"
-
+#include "iostream"
+#include "algorithm"
 
 void skrivMeny();
-char egenLesChar(std::string && text, std::string && choices);
+char egenLesChar(const std::string & text, std::string && choices);
+
+// Template Funksjoner skal være i header filer.
+template<typename P1, typename P2>
+bool Entydig(std::string && text, std::string & navn, P1 p_start, P2 p_end) {
+    std::cout << "\nSkriv navn paa " << text << " : ";
+    std::getline(std::cin, navn);
+    std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
+    int count = 0;
+
+    for (auto it = p_start; it != p_end; it++) {
+        if (it->first.substr(0, navn.length()) == navn) {
+            if (it->first == navn) {
+                navn = it->first;
+                return true;
+            }
+            navn = it->first; count++;
+        }
+        if (count > 1) {
+            std::cout << "\n" + navn + " er ikke Entydig\n\n";
+            return false;
+        }
+    }
+
+    auto predicate = [&](const auto & pair){return pair.first == navn;};
+    auto it = std::find_if(p_start, p_end, predicate);
+
+    if (it == p_end) {
+        std::cout << "\n" + navn + " Finnes ikke\n\n";
+        return false;
+    }
+
+    return true;
+}
 
 namespace system_messages {
     void sys_print(const std::string& text);
@@ -17,7 +50,7 @@ namespace system_messages {
 }
 
 namespace file_functions {
-    void init_by(std::ifstream & inn, std::string& cuntry, std::string& city);
+    void init_by(std::ifstream & inn, std::string& country, std::string& city);
     void get_lines(std::ifstream & inn, std::string & text, int t);
     Ktype stringToEnum(const std::string &text);
 }

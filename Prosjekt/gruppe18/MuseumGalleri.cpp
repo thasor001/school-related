@@ -1,8 +1,5 @@
-//
-// Created by Tharald on 06/04/2024.
-//
-
 #include "MuseumGalleri.h"
+namespace sm = system_messages;
 
 MuseumGalleri::MuseumGalleri(std::ifstream &inn) : Attraksjon(inn) {
     std::string buffer;
@@ -12,6 +9,8 @@ MuseumGalleri::MuseumGalleri(std::ifstream &inn) : Attraksjon(inn) {
 }
 
 void MuseumGalleri::skrivData() const {
+    sm::sys_info("MuseumGalleri ");
+    std::cout << " |";
     Attraksjon::skrivData();
     std::cout << "\n\tHooydepunkt :"
     << hooydepunkter << std::endl;

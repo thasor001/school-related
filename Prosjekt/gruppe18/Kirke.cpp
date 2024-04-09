@@ -6,6 +6,7 @@
 #include "funksjoner.h"
 #include "LesData3.h"
 namespace ff = file_functions;
+namespace sm = system_messages;
 
 
 Kirke::Kirke(std::ifstream &inn) : Attraksjon(inn) {
@@ -16,7 +17,7 @@ Kirke::Kirke(std::ifstream &inn) : Attraksjon(inn) {
     if (ff::stringToEnum(buffer) >= 0) {
         Type = ff::stringToEnum(buffer);
     } else {
-        system_messages::sys_error("Failed to read Church Type : --" + buffer);
+        sm::sys_error("Failed to read Church Type : --" + buffer);
     }
 
     inn >> buffer >> buffer >> aar; inn.ignore();
@@ -27,6 +28,8 @@ Kirke::Kirke(std::ifstream &inn) : Attraksjon(inn) {
 }
 
 void Kirke::skrivData() const {
+    sm::sys_info("Kirke ");
+    std::cout << " |";
     Attraksjon::skrivData();
     std::cout << "\n\tByggeaar : " << byggeaar << '\n'
     << "\tKapasitet : " << kapasitet << '\n'
@@ -34,7 +37,7 @@ void Kirke::skrivData() const {
 
     switch (Type) {
         case 0: std::cout << "Katedral\n" << std::endl;  break;
-        case 1: std::cout << "Kirke\n" << std::endl;    break;
+        case 1: std::cout << "Kirke\n" << std::endl;     break;
         case 2: std::cout << "Kapell\n" << std::endl;    break;
     }
 }
