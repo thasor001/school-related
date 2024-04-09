@@ -13,38 +13,36 @@
 void skrivMeny();
 char egenLesChar(const std::string & text, std::string && choices);
 
+template <typename P1, typename P2, typename PRED>
+std::vector <std::string> for_if (P1 p_start, P2 p_end, PRED pred) {
+    std::vector <std::string> navn;
+    for (; p_start != p_end; p_start++)
+        if (pred((*p_start))) {
+            navn.push_back(p_start->first);
+        }
+    return navn;
+}
 
 // Template Funksjoner skal være i header filer.
 template<typename P1, typename P2>
-bool Entydig(const std::string & text, std::string & navn, P1 p_start, P2 p_end) {
+bool Entydig(const std::string &text, std::string &n, P1 p_start, P2 p_end) {
     std::cout << "\nSkriv navn paa " << text << " : ";
-    std::getline(std::cin, navn);
-    std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
-    std::string original = navn;
-    int count = 0;
+    std::getline(std::cin, n);
+    std::transform(n.begin(), n.end(), n.begin(), ::toupper);
 
-    for (auto it = p_start; it != p_end; it++) {
-        if (it->first.substr(0, original.size()) == original) {
-            navn = it->first; count++;
-            if (it->first == original)
-                return true;
-        }
-    }
-
-    if (count > 1) {
-        std::cout << "\n" + original + " er ikke Entydig\n\n";
+    auto vec = for_if(p_start, p_end, [&](auto & pair){return pair.first.substr(0, n.size()) == n;});
+    if (std::find(vec.begin(), vec.end(), n) != vec.end())
+        return true;
+    else if (vec.size() == 1) {
+        n = vec[0];
+        return true;
+    } else if (vec.size() > 1) {
+        std::cout << '\n' << n << " er ikke Entydig\n";
+        return false;
+    } else {
+        std::cout << '\n' << n << " finnes ikke\n";
         return false;
     }
-
-    auto predicate = [&](const auto & pair){return pair.first == navn;};
-    auto it = std::find_if(p_start, p_end, predicate);
-
-    if (it == p_end) {
-        std::cout << "\n" + original + " Finnes ikke\n\n";
-        return false;
-    }
-
-    return true;
 }
 
 namespace system_messages {

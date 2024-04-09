@@ -67,8 +67,12 @@ void Byer::handling(char valg) {
                     byerMap[navn]->skrivAlt();
                     break;
                 case 'N':
-                    if (Entydig("By", navn, byerMap.begin(), byerMap.end()))
-                        return;
+                    std::cout << "\nSkriv Navn paa by : ";
+                    std::getline(std::cin, navn);
+                    for (const auto & val : byerMap)
+                        if (val.first == navn)
+                            return;
+
                     byerMap[navn] = new By();
                     break;
                 case 'F':

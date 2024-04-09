@@ -33,7 +33,7 @@ void Attraksjon::skrivTilFil(std::ofstream &ut) {
 void Attraksjon::skrivData() const {
     std::cout << " " << ID << " | " << adresse << "\n\n"
     << "\tBeskrivelse : " << beskrivelse << "\n"
-    << "\tEmail : " << website;
+    << "\tEmail :       " << website;
 }
 
 Attraksjon::Attraksjon() {

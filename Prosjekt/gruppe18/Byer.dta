@@ -223,6 +223,23 @@ City :
         Type:        Kapell
         Year built:  126
         Capacity:    300
+    - K Krystall Appelsinen
+        Description: En Krystall Appelsin.
+        Addresse:    Hans Mustads Gate 22, Norge
+        Email:       Krematorium@22.januar
+        Type         Kirke
+        Year built:  2024
+        Capacity:    69
+    - S Andreas Sitt Hus
+        Description: Andreas sitt hus. My sweet discord Kitten.
+        Address:     Ludvig Skattums Gate 30
+        Email:       ACM@ILoveMen.com
+        Highlight:   Iconic symbol of ancient Rome. ACM <3
+    - S Bendik Kristoffersen sitt hus
+        Description: Bendik, the URGE king sitt hus
+        Address:     Hammerstads gate 22
+        Email:       BENDIK@CORN.com
+        Highlight:   Bendik er kjent for å elske lukten av taa fis.
 City :
 10. MILANO, Italia
     - S Duomo di Milano
@@ -230,6 +247,11 @@ City :
         Address:     Milan, Italy
         Email:       Duomo_di_Milano@mail.com
         Highlight:   Iconic landmark featuring spires and statues.
+    - M Pinacoteca di Brera
+        Description: An art museum housing a vast collection of Italian Renaissance masterpieces.
+        Address:     Milan, Italy
+        Email:       Pinacoteca_di_Brera@mail.com
+        Highlight:   Museum with artworks by renowned artists like Raphael and Caravaggio.
     - K Castello Sforzesco
         Description: A historic castle complex featuring museums, art collections, and gardens.
         Address:     Milan, Italy

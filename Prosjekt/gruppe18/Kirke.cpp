@@ -31,9 +31,10 @@ void Kirke::skrivData() const {
     sm::sys_info("Kirke ");
     std::cout << " |";
     Attraksjon::skrivData();
-    std::cout << "\n\tByggeaar : " << byggeaar << '\n'
-    << "\tKapasitet : " << kapasitet << '\n'
-    << "\tType : ";
+    std::cout
+    << "\n\tByggeaar :    " << byggeaar << '\n'
+    << "\tKapasitet :   " << kapasitet << '\n'
+    << "\tType :        ";
 
     switch (Type) {
         case 0: std::cout << "Katedral\n" << std::endl;  break;

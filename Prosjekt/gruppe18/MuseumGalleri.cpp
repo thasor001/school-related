@@ -12,7 +12,7 @@ void MuseumGalleri::skrivData() const {
     sm::sys_info("MuseumGalleri ");
     std::cout << " |";
     Attraksjon::skrivData();
-    std::cout << "\n\tHooydepunkt :"
+    std::cout << "\n\tHooydepunkt : "
     << hooydepunkter << std::endl;
 }
 
