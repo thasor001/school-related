@@ -64,9 +64,13 @@ void Opplegg::nyttOpplegg(const std::string & Operator, int & opplegg) {
     } while(valg != 'Q');
 
     std::cout << "\n" << beskrivelse << std::endl;
+    int temp = -1;
     for (auto & val : Dager) {
-        std::cout << "\tDag Nr : " << val.first.first
-                  << "\t" << val.first.second << "\n";
+        if (temp != val.first.first) {
+            std::cout << "\n\tDag Nr : " << val.first.first << "\n";
+            temp = val.first.first;
+        }
+        std::cout << "\t" << val.first.second << "\n";
         for (auto & atr : val.second) {
             std::cout << "\t\t" << atr->writeID() << std::endl;
         }
