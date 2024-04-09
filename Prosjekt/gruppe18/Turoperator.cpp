@@ -1,6 +1,10 @@
+#include "Opplegg.h"
 #include "Turoperator.h"
+
 namespace ff = file_functions;
 namespace sm = system_messages;
+
+extern Opplegg gOppleggsBase;
 
 Turoperator::Turoperator(std::ifstream &inn, std::string& navn) {
     std::string buffer;
@@ -37,6 +41,11 @@ Turoperator::Turoperator(std::string & navn) {
 
     this->navn = navn;
     turopplegg = 0;
+}
+
+void Turoperator::nyttOpplegg() {
+    gOppleggsBase.nyttOpplegg(navn, turopplegg + 1);
+    turopplegg++;
 }
 
 void Turoperator::endreData() {

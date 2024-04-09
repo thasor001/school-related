@@ -1,14 +1,18 @@
 #ifndef __funksjoner_h
 #define __funksjoner_h
 
+#include <list>
+#include <vector>
 #include "string"
-#include "fstream"
 #include "Enum.h"
+#include "fstream"
 #include "iostream"
 #include "algorithm"
+#include "Attraksjon.h"
 
 void skrivMeny();
 char egenLesChar(const std::string & text, std::string && choices);
+
 
 // Template Funksjoner skal være i header filer.
 template<typename P1, typename P2>

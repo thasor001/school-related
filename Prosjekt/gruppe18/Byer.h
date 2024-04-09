@@ -13,6 +13,7 @@ private:
 public:
     Byer();
     ~Byer();
+    void skrivAlle() const;
     void handling(char valg);
     void skrivTilFil() const;
     std::map <std::string, By*>& getMap();

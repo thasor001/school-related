@@ -9,7 +9,6 @@ Byer gByerBase;
 Turoperatorer gOprasjonsBase;
 Opplegg gOppleggsBase;
 
-
 int main() {
 
     skrivMeny();

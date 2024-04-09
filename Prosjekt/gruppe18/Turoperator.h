@@ -2,10 +2,11 @@
 #define CPP_TUROPERATOR_H
 
 #include <list>
+#include <vector>
 #include <string>
 #include <fstream>
-#include <iomanip>
 #include <iostream>
+#include <algorithm>
 #include "LesData3.h"
 #include "funksjoner.h"
 
@@ -27,6 +28,7 @@ public:
     void skrivEn() const;
     void skrivData() const;
     void skrivTilFil(std::ofstream &ut) const;
+    void nyttOpplegg();
 };
 
 #endif //CPP_TUROPERATOR_H

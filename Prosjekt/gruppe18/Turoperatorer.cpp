@@ -2,8 +2,6 @@
 #include "Opplegg.h"
 namespace sm = system_messages;
 
-extern Opplegg gOppleggsBase;
-
 Turoperatorer::Turoperatorer() {
     std::ifstream inn("Turoperatorer.dta");
     std::string navn;
@@ -37,13 +35,14 @@ void Turoperatorer::skrivTilFil() const {
     ut.close();
 }
 
+
 void Turoperatorer::handlinger() {
     std::string navn;
     char valg = egenLesChar("Skriv char her", "A1NEFOQ");
+    auto it = turOp.begin();
 
     switch (valg) {
         case 'A':
-            sm::sys_info("Skriver Turoperatorer Data : \n\n");
             sm::sys_info("\tFoolgende Turoperatorer Finnes : \n\n");
 
             for (const auto &val : turOp) {
@@ -79,7 +78,9 @@ void Turoperatorer::handlinger() {
             if (!Entydig("TurOperator", navn, turOp.begin(), turOp.end()))
                 return;
             sm::sys_info("\nNavn : " + navn + "\n\n");
-            gOppleggsBase.nyttOpplegg(navn);
+
+            it = turOp.find(navn);
+            it->second->nyttOpplegg();
             break;
         case 'F':
             if (!Entydig("TurOperator", navn, turOp.begin(), turOp.end()))

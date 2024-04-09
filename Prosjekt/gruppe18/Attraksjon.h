@@ -14,11 +14,11 @@ class Attraksjon {
 private:
     std::string ID, beskrivelse, adresse, website;
 public:
+    Attraksjon();
     Attraksjon(std::ifstream &inn);
     virtual void skrivData() const;
     virtual void skrivTilFil(std::ofstream &ut);
     std::string writeID() const;
-    Attraksjon();
 };
 
 #endif //CPP_ATTRAKSJON_H

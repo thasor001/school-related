@@ -5,7 +5,6 @@
 #ifndef CPP_OPPLEGG_H
 #define CPP_OPPLEGG_H
 
-#include "By.h"
 #include "Byer.h"
 #include <vector>
 #include <string>
@@ -20,12 +19,10 @@
 
 class Opplegg {
 private:
-    std::vector <std::pair<std::pair<int, std::string>, std::list <Attraksjon*>>> gDager;
-    std::string beskrivelse;
-    int antDager, antOpplegg;
+    std::vector <std::pair<std::pair<int, std::string>,
+            std::list <Attraksjon*>>> Dager;
 public:
-    Opplegg() {antOpplegg = 0;};
-    void nyttOpplegg(std::string & TurOpperator);
+    void nyttOpplegg(const std::string & Operator, const int opplegg);
 };
 
 

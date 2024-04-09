@@ -40,6 +40,15 @@ std::map <std::string, By*>& Byer::getMap() {
     return byerMap;
 }
 
+void Byer::skrivAlle() const {
+    sm::sys_info("\tFoolgende Byer Finnes : \n\n");
+
+    for (const auto &val : byerMap) {
+        sm::sys_info("\tNavn : "); std::cout << val.first;
+        val.second->skrivEn();
+    }
+}
+
 void Byer::handling(char valg) {
     char valg2;
     std::string navn;
@@ -48,34 +57,28 @@ void Byer::handling(char valg) {
         case 'B':
             valg2 = egenLesChar("Skriv char her", "A1NFQ");
             switch (valg2) {
-            case 'A':
-            sm::sys_info("Skriver Byer Data : \n\n");
-            sm::sys_info("\tFoolgende Byer Finnes : \n\n");
+                case 'A':
+                    Byer::skrivAlle();
+                break;
+                case '1':
+                    if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                        return;
+                    sm::sys_info("\nNavn : " + navn + " ");
+                    byerMap[navn]->skrivAlt();
+                    break;
+                case 'N':
+                    if (Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                        return;
+                    byerMap[navn] = new By();
+                    break;
+                case 'F':
+                    if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
+                        return;
 
-            for (const auto &val : byerMap) {
-                sm::sys_info("\tNavn : "); std::cout << val.first;
-                val.second->skrivEn();
-            }
-            break;
-            case '1':
-                if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
-                    return;
-                sm::sys_info("\nNavn : " + navn + " ");
-                byerMap[navn]->skrivAlt();
-                break;
-            case 'N':
-                if (Entydig("By", navn, byerMap.begin(), byerMap.end()))
-                    return;
-                byerMap[navn] = new By();
-                break;
-            case 'F':
-                if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
-                    return;
-
-                delete byerMap[navn];
-                byerMap.erase(navn);
-                sm::sys_info("Fjernet : " + navn);
-                break;
+                    delete byerMap[navn];
+                    byerMap.erase(navn);
+                    sm::sys_info("Fjernet : " + navn);
+                    break;
             }
             break;
         case 'A':
