@@ -19,10 +19,9 @@
 
 class Opplegg {
 private:
-    std::vector <std::pair<std::pair<int, std::string>,
-            std::list <Attraksjon*>>> Dager;
+    std::vector <std::pair<std::pair<int, std::string>,std::list <Attraksjon*>>> Dager;
 public:
-    void nyttOpplegg(const std::string & Operator, const int opplegg);
+    void nyttOpplegg(const std::string & Operator, int & opplegg);
 };
 
 

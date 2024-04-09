@@ -1,5 +1,4 @@
 #include "Byer.h"
-#include <iostream>
 #include "Opplegg.h"
 #include "funksjoner.h"
 #include "Turoperatorer.h"
@@ -19,12 +18,8 @@ int main() {
         valg = egenLesChar("Skriv char her", "TBA");
 
         switch (valg) {
-            case 'T': gOprasjonsBase.handlinger();            break;
-                case 'B': case 'A': gByerBase.handling(valg); break;
-            default:
-                if (valg != 'Q')
-                    sm::sys_error("Wrong command : ");
-                break;
+            case 'T': gOprasjonsBase.handlinger();        break;
+            case 'B': case 'A': gByerBase.handling(valg); break;
         }
     } while(valg != 'Q');
 

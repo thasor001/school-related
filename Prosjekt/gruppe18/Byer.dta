@@ -205,7 +205,7 @@ City :
        Email:       Mariinsky_Park@mail.com
        Highlight:   Park with river views and recreational areas.
 City :
-9. ROME, Italy
+9. ROMA, Italia
     - S Colosseum
         Description: An ancient amphitheater known for its gladiatorial contests and historical significance.
         Address:     Rome, Italy
@@ -223,4 +223,18 @@ City :
         Type:        Kapell
         Year built:  126
         Capacity:    300
+City :
+10. MILANO, Italia
+    - S Duomo di Milano
+        Description: A grand Gothic cathedral known for its impressive facade and intricate sculptures.
+        Address:     Milan, Italy
+        Email:       Duomo_di_Milano@mail.com
+        Highlight:   Iconic landmark featuring spires and statues.
+    - K Castello Sforzesco
+        Description: A historic castle complex featuring museums, art collections, and gardens.
+        Address:     Milan, Italy
+        Email:       Castello_Sforzesco@mail.com
+        Type:        Kapell
+        Year built:  1500
+        Capacity:    400
 END

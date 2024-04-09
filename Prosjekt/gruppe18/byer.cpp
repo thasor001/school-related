@@ -87,6 +87,7 @@ void Byer::handling(char valg) {
                 if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
                     return;
 
+                sm::sys_info("\nNy attraksjon i : " + navn + "\n");
                 byerMap[navn]->nyAttraksjon();
             }
             else if (valg2 == 'F') {

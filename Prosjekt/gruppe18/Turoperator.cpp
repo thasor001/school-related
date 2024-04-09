@@ -44,8 +44,7 @@ Turoperator::Turoperator(std::string & navn) {
 }
 
 void Turoperator::nyttOpplegg() {
-    gOppleggsBase.nyttOpplegg(navn, turopplegg + 1);
-    turopplegg++;
+    gOppleggsBase.nyttOpplegg(navn, turopplegg);
 }
 
 void Turoperator::endreData() {

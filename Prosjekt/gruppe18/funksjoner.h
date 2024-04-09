@@ -40,7 +40,7 @@ bool Entydig(const std::string & text, std::string & navn, P1 p_start, P2 p_end)
     auto it = std::find_if(p_start, p_end, predicate);
 
     if (it == p_end) {
-        std::cout << "\n" + navn + " Finnes ikke\n\n";
+        std::cout << "\n" + original + " Finnes ikke\n\n";
         return false;
     }
 

@@ -1,7 +1,7 @@
-#include "funksjoner.h"
-#include "windows.h"
-#include <iomanip>
 #include "map"
+#include <iomanip>
+#include <windows.h>
+#include "funksjoner.h"
 namespace sm = system_messages;
 
 // For changing Text Color in terminal.
@@ -63,7 +63,6 @@ namespace system_messages {
         std::cout << "\nSystem Message : --" << text << "--\n" << std::endl;
         SetConsoleTextAttribute(h, 15);
     }
-
 }
 
 namespace file_functions {

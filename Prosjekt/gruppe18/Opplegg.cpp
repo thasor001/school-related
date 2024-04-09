@@ -4,7 +4,7 @@ namespace sm = system_messages;
 extern Byer gByerBase;
 extern Turoperatorer gOprasjonsBase;
 
-void Opplegg::nyttOpplegg(const std::string & Operator, const int opplegg) {
+void Opplegg::nyttOpplegg(const std::string & Operator, int & opplegg) {
 
     std::list <Attraksjon*> at;
     std::string navn;
@@ -64,7 +64,6 @@ void Opplegg::nyttOpplegg(const std::string & Operator, const int opplegg) {
     } while(valg != 'Q');
 
     std::cout << "\n" << beskrivelse << std::endl;
-
     for (auto & val : Dager) {
         std::cout << "\tDag Nr : " << val.first.first
                   << "\t" << val.first.second << "\n";
@@ -73,12 +72,12 @@ void Opplegg::nyttOpplegg(const std::string & Operator, const int opplegg) {
         }
     }
     valg = egenLesChar("Lagre paa fil", "JN");
-    if (valg == 'J') {
 
+    if (valg == 'J') {
+        opplegg++;
         std::string buffer = std::to_string(opplegg);
-        while (buffer.size() < 3) {
+        while (buffer.size() < 3)
             buffer.insert(0, "0");
-        }
 
         std::string file = Operator+"-"+buffer+'-'+std::to_string(antDager)+"dg";
         std::ofstream ut(file + ".dta");
