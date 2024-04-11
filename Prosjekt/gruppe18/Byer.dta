@@ -16,7 +16,7 @@ City :
        Description: An iconic iron lattice tower offering panoramic views of Paris.
        Address:     Paris, France
        Email:       Eiffel_Tower@mail.com
-       Highlight:   Landmark tower with observation decks and restaurants.
+       Opplevelse:  Landmark tower with observation decks and restaurants.
 City :
 2. KYOTO, Japan
    - K Kinkaku-ji
@@ -44,14 +44,14 @@ City :
        Description: A peaceful bamboo grove popular for walks and sightseeing.
        Address:     Arashiyama, Kyoto
        Email:       Arashiyama_Bamboo@mail.com
-       Highlight:   Bamboo forest known for its serene atmosphere.
+       Opplevelse:  Bamboo forest known for its serene atmosphere.
 City :
 3. OSAKA, Japan
    - S Dotonbori
        Description: A bustling area filled with restaurants, shops, and nightlife.
        Address:     Sakai, Japan
        Email:       Dotonbori@mail.com
-       Highlight:   Vibrant entertainment district with neon lights and street food.
+       Opplevelse:  Vibrant entertainment district with neon lights and street food.
    - K Osaka Castle
        Description: A historic Japanese castle with a museum and gardens.
        Address:     Osaka, Japan
@@ -77,7 +77,7 @@ City :
        Description: A memorial park commemorating the victims of the atomic bomb, with monuments and museums.
        Adress:      Hiroshima, Japan
        Email:       Hiroshima_Peace_Park@mail.com
-       Highlight:   Park dedicated to the victims of the atomic bombing.
+       Opplevelse:  Park dedicated to the victims of the atomic bombing.
    - K Itsukushima Shrine
        Description: A UNESCO World Heritage site known for its floating torii gate.
        Address:     Hiroshima, Japan
@@ -96,7 +96,7 @@ City :
        Description: A scenic garden with landscaped ponds, bridges, and tea houses.
        Address:     Hiroshima, Japan
        Email:       Shukkeien_Garden@mail.com
-       Highlight:   Traditional Japanese garden with ponds and tea houses.
+       Opplevelse:  Traditional Japanese garden with ponds and tea houses.
 City :
 5. NARA, Japan
    - K Todai-ji
@@ -110,7 +110,7 @@ City :
        Description: A large park famous for its friendly deer, temples, and cultural attractions.
        Address:     Nara, Japan
        Email:       Nara_Park@mail.com
-       Highlight:   Park with free-roaming deer, temples, and museums.
+       Opplevelse:  Park with free-roaming deer, temples, and museums.
    - K Kasuga Taisha
        Description: A Shinto shrine known for its lanterns and woodland setting.
        Address:     Nara, Japan
@@ -134,7 +134,7 @@ City :
        Description: A spacious park featuring gardens, sculptures, and seasonal events.
        Address:     Sapporo, Hokkaido
        Email:       Odori_Park@mail.com
-       Highlight:   Large park with gardens and sculptures.
+       Opplevelse:  Large park with gardens and sculptures.
    - K Sapporo Clock Tower
        Description: A historic clock tower offering city views and exhibitions.
        Address:     Sapporo, Japan
@@ -148,7 +148,7 @@ City :
        Description: A famous scramble crossing known for its busy pedestrian traffic.
        Address:     Tokyo, Japan
        Email:       Shibuya_Crossing@mail.com
-       Highlight:   Iconic intersection in Tokyo's Shibuya district.
+       Opplevelse:  Iconic intersection in Tokyo's Shibuya district.
    - K Senso-ji Temple
        Description: Tokyo's oldest temple, featuring a vibrant shopping street and pagoda.
        Address:     Tokyo, Japan
@@ -172,14 +172,14 @@ City :
        Description: A large public park featuring museums, temples, and a zoo.
        Address:     Tokyo, Japan
        Email:       Ueno_Park@mail.com
-       Highlight:   Park with cultural attractions and cherry blossoms in spring.
+       Opplevelse:  Park with cultural attractions and cherry blossoms in spring.
 City :
 8. KYIV, Ukraine
    - S Independence Square
        Description: The central square of Kyiv, known for its historical significance and architecture.
        Address:     Kyiv, Ukraine
        Email:       Independence_Square@mail.com
-       Highlight:   Central square with monuments and fountains.
+       Opplevelse:  Central square with monuments and fountains.
    - K Saint Sophia's Cathedral
        Description: A UNESCO World Heritage site featuring Byzantine architecture and frescoes.
        Address:     Kyiv, Ukraine
@@ -203,14 +203,14 @@ City :
        Description: A scenic park along the Dnieper River, featuring gardens and walking paths.
        Address:     Kyiv, Ukraine
        Email:       Mariinsky_Park@mail.com
-       Highlight:   Park with river views and recreational areas.
+       Opplevelse:  Park with river views and recreational areas.
 City :
 9. ROMA, Italia
     - S Colosseum
         Description: An ancient amphitheater known for its gladiatorial contests and historical significance.
         Address:     Rome, Italy
         Email:       Colosseum@mail.com
-        Highlight:   Iconic symbol of ancient Rome and its architectural prowess.
+        Opplevelse:  Iconic symbol of ancient Rome and its architectural prowess.
     - M Vatican Museums
         Description: A complex of art and history museums showcasing the papal collections.
         Address:     Vatican City, Rome, Italy
@@ -234,19 +234,19 @@ City :
         Description: Andreas sitt hus. My sweet discord Kitten.
         Address:     Ludvig Skattums Gate 30
         Email:       ACM@ILoveMen.com
-        Highlight:   Iconic symbol of ancient Rome. ACM <3
+        Opplevelse:  Iconic symbol of ancient Rome. ACM <3
     - S Bendik Kristoffersen sitt hus
         Description: Bendik, the URGE king sitt hus
         Address:     Hammerstads gate 22
         Email:       BENDIK@CORN.com
-        Highlight:   Bendik er kjent for å elske lukten av taa fis.
+        Opplevelse:  Bendik er kjent for å elske lukten av taa fis.
 City :
 10. MILANO, Italia
     - S Duomo di Milano
         Description: A grand Gothic cathedral known for its impressive facade and intricate sculptures.
         Address:     Milan, Italy
         Email:       Duomo_di_Milano@mail.com
-        Highlight:   Iconic landmark featuring spires and statues.
+        Opplevelse:  Iconic landmark featuring spires and statues.
     - M Pinacoteca di Brera
         Description: An art museum housing a vast collection of Italian Renaissance masterpieces.
         Address:     Milan, Italy

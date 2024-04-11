@@ -1,13 +1,22 @@
-//
-// Created by thara on 3/26/2024.
-//
+/**
+ *   Krike-header
+ *
+ *   @file     Kirke.h
+ *   @author   Gruppe18
+ */
 
 #ifndef CPP_KIRKE_H
 #define CPP_KIRKE_H
 
-#include "Attraksjon.h"
 #include "Enum.h"
+#include "Consts.h"
+#include "LesData3.h"
+#include "Attraksjon.h"
 
+/**
+ * @class Krike
+ * @parent Attraksjon
+ */
 class Kirke : public Attraksjon {
 private:
     int byggeaar;
@@ -17,8 +26,7 @@ public:
     Kirke();
     explicit Kirke(std::ifstream &inn);
     void skrivData() const override;
-    void skrivTilFil(std::ofstream &ut) override;
+    void skrivTilFil(std::ofstream &ut) const override;
 };
-
 
 #endif //CPP_KIRKE_H

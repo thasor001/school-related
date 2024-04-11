@@ -1,12 +1,21 @@
+/**
+ *   Byer-header
+ *
+ *   @file     Byer.h
+ *   @author   Gruppe18
+ */
+
 #ifndef CPP_BYER_H
 #define CPP_BYER_H
 
-#include <fstream>
-#include "By.h"
 #include <map>
+#include "By.h"
 #include <string>
+#include <fstream>
 
-
+/**
+ * @class Byer
+ */
 class Byer {
 private:
     std::map <std::string, By*> byerMap;

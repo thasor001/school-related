@@ -1,27 +1,41 @@
+/**
+ * Funksjoner til Turoperator klasse.
+ *
+ * @File Turoperator.cpp
+ */
+
 #include "Opplegg.h"
 #include "Turoperator.h"
 
-namespace ff = file_functions;
-namespace sm = system_messages;
+Opplegg gOppleggsBase; ///< Opplegg objekt.
 
-extern Opplegg gOppleggsBase;
-
+/**
+ * @See get_liens()
+ *
+ * @param inn Referance til fil objekt.
+ * @param navn Navn til Turoperator.
+ */
 Turoperator::Turoperator(std::ifstream &inn, std::string& navn) {
     std::string buffer;
+    this->navn = navn;
 
     inn >> turopplegg; inn.ignore();
 
-    ff::get_lines(inn, gateadresse, 8);
-    ff::get_lines(inn, kontaktpers, 8);
-    ff::get_lines(inn, mail, 9);
-    ff::get_lines(inn, website, 13);
-    ff::get_lines(inn, postnrsted, 10);
+    get_lines(inn, gateadresse, 8);
+    get_lines(inn, kontaktpers, 8);
+    get_lines(inn, mail, 9);
+    get_lines(inn, website, 13);
+    get_lines(inn, postnrsted, 10);
 
     inn >> buffer >> buffer >> buffer >> tlf;
     inn.ignore();
-    this->navn = navn;
 }
 
+/**
+ * @Brief constructor som leser til Turoperator.
+ *
+ * @param navn Navn til Turoperator.
+ */
 Turoperator::Turoperator(std::string & navn) {
     std::cout << "Post/Sted Nummer : ";
     std::getline(std::cin, postnrsted);
@@ -44,17 +58,32 @@ Turoperator::Turoperator(std::string & navn) {
     turopplegg = 0;
 }
 
+/**
+ * @Brief Brukes for aa sende variabler videre til nyttOpplegg.
+ *
+ * @See Opplegg::nyttOpplegg()
+ */
 void Turoperator::nyttOpplegg() {
     gOppleggsBase.nyttOpplegg(navn, turopplegg);
 }
 
+/**
+ * @Brief Brukes til aa endre data til Turoperator.
+ *
+ * @See egenLesChar()
+ * @See Turoperator::skrivData()
+ */
 void Turoperator::endreData() {
     char valg;
-    sm::sys_info("\nQ = Quit ");
     std::string name;
+    std::cout << "\nQ = Quit ";
 
-    std::cout << "|P - PostNr| ""|S - Sted| "
-    "|K - KontPers| ""|G - GateAdr| ""|M - Mail| ""|W - Webiste|\n";
+    std::cout << "\n|P - PostNr   |\n"
+                 "|S - Sted     |\n"
+                 "|K - KontPers |\n"
+                 "|G - GateAdr  |\n"
+                 "|M - Mail     |\n"
+                 "|W - Webiste  |\n";
 
     do {
         valg = egenLesChar("Endre paa : ", "PKGMW");
@@ -81,24 +110,36 @@ void Turoperator::endreData() {
                 break;
         }
     } while (valg != 'Q');
-    sm::sys_info("\nNy Tur Opperator :\n");
-    sm::sys_info("\n\t" + navn + "\t");
+    std::cout << "\nNy Tur Opperator :\n";
+    std::cout << "\n\t" + navn + "\t";
     Turoperator::skrivData();
 }
 
+/**
+ * @Brief Brukes til aa gi en brief om en Turoperator.
+ */
+void Turoperator::skrivEn() const {
+    std::cout << "\tNavn : " << navn;
+    std::cout << "\t\t" << turopplegg << " : Opplegg";
+    std::cout << "\tEmail : " << mail << std::endl;
+}
+
+/**
+ * @Brief Skriver detaljert all sin data.
+ */
 void Turoperator::skrivData() const {
+    std::cout << "\n\t" + navn + "\t";
     std::cout << "\t" << turopplegg << " Opplegg\t" << website << std::endl;
     std::cout << "\t" << gateadresse << ", " << postnrsted << std::endl;
     std::cout << "\t" << kontaktpers << ", "
     << tlf << ", " << mail << std::endl;
 }
 
-void Turoperator::skrivEn() const {
-    std::cout << "\t\t" << turopplegg; sm::sys_info(" : Opplegg");
-    sm::sys_info("\tEmail : "); std::cout << mail << std::endl;
-}
-
+/**
+ * @param ut Referance til fil objekt.
+ */
 void Turoperator::skrivTilFil(std::ofstream &ut) const {
+    ut << turopplegg << std::endl;
     ut << " - Street Address:        " << gateadresse << std::endl;
     ut << " - Contact Person:        " << kontaktpers << std::endl;
     ut << " - Email Address:         " << mail << std::endl;

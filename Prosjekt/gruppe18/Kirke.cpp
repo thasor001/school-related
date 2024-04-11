@@ -1,24 +1,28 @@
-//
-// Created by Tharald on 06/04/2024.
-//
+/**
+ * Funksjoner til Kirke klasse.
+ *
+ * @File Kirke.cpp
+ */
 
 #include "Kirke.h"
-#include "funksjoner.h"
-#include "LesData3.h"
-namespace ff = file_functions;
-namespace sm = system_messages;
 
-
+/**
+ * @Brief Leser fra fil.
+ *
+ * @param inn Referance til fil objekt.
+ *
+ * @See stringToEnum()
+ * @See Attraksjon::Attraksjon(std::ifstream)
+ */
 Kirke::Kirke(std::ifstream &inn) : Attraksjon(inn) {
     std::string buffer;
     int aar, kap;
 
     inn >> buffer >> buffer;
-    if (ff::stringToEnum(buffer) >= 0) {
-        Type = ff::stringToEnum(buffer);
-    } else {
-        sm::sys_error("Failed to read Church Type : --" + buffer);
-    }
+    if (stringToEnum(buffer) >= 0)
+        Type = stringToEnum(buffer);
+    else
+        std::cout << "\n--Failed to read Church Type : --" + buffer + "--\n";
 
     inn >> buffer >> buffer >> aar; inn.ignore();
     byggeaar = aar;
@@ -27,9 +31,31 @@ Kirke::Kirke(std::ifstream &inn) : Attraksjon(inn) {
     kapasitet = kap;
 }
 
+/**
+ * @Breif Defualt constructor som leser til Krike.
+ *
+ * @See Attraksjon::Attraksjon()
+ * @See stringToEnum()
+ */
+Kirke::Kirke() : Attraksjon() {
+    std::string text;
+
+    do {
+        std::cout << "Skriv Kirke Type: (Kirke/Kapell/Katedral): ";
+        std::getline(std::cin, text);
+    } while(stringToEnum(text) < 0);
+
+    Type = stringToEnum(text);
+
+    byggeaar = lesInt("Hvilke byggeaar : ", 0, maxByggeaar);
+    kapasitet = lesInt("Kapasitet : ", 0, maxKapasitet);
+}
+
+/**
+ * @Brief Skriver detaljert all sin data.
+ */
 void Kirke::skrivData() const {
-    sm::sys_info("Kirke ");
-    std::cout << " |";
+    std::cout << "Kirke "" |";
     Attraksjon::skrivData();
     std::cout
     << "\n\tByggeaar :    " << byggeaar << '\n'
@@ -43,7 +69,10 @@ void Kirke::skrivData() const {
     }
 }
 
-void Kirke::skrivTilFil(std::ofstream &ut) {
+/**
+ * @param ut Referance til fil objekt.
+ */
+void Kirke::skrivTilFil(std::ofstream &ut) const {
     ut << "K ";
     Attraksjon::skrivTilFil(ut);
     ut << "\t\tType:        ";
@@ -56,22 +85,4 @@ void Kirke::skrivTilFil(std::ofstream &ut) {
 
     ut << "\t\tYear built:  " << byggeaar << std::endl;
     ut << "\t\tCapacity:    " << kapasitet << std::endl;
-
 }
-
-Kirke::Kirke() : Attraksjon() {
-    std::string text;
-
-    do {
-        std::cout << "Skriv Kirke Type: (Kirke/Kapell/Katedral): ";
-        std::getline(std::cin, text);
-    } while(ff::stringToEnum(text) < 0);
-
-    Type = ff::stringToEnum(text);
-
-    byggeaar = lesInt("Hvilke byggeaar : ", 0, 2024);
-
-    kapasitet = lesInt("Kapasitet : ", 0, 2000);
-}
-
-

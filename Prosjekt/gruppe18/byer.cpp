@@ -1,54 +1,86 @@
-#include "iostream"
-#include "Byer.h"
-#include "funksjoner.h"
-#include "algorithm"
-namespace ff = file_functions;
-namespace sm = system_messages;
+/**
+ * Funksjoner for byer objekt
+ *
+ * @File byer.cpp
+ */
 
+#include "Byer.h"
+#include <iostream>
+#include <algorithm>
+#include "funksjoner.h"
+
+/**
+ *  @Brief Bruker constructor til aa lese fra fil istedet for egen lesfrafil func.
+ *
+ *  @See By::By(string, ifstream)
+ *  @See init_by()
+ */
 Byer::Byer() {
     std::ifstream inn("Byer.dta");
-
-    std::string country, city, buffer;
+    std::string land, by, buffer;
 
     if (!inn) {
-        sm::sys_error("Could Not Find File Byer.dta"); return;
+        std::cout << "\n--Could Not Find File Byer.dta--\n"; return;
     }
-    sm::sys_print("File : Byer.dta Opened");
+    std::cout << "\n--File : Byer.dta Opened--\n";
 
+    // while: Getline "City :"
     while(std::getline(inn, buffer)) {
 
-        ff::init_by(inn, country, city);
-        byerMap[city] = new By(country, inn);
+        // Henter land og by navn.
+        init_by(inn, land, by);
+        byerMap[by] = new By(land, inn);
 
     }
 
     inn.close();
-
-    sm::sys_print("All Lines Read");
-    std::string message = "Antall Byer Read : "; message += std::to_string(byerMap.size());
-    sm::sys_print(message);
+    std::cout << "\nAll Lines Read\n";
+    std::cout << "\nAntall Byer Read : " + std::to_string(byerMap.size()) << "\n";
 }
 
+/**
+ * @Brief Free-er memory til alle By-er i byerMap map, og sletter pointers.
+ */
 Byer::~Byer() {
-    for (auto & val : byerMap) {
+    for (auto & val : byerMap)
         delete val.second;
-    }
     byerMap.clear();
 }
 
+/**
+ * @Brief Brukes for aa gi tilgang til byerMap map i opperatorer.
+ *
+ * @return referance til byerMap.
+ */
 std::map <std::string, By*>& Byer::getMap() {
     return byerMap;
 }
 
+/**
+ * @See By::skrivEn()
+ */
 void Byer::skrivAlle() const {
-    sm::sys_info("\tFoolgende Byer Finnes : \n\n");
+    std::cout << "\tFoolgende Byer Finnes : \n\n";
 
     for (const auto &val : byerMap) {
-        sm::sys_info("\tNavn : "); std::cout << val.first;
+        std::cout << "\tNavn : "  << val.first;
         val.second->skrivEn();
     }
 }
 
+/**
+ * @Brief Brukes til aa haandtere input til Byer.
+ *
+ * @See egenLesChar()
+ * @See Entydig()
+ * @See Byer::skrivAlle()
+ * @See By::skrivAlt()
+ * @See By::By()
+ * @See By::nyAttraksjon()
+ * @See By::slettAttraksjon()
+ *
+ * @param valg brukes for aa sjekke om A eller B.
+ */
 void Byer::handling(char valg) {
     char valg2;
     std::string navn;
@@ -63,12 +95,13 @@ void Byer::handling(char valg) {
                 case '1':
                     if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
                         return;
-                    sm::sys_info("\nNavn : " + navn + " ");
+                    std::cout << "\nNavn : " + navn + " ";
                     byerMap[navn]->skrivAlt();
                     break;
                 case 'N':
                     std::cout << "\nSkriv Navn paa by : ";
                     std::getline(std::cin, navn);
+                    std::transform(navn.begin(), navn.end(), navn.begin(), ::toupper);
                     for (const auto & val : byerMap)
                         if (val.first == navn)
                             return;
@@ -81,7 +114,7 @@ void Byer::handling(char valg) {
 
                     delete byerMap[navn];
                     byerMap.erase(navn);
-                    sm::sys_info("Fjernet : " + navn);
+                    std::cout << "Fjernet : " + navn;
                     break;
             }
             break;
@@ -91,7 +124,7 @@ void Byer::handling(char valg) {
                 if (!Entydig("By", navn, byerMap.begin(), byerMap.end()))
                     return;
 
-                sm::sys_info("\nNy attraksjon i : " + navn + "\n");
+                std::cout << "\nNy attraksjon i : " + navn + "\n";
                 byerMap[navn]->nyAttraksjon();
             }
             else if (valg2 == 'F') {
@@ -105,6 +138,9 @@ void Byer::handling(char valg) {
     }
 }
 
+/**
+ * @See By::skrivTilFil()
+ */
 void Byer::skrivTilFil() const {
     std::ofstream ut("Byer.dta2");
     int nr = 1;
@@ -116,6 +152,6 @@ void Byer::skrivTilFil() const {
     }
     ut << "END";
 
-    sm::sys_info("Lukket Byer.dta2\n");
+    std::cout << "Lukket Byer.dta2\n";
     ut.close();
 }

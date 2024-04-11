@@ -1,3 +1,10 @@
+/**
+ *   Turoperatorer-header
+ *
+ *   @file     Turoperatorer.h
+ *   @author   Gruppe18
+ */
+
 #ifndef CPP_TUROPERATORER_H
 #define CPP_TUROPERATORER_H
 
@@ -9,6 +16,9 @@
 #include "funksjoner.h"
 #include "Turoperator.h"
 
+/**
+ * @class Turoperatorer
+ */
 class Turoperatorer {
 private:
     std::map <std::string, Turoperator*> turOp;

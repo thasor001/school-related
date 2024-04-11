@@ -1,12 +1,27 @@
+/**
+ * Fil med funksjoner brukt flere steder i programmet.
+ *
+ * @File funksjoner.cpp
+ */
+
 #include "map"
 #include <iomanip>
-#include <windows.h>
+#include <algorithm>
 #include "funksjoner.h"
-namespace sm = system_messages;
 
-// For changing Text Color in terminal.
-HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+/**
+ * NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!
+ *
+ * Template funksjoner skrevet i header fil. (siden de maa vaere der :D)
+ * Aka gaa i funksjoner.h for aa see Entydig funksjon.
+ *
+ * NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!NB!
+ */
 
+
+/**
+ * @Brief Skriver meny.
+ */
 void skrivMeny() {
     std::cout << std::setw(3)
               << "--------Meny----------\n"
@@ -25,17 +40,20 @@ void skrivMeny() {
                  "Q         - Quit/Avslutt\n";
 }
 
-
+/**
+ * @Brief egen les char funksjon.
+ *
+ * @param text Text som skal bli printet.
+ * @param choices String som inneholder valg muligheter for innlesning av char.
+ * @return toUpper(char) som er innenfor "choices" string + 'Q'
+ */
 char egenLesChar(const std::string & text, std::string && choices) {
     char c;
     std::transform(choices.begin(), choices.end(), choices.begin(), ::toupper);
 
     do {
-        if (choices.find('Q') == std::string::npos) {
-            SetConsoleTextAttribute(h, 10);
+        if (choices.find('Q') == std::string::npos)
             std::cout << "\n" << text << " (" + choices << ") : ";
-            SetConsoleTextAttribute(h, 15);
-        }
         std::cin >> c;
         c = toupper(c);
         std::cin.ignore();
@@ -44,46 +62,45 @@ char egenLesChar(const std::string & text, std::string && choices) {
     return c;
 }
 
-namespace system_messages {
-
-    void sys_print(const std::string& text) {
-        SetConsoleTextAttribute(h, 2);
-        std::cout << "\nSystem Message : --" << text << "--\n" << std::endl;
-        SetConsoleTextAttribute(h, 15);
-    }
-
-    void sys_info(const std::string& text) {
-        SetConsoleTextAttribute(h, 3);
-        std::cout << text << " ";
-        SetConsoleTextAttribute(h, 15);
-    }
-
-    void sys_error(const std::string& text) {
-        SetConsoleTextAttribute(h, 4);
-        std::cout << "\nSystem Message : --" << text << "--\n" << std::endl;
-        SetConsoleTextAttribute(h, 15);
-    }
+/**
+ * @Brief Funksjon som leser inn navn paa by og land.
+ *
+ * @param inn Referance til fil objekt.
+ * @param land lvalue string.
+ * @param by lvalue string.
+ */
+void init_by(std::ifstream & inn, std::string& land, std::string &by) {
+    std::string buffer;
+    inn >> buffer >> by; by.pop_back();
+    inn >> land; inn.ignore();
 }
 
-namespace file_functions {
-    void init_by(std::ifstream & inn, std::string& country, std::string &city) {
-        std::string buffer;
-        inn >> buffer >> city; city.pop_back();
-        inn >> country; inn.ignore();
-    }
+/**
+ * @Brief funksjon som henter linjer og ignorerer " "'s.
+ *
+ * @param inn Referance til fil objekt.
+ * @param land lvalue string
+ * @param t antall " " som skal ignoreres.
+ */
+void get_lines(std::ifstream & inn, std::string & land, int t) {
+    std::string buffer;
+    inn >> buffer >> buffer >> buffer; inn.ignore(t);
+    std::getline(inn, land);
+}
 
-    void get_lines(std::ifstream & inn, std::string & country, int t) {
-        std::string buffer;
-        inn >> buffer >> buffer >> buffer; inn.ignore(t);
-        std::getline(inn, country);
-    }
+/**
+ * @Brief Funksjon som gjør fil/user input text til enum type.
+ *
+ * @param text User input
+ * @return Kirke enum type.
+ */
+Ktype stringToEnum(std::string &text) {
+    std::transform(text.begin(), text.end(), text.begin(), ::toupper);
 
-    Ktype stringToEnum(const std::string &text) {
-        std::map <std::string, Ktype> enum_map = {
-                {"Katedral", katedral},
-                {"Kirke", kirke},
-                {"Kapell", kapell}
-        };
-        return enum_map[text];
-    }
+    std::map <std::string, Ktype> enum_map = {
+            {"KATEDRAL", katedral},
+            {"KIRKE", kirke},
+            {"KAPELL", kapell}
+    };
+    return enum_map[text];
 }

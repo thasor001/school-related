@@ -1,20 +1,25 @@
-//
-// Created by Tharald on 05/04/2024.
-//
+/**
+ * Funksjoner for by objekt
+ *
+ * @File by.cpp
+ */
 
 #include "By.h"
 #include "Kirke.h"
-#include "MuseumGalleri.h"
-#include "Severdighet.h"
-#include "funksjoner.h"
 #include "LesData3.h"
-namespace sm = system_messages;
+#include "Severdighet.h"
+#include "MuseumGalleri.h"
 
-By::By(std::string& name, std::ifstream &inn) {
-    land = std::move(name);
+/**
+ * @Brief Leser inn type attraksjon til den ikke finner '-' mer.
+ *
+ * @param navn Land sitt navn.
+ * @param inn Referance til fil objekt.
+ */
+By::By(std::string& navn, std::ifstream &inn) {
+    land = navn;
 
-    char buffer;
-    char type;
+    char buffer, type;
 
     do {
         inn >> buffer >> type;
@@ -25,43 +30,64 @@ By::By(std::string& name, std::ifstream &inn) {
             case 'S': Attraksjoner.push_back(new Severdighet(inn));   break;
             case 'i':                                                return;
             case 'N': inn >> buffer;                                 return;
-            default:
-                sm::sys_error("DEFAULT wrong file Structure");
-                return;
+            default: std::cout << "\n--wrong file Structure--\n";    return;
         }
     } while (buffer == '-');
 }
 
+/**
+ * @Brief Defualt constructor som leser til by.
+ */
 By::By() {
     std::cout << "\nSkriv Navn Paa Land : ";
     std::getline(std::cin, land);
 }
 
+/**
+ * @Breif Free-er memory og sletter pekere.
+ */
 By::~By() {
-    for (auto & val : Attraksjoner) {
+    for (auto & val : Attraksjoner)
         delete val;
-    }
     Attraksjoner.clear();
 }
 
+/**
+ * @Brief Brukes for aa gi tilgang til Attraksjoner list i opperatorer.
+ *
+ * @return Referance til Attraksjoner list.
+ */
 std::list <Attraksjon*>& By::getList() {
     return Attraksjoner;
 }
 
+/**
+ * @param ut Referance til fil objekt.
+ *
+ * @See Attraksjoner/Sub klasser::skrivTilFil()
+ */
 void By::skrivTilFil(std::ofstream &ut) const {
     ut << land << std::endl;
-    for (auto it = Attraksjoner.begin(); it != Attraksjoner.end(); it++) {
+    for (const auto & val : Attraksjoner) {
         ut << "\t- ";
-        (*it)->skrivTilFil(ut);
+        val->skrivTilFil(ut);
     }
 }
 
+/**
+ * @Brief Brukes til aa gi en brief om en by.
+ */
 void By::skrivEn() const {
-    sm::sys_info("\t\tLand : "); std::cout << land;
-    sm::sys_info("\t Ant Attraksjoner : ");
-    std::cout << Attraksjoner.size(); std::cout << std::endl;
+    std::cout << "\t\tLand : " << land;
+    std::cout << "\t Ant Attraksjoner : ";
+    std::cout << Attraksjoner.size() << std::endl;
 }
 
+/**
+ * @Brief Brukes til aa gi en detaljert beskrivelse av by og attraksjoner.
+ *
+ * @See Attraksjoner/Sub klasser::skrivData()
+ */
 void By::skrivAlt() const {
     int size = 1;
 
@@ -77,6 +103,11 @@ void By::skrivAlt() const {
     }
 }
 
+/**
+ * @Brief Legger til ny attraksjon i Attraksjoner list.
+ *
+ * @See egenLesChar()
+ */
 void By::nyAttraksjon() {
     char type = egenLesChar("Skriv Type Attraksjon", "KSM");
 
@@ -87,8 +118,13 @@ void By::nyAttraksjon() {
     }
 }
 
+/**
+ * @Brief Brukes til aa Slette Attraksjon i by.
+ *
+ * @See lesInt()
+ */
 void By::slettAttraksjon() {
-    if (Attraksjoner.size() > 0) {
+    if (!Attraksjoner.empty()) {
         std::cout << "0 = ingen" << std::endl;
         int valg = lesInt("Velg Fra Nummer ", 0, Attraksjoner.size());
 
@@ -97,11 +133,10 @@ void By::slettAttraksjon() {
             return;
         }
 
-        auto it = Attraksjoner.begin();
-        std::advance(it, valg - 1);
+        auto it = Attraksjoner.rend();
+        std::prev(it, valg);
 
-        Attraksjoner.erase(it);
-    } else {
-        std::cout << "Ingen Attraksjoner" << std::endl;
-    }
+        Attraksjoner.erase(it.base());
+    } else
+        std::cout << "\nIngen Attraksjoner\n";
 }

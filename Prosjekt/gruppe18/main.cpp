@@ -1,15 +1,21 @@
+/**
+ * Hovedprogrammet for prosjektet
+ *
+ * @File main.cpp
+ * @Author Gruppe18
+ */
+
 #include "Byer.h"
-#include "Opplegg.h"
 #include "funksjoner.h"
 #include "Turoperatorer.h"
-namespace sm = system_messages;
 
-Byer gByerBase;
-Turoperatorer gOprasjonsBase;
-Opplegg gOppleggsBase;
+Byer gByerBase;                 ///< Globale konteiner objekt for by-er.
+Turoperatorer gOprasjonsBase;   ///< Globale konteiner objekt for turoperator-er.
 
+/**
+ * @See egenLesChar()
+ */
 int main() {
-
     skrivMeny();
 
     char valg;
@@ -23,14 +29,13 @@ int main() {
         }
     } while(valg != 'Q');
 
-    sm::sys_info("\nSkriver til Byer.dta2\n");
+    std::cout << "\nSkriver til Byer.dta2\n";
     gByerBase.skrivTilFil();
 
-    sm::sys_info("\nSkriver til fil : Turoperatorer.dta2");
+    std::cout << "\nSkriver til fil : Turoperatorer.dta2";
     gOprasjonsBase.skrivTilFil();
 
-    sm::sys_print("Program Ended");
+    std::cout << "\n--Program Ended--\n";
     std::cin.get();
     return 0;
 }
-

@@ -1,6 +1,9 @@
-//
-// Created by thara on 3/26/2024.
-//
+/**
+ *   Attraksjon-header
+ *
+ *   @file     Attraksjon.h
+ *   @author   Gruppe18
+ */
 
 #ifndef CPP_ATTRAKSJON_H
 #define CPP_ATTRAKSJON_H
@@ -10,15 +13,18 @@
 #include "iostream"
 #include "funksjoner.h"
 
+/**
+ * @class Attraksjon
+ */
 class Attraksjon {
 private:
     std::string ID, beskrivelse, adresse, website;
 public:
     Attraksjon();
     Attraksjon(std::ifstream &inn);
+    std::string writeID();
     virtual void skrivData() const;
-    virtual void skrivTilFil(std::ofstream &ut);
-    std::string writeID() const;
+    virtual void skrivTilFil(std::ofstream &ut) const;
 };
 
 #endif //CPP_ATTRAKSJON_H

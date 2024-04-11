@@ -1,6 +1,9 @@
-//
-// Created by thara on 3/26/2024.
-//
+/**
+ *   By-header
+ *
+ *   @file     By.h
+ *   @author   Gruppe18
+ */
 
 #ifndef CPP_BY_H
 #define CPP_BY_H
@@ -11,6 +14,9 @@
 #include "list"
 #include "Attraksjon.h"
 
+/**
+ * @class By
+ */
 class By {
 private:
     std::list <Attraksjon*> Attraksjoner;
