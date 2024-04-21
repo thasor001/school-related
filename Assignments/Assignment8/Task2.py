@@ -112,6 +112,8 @@ def update(dt):
 
     outside = outside[0]
 
+    print(outside)
+
     # Deleting the elements that correspond to the indices found in outside array.
     if len(outside) > 0:
         disks = [disks[i] for i in range(length) if i not in outside]

@@ -8,11 +8,9 @@ window = window.Window(width=1000, height=750, caption="Author@Tharald")
 
 batch = graphics.Batch()
 
-n = 100
+n = 25
 
 weights = np.array([randint(2, 22) for _ in range(n)])
-
-bitMap = np.zeros((n, n), dtype=bool)
 
 disks = np.array([
     shapes.Circle(x=0,
@@ -29,6 +27,10 @@ pos = np.array([[
 vel = np.array([np.array([
     uniform(-50, 50), uniform(-50, 50)
 ])for _ in range(n)])
+
+# pos = np.array([[window.width / 2 - 30, window.height / 2 + 10], [window.width / 2 + 30, window.height / 2 - 15]])
+# vel = np.array([np.array([25, -10]), np.array([-25, 5])])
+
 
 # I make the weights into a colum vector containing one of the different elements each
 # Example. original = [1,2,3] new = [[1], [2], [3]]
@@ -59,56 +61,6 @@ np.fill_diagonal(radii, 0)
 # dist = np.sqrt(np.einsum('...i,...i', disp, disp)) took 0.004 seconds,
 # dist = np.sqrt(np.sum(disp**2, axis=2)) took 0.009,
 # dist = np.linalg.norm(disp, axis=2) took 0.012 seconds.
-
-# Checking time of 1 iteration (as long as it's under 0.16 we good :) )
-average_time = 0
-for _ in range(n):
-    start_time = time()
-
-    for index, disk in enumerate(disks):
-        disk.x = pos[index, 0]
-        disk.y = pos[index, 1]
-
-    pos[:] += vel[:] * 0
-
-    test_x_mesh, test_y_mesh = np.meshgrid(pos[:, 0], pos[:, 1])
-    test_disp = np.dstack((test_x_mesh - test_x_mesh.T, test_y_mesh - test_y_mesh.T))
-    test_dist = np.sqrt(np.einsum('...i,...i', test_disp, test_disp))
-
-    # Checking for collisions
-    collisions = np.where(test_dist < radii)
-
-    collisions_indices = np.column_stack((collisions[0], collisions[1]))
-
-    # Sort each pair of indices
-    collisions_indices = np.sort(collisions_indices, axis=1)
-
-    # Keep only unique pairs
-    collisions_indices = np.unique(collisions_indices, axis=0)
-
-    # Handeling the collisions
-    for i, j in collisions_indices:
-        Un = test_disp[i, j] / test_dist[i, j]
-        pos[i] += (radii[i, j] - test_dist[i, j]) * Un / 2
-        pos[j] -= (radii[i, j] - test_dist[i, j]) * Un / 2
-        tan = np.array([-Un[1], Un[0]])
-        vel1n = Un[0] * vel[i, 0] + Un[1] * vel[i, 1]
-        vel2n = Un[0] * vel[j, 0] + Un[1] * vel[j, 1]
-        vel1t = tan[0] * vel[i, 0] + tan[1] * vel[i, 1]
-        vel2t = tan[0] * vel[j, 0] + tan[1] * vel[j, 1]
-        newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[j] * vel2n) / radii[i, j]
-        newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[i] * vel1n) / radii[j, i]
-        vel1n = newvel1n * Un
-        vel2n = newvel2n * Un
-        newvel1t = vel1t * tan
-        newvel2t = vel2t * tan
-        vel[i] = vel1n + newvel1t
-        vel[j] = vel2n + newvel2t
-
-    end_time = time()
-    average_time += end_time - start_time
-
-print("One Iteration takes : ", average_time/n, " Seconds to complete")
 
 
 def update(dt):
@@ -143,20 +95,20 @@ def update(dt):
 
     # Handeling the collisions
     for i, j in collisions_indices:
-        Un = disp[i, j] / dist[i, j]
-        pos[i] += (radii[i, j] - dist[i, j]) * Un / 2
-        pos[j] -= (radii[i, j] - dist[i, j]) * Un / 2
-        tan = np.array([-Un[1], Un[0]])
+        Un = disp[j, i] / dist[i, j]
+        pos[i] -= (radii[i, j] - dist[i, j]) * Un / 2
+        pos[j] += (radii[j, i] - dist[j, i]) * Un / 2
+        Utan = np.array([-Un[1], Un[0]])
         vel1n = Un[0] * vel[i, 0] + Un[1] * vel[i, 1]
         vel2n = Un[0] * vel[j, 0] + Un[1] * vel[j, 1]
-        vel1t = tan[0] * vel[i, 0] + tan[1] * vel[i, 1]
-        vel2t = tan[0] * vel[j, 0] + tan[1] * vel[j, 1]
+        vel1t = Utan[0] * vel[i, 0] + Utan[1] * vel[i, 1]
+        vel2t = Utan[0] * vel[j, 0] + Utan[1] * vel[j, 1]
         newvel1n = (vel1n * (weights[i] - weights[j]) + 2 * weights[j] * vel2n) / radii[i, j]
         newvel2n = (vel2n * (weights[j] - weights[i]) + 2 * weights[i] * vel1n) / radii[j, i]
         vel1n = newvel1n * Un
         vel2n = newvel2n * Un
-        newvel1t = vel1t * tan
-        newvel2t = vel2t * tan
+        newvel1t = vel1t * Utan
+        newvel2t = vel2t * Utan
         vel[i] = vel1n + newvel1t
         vel[j] = vel2n + newvel2t
 
