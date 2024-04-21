@@ -8,13 +8,13 @@ batch = graphics.Batch()
 
 MAX = 601
 
-n = 2000
+n = 300
 radius = 5
 init_speed = 1.
 
 momentum_loss = -0.65
 friction = 0.9
-gravity = 2.
+gravity = 45.
 
 speed = 50
 
