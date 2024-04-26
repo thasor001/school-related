@@ -29,10 +29,10 @@ bitMap = np.zeros(4, dtype=bool)
 grid_lines = []
 
 for i in range(window.width // (radius * 2)):
-    grid_lines.append(shapes.Line(x=i*10, y=0, x2=i*10, y2=window.height, batch=batch, color=(0, 255, 0, 100)))
+    grid_lines.append(shapes.Line(x=i*(radius * 2), y=0, x2=i*(radius * 2), y2=window.height, batch=batch, color=(0, 255, 0, 100)))
 
 for i in range(window.height // (radius * 2)):
-    grid_lines.append(shapes.Line(x=0, y=i*10, x2=window.width, y2=i*10, batch=batch, color=(0, 255, 0, 100)))
+    grid_lines.append(shapes.Line(x=0, y=i*(radius * 2), x2=window.width, y2=i*(radius * 2), batch=batch, color=(0, 255, 0, 100)))
 
 
 disks = [
