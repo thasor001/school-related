@@ -1,33 +1,22 @@
 from pyglet import *
 from random import randint, uniform
 import numpy as np
-from pyglet.window import FPSDisplay, key, mouse
 
-window = window.Window(width=300, height=500, caption="Author@Tharald")
+window = window.Window(width=1000, height=750, caption="Author@Tharald")
 batch = graphics.Batch()
 
-MAX = 151
-scroll = 0
-mouse_pos = (0, 0)
 
-n = 150
-radius = 5
-init_speed = 1
+n = 100
+maxRadius = 22
+minRadius = 2
 
-momentum_loss = -0.65
-friction = 0.9
-gravity = 200.
+posX = np.array([uniform(maxRadius, window.width-maxRadius) for _ in range(n)])
+posY = np.array([uniform(maxRadius, window.height-maxRadius) for _ in range(n)])
+velX = np.array([uniform(50, -50) for _ in range(n)])
+velY = np.array([uniform(50, -50) for _ in range(n)])
 
-count = 0
+weights = np.array([randint(minRadius, maxRadius) for _ in range(n)])
 
-posX = np.array([uniform(radius, window.width-radius) for _ in range(n)])
-posY = np.array([uniform(radius, window.height-radius) for _ in range(n)])
-velX = np.array([uniform(50, -50) * init_speed for _ in range(n)])
-velY = np.array([uniform(50, -50) * init_speed for _ in range(n)])
-
-weights = np.array([radius for _ in range(n)])
-
-bitMap = np.zeros(5, dtype=bool)
 
 disks = [shapes.Circle(0,
                        0,
@@ -36,226 +25,110 @@ disks = [shapes.Circle(0,
                        color=(randint(50, 255), randint(50, 255), randint(50, 255)))
          for i in range(n)]
 
-num_shapes = text.Label(text="Num shapes : " + str(n),
-                        x=5,
-                        y=window.height-10,
-                        font_size=20,
-                        anchor_y='center')
+
+# I make the weights into a colum vector containing one of the different elements each
+# Example. original = [1,2,3] new = [[1], [2], [3]]
+# I do this so that I can make it into a (100, 100) shape like the dist array later.
+# new shape of col_vec is (100, 1)
+col_vec = weights[:, np.newaxis]
 
 
-radii = weights[:, np.newaxis] + weights
+# By plussing col_vec with the original weights I get a shape of (100, 100).
+# Example. original = [0, 4, 7] next step = [[0], [4], [7]] final = [[0, 4, 7], [4, 8, 11], [7, 11, 14]]
+# This new array becomes the combined radius's of the disks.
+# Example dist[0] = [[0,2, 6], [2, 0, 3], [6, 3, 0]] then the new weights[0,0] (radii) for dist[0,0] would be first the
+# radius of itself + itself, then itself + disk2 then itself + disk3, if dist[0, :] < radii[0, :] then collision.
+radii = col_vec + weights
+
+# We do this since a disk's radius will + with itself and result in for instance: a combined radius of 20.
+# while the distance between itself and itself will be 0 this will then tell the machine
+# that there is a collision here since 0 < 20.
+# we don't want that, therefore we make the disk + itself = 0 then 0(Dist) < 0(radii) = False
 np.fill_diagonal(radii, 0)
 
-def menu():
-    print("M - MENU")
-    print("SCROLL UP, DOWN - Values up/down")
-    print("N - New Disks")
-    print("C - Clear all disks")
-    print("G - Gravity (-200, 200)")
+# Fastest way i could find to create vectors between all points was this:
+# x_mesh, y_mesh = np.meshgrid(pos[:, 0], pos[:, 1])
+# disp = np.dstack((x_mesh - x_mesh.T, y_mesh - y_mesh.T))
 
-
-def clamp(value, minimum, maximum):
-    if value < minimum:
-        return minimum
-    elif value > maximum:
-        return maximum
-    else:
-        return value
-
-
-@window.event
-def on_key_press(symbol, modifiers):
-    global bitMap, scroll
-
-    if symbol == key.M:
-        menu()
-    elif symbol == key.G:
-        print("Current Gravity : ", gravity)
-        scroll = gravity
-        bitMap[0] = True
-    elif symbol == key.C:
-        bitMap[1] = True
-        print("Clearing shapes :")
-    elif symbol == key.N:
-        bitMap[2] = True
-
-
-@window.event
-def on_mouse_motion(x, y, dx, dy):
-    global mouse_pos
-    mouse_pos = (x, y)
-
-
-@window.event
-def on_key_release(symbol, modifiers):
-    global bitMap, scroll
-
-    if symbol == key.G:
-        print("New Gravity : ", gravity)
-        bitMap[0] = False
-        scroll = 0  # Reset scroll value when the key is released
-    elif symbol == key.N:
-        bitMap[2] = False
-
-
-@window.event
-def on_mouse_scroll(x, y, scroll_x, scroll_y):
-    global scroll
-    scroll -= scroll_y * 5
-
-
-def event_handler():
-    global gravity, scroll, disks, posX, posY, velX, velY
-    global weights, radii, num_shapes, n, count
-
-    if bitMap[0]:
-        scroll = clamp(scroll, -200., 200.)
-        print("Value : ", scroll)
-        gravity = scroll
-    elif bitMap[1]:
-        n = 0
-        disks = []
-        posX = np.array([])
-        posY = np.array([])
-        velX = np.array([])
-        velY = np.array([])
-        weights = np.array([])
-        radii = np.array([])
-        num_shapes = text.Label(text="Num shapes : " + str(n),
-                                x=5,
-                                y=window.height - 10,
-                                font_size=20,
-                                anchor_y='center')
-        bitMap[1] = False
-    elif bitMap[2]:
-        if count == 0 and n < MAX:
-            posX = np.append(posX, mouse_pos[0])
-            posY = np.append(posY, mouse_pos[1])
-            velX = np.append(velX, uniform(300, -300) * init_speed)
-            velY = np.append(velY, uniform(300, -300) * init_speed)
-            weights = np.append(weights, radius)
-            disks.append(shapes.Circle(0, 0, radius=weights[len(weights) - 1], batch=batch,
-                                       color=(randint(50, 255), randint(50, 255), randint(50, 255))))
-            radii = weights[:, np.newaxis] + weights
-            np.fill_diagonal(radii, 0)
-            num_shapes = text.Label(text="Num shapes : " + str(n),
-                                    x=5,
-                                    y=window.height - 10,
-                                    font_size=20,
-                                    anchor_y='center')
-            n += 1
+# All tests were done with a for loop(n = 100):
+# Calculating distances, Fastest way I could find.
+# dist = np.sqrt(np.einsum('...i,...i', disp, disp)) took 0.004 seconds,
+# dist = np.sqrt(np.sum(disp**2, axis=2)) took 0.009,
+# dist = np.linalg.norm(disp, axis=2) took 0.012 seconds.
 
 
 def move(i, overlap, unit_normal):
-    posX[i] -= overlap * unit_normal[0]
-    posY[i] += overlap * unit_normal[1] * 3/4
+    global posX, posY
+    posX[i] -= overlap * unit_normal[0] / 2
+    posY[i] += overlap * unit_normal[1] / 2
 
 
 def update(dt):
-    global posX, posY, velX, velY, num_shapes, count
-
-    count += dt
-    if count >= 1/6:
-        count = 0
+    global posX, posY, velX, velY
 
     for index, disk in enumerate(disks):
         disk.x = posX[index]
         disk.y = posY[index]
 
-    # Updating position based on velocity.
     posX += velX * dt
     posY += velY * dt
 
-    # Moving Circles inside of screen.
-    posXColL = np.where(posX < weights)[0]                  # L - Left
-    posXColR = np.where(posX > window.width - weights)[0]   # R - Roof
+    # Calculating vectors from disks using meshgrid.
+    x_mesh, y_mesh = np.meshgrid(posX, posY)
+    disp = np.dstack((x_mesh - x_mesh.T, y_mesh - y_mesh.T))
 
-    posYColG = np.where(posY < weights)[0]                  # G - Ground
-    posYColR = np.where(posY > window.height - weights)[0]  # R - Right
+    # Calculating distances using dot product.
+    dist = np.sqrt(np.einsum('...i,...i', disp, disp))
 
-    posX[posXColL] = radius
-    posX[posXColR] = window.width - radius
+    # Finding colliding disks.
+    collisions = np.where(dist < radii)
 
-    posY[posYColG] = radius
-    posY[posYColR] = window.height - radius
+    # Stacking indices into pairs of 2.
+    collisions_indices = np.column_stack((collisions[0], collisions[1]))
 
-    # Collisions with screen.
-    velX[posXColL] *= momentum_loss       # They lose some momentum when they hit surfaces (not 100% elastic).
-    velX[posXColR] *= momentum_loss
-    velX[posYColG] *= friction            # They lose some momentum as well by friction.
-    velX[posYColR] *= friction
+    # Sorting and getting only unique collisions.
+    collisions_indices = np.unique(np.sort(collisions_indices, axis=1), axis=0)
 
-    velY[posYColG] *= momentum_loss
-    velY[posYColR] *= momentum_loss
+    for i, j in collisions_indices:
+        # Finding overlap, unit normal vector and unit tangent vector.
+        overlap = dist[j, i] - (radii[i, j])
+        unit_normal = disp[j, i] / (radii[i, j])
 
-    velX[abs(velX) < 0.0005] = 0
+        unit_tangent = np.array([-unit_normal[1], unit_normal[0]])
 
-    # Collision resolution loop
-    for _ in range(max(1, n//15)):
+        # Creating initial velocity vectors.
+        vel_i = np.array([velX[i], velY[i]])
+        vel_j = np.array([velX[j], velY[j]])
 
-        # Calculating vectors from disks using meshgrid.
-        x_mesh, y_mesh = np.meshgrid(posX, posY)
-        disp = np.dstack((x_mesh - x_mesh.T, y_mesh - y_mesh.T))
+        # Projecting the velocity vectors onto the unit normal and unit tangent vectors.
+        scalar_vel_i = np.dot(unit_normal, vel_i)
+        scalar_vel_j = np.dot(unit_normal, vel_j)
+        scalar_tan_i = np.dot(unit_tangent, vel_i)
 
-        # Calculating distances using dot product.
-        dist = np.sqrt(np.einsum('...i,...i', disp, disp))
+        # New Normal velocities after collision.
+        vel_i_after = (scalar_vel_i * (weights[i] - weights[j]) + 2 * weights[j] * scalar_vel_j) / radii[i, j]
+        vel_j_after = (scalar_vel_j * (weights[j] - weights[i]) + 2 * weights[i] * scalar_vel_i) / radii[i, j]
 
-        # Finding colliding disks.
-        collisions = np.where(dist < radii)
+        # Convert the scalar normal and tangential velocities into vectors.
+        vel_i = vel_i_after * unit_normal
+        vel_j = vel_j_after * unit_normal
+        tan_i = scalar_tan_i * unit_tangent
 
-        # Stacking indices into pairs of 2.
-        collisions_indices = np.column_stack((collisions[0], collisions[1]))
+        # Finding the final velocity vectors by adding the normal and tangential components + friction.
+        new_vel_i = (vel_i + tan_i)
+        new_vel_j = (vel_j + tan_i)
+        velX[i], velY[i] = new_vel_i[0], new_vel_i[1]
+        velX[j], velY[j] = new_vel_j[0], new_vel_j[1]
 
-        # Sorting and getting only unique collisions.
-        collisions_indices = np.unique(np.sort(collisions_indices, axis=1), axis=0)
-
-        for i, j in collisions_indices:
-            # Finding overlap, unit normal vector and unit tangent vector.
-            overlap = dist[j, i] - (radius * 2)
-            unit_normal = disp[j, i] / (radius * 2)
-
-            unit_tangent = np.array([-unit_normal[1], unit_normal[0]])
-
-            # Creating initial velocity vectors.
-            vel_i = np.array([velX[i], velY[i]])
-            vel_j = np.array([velX[j], velY[j]])
-
-            # Projecting the velocity vectors onto the unit normal and unit tangent vectors.
-            scalar_vel_i = np.dot(unit_normal, vel_i)
-            scalar_vel_j = np.dot(unit_normal, vel_j)
-            scalar_tan_i = np.dot(unit_tangent, vel_i)
-
-            # New Normal velocities after collision.
-            vel_i_after = scalar_vel_j
-            vel_j_after = scalar_vel_i
-
-            # Convert the scalar normal and tangential velocities into vectors.
-            vel_i = vel_i_after * unit_normal
-            vel_j = vel_j_after * unit_normal
-            tan_i = scalar_tan_i * unit_tangent
-
-            # Finding the final velocity vectors by adding the normal and tangential components + friction.
-            new_vel_i = (vel_i + tan_i) * friction
-            new_vel_j = (vel_j + tan_i) * friction
-            velX[i], velY[i] = new_vel_i[0], new_vel_i[1]
-            velX[j], velY[j] = new_vel_j[0], new_vel_j[1]
-
-            # Moving the disks in the unit_normal direction until they don't overlap anymore.
-            move(i, overlap, unit_normal)
-            move(j, overlap, -unit_normal)
-
-    # Updating velocity due to gravity.
-    velY -= gravity * dt
-
+        # Moving the disks in the unit_normal direction until they don't overlap anymore.
+        move(i, overlap, unit_normal)
+        move(j, overlap, -unit_normal)
 
 
 @window.event
 def on_draw():
     window.clear()
     batch.draw()
-    num_shapes.draw()
-    if np.any(bitMap):
-        event_handler()
 
 
 clock.schedule_interval(update, 1/120)
