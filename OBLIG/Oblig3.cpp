@@ -17,11 +17,11 @@
  */
 
 
+#include "LesData2.h"              //  Verktøykasse for lesing av diverse data
 #include <iostream>                //  cout, cin
 #include <fstream>                 //  ifstream, ofstream
 #include <string>
 #include <map>
-#include "LesData2.h"              //  Verktøykasse for lesing av diverse data
 
 
 /**
@@ -109,7 +109,7 @@ int main(void)  {
 
     skrivTilFil();
 
-    
+
 
     return 0;
 }
