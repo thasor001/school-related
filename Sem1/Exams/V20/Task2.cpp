@@ -169,8 +169,8 @@ void Husstand::skrivData() const  {
  *  @param   ut  -  Filobjektet det skrives ut data til
  */
 void Husstand::skrivTilFil(ofstream & ut) const  {
-
-    //   LAG INNMATEN
+    ut << std::endl << dagSlutt << " " << antallDager << " " << antallPersoner
+    << " " << mobilNr << std::endl << navn << std::endl << adresse;
 }
 
 
@@ -207,7 +207,25 @@ void endreHusstand()  {
  *  Oppgave 2D - Fjerner ALLE husstander hvis karantene utgår I DAG.
  */
 void fjernHusstander()  {
+    std::ofstream app(R"(C:\Users\Tharald\CLionProjects\Cpp\Exams\V20\KARANTENEFERDIG.DTA)", std::ios::app);
 
+    int antall = gHusstander.size();
+
+    gHusstander.remove_if([&](auto & val){
+        if (val->hentID() == gDagnummerIAret) {
+            val->skrivTilFil(app);
+            delete val;
+            return 1;
+        }
+        return 0;
+    });
+
+    if (antall > gHusstander.size()) {
+        std::cout << "Slettet : " << antall - gHusstander.size() << "Hustander\n";
+        std::cout << "Alle Skrevet til fil\n";
+    }
+
+    app.close();
 }
 
 
@@ -274,6 +292,15 @@ void slettPersonsHusstand()  {
  *                2) Antall personer/husstander med Y (1-21) dagers karantene.
  */
 void statistikk()  {
+    int antall = 0;
 
-    //   LAG INNMATEN
+    for (int i = 1; i < MAXKARANTENE; i++) {
+        std::for_each(gHusstander.begin(), gHusstander.end(), [&](const auto & val)
+        {if (val->hentID() == i) antall++;});
+        std::cout << "Antall Hustander som skal ut om " << i << " Dager : " << antall << std::endl;
+        antall = 0;
+    }
+    for (int i = 1; i < MAXKARANTENE; i++) {
+
+    }
 }
