@@ -14,6 +14,7 @@ public:
     // this ensures that the destructor for each and every elementin the array is called.
     ~Vector() {delete [] data;}
 
+
     void insert(const T t, const int pos) {
         if (pos < 0 || pos > vec_size) {
             throw std::out_of_range("Index out of range for class Vector");
