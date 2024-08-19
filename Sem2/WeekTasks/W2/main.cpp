@@ -42,6 +42,25 @@ public:
         return -1;
     }
 
+    value* get(const key k) {
+        int count = map::find(k);
+
+        if (count == -1) { return nullptr; }
+
+        return &data[count].second;
+    }
+
+    bool remove(const key k) {
+        int count = map::find(k);
+        if (count == -1) { return false; }
+
+        for (int i = count; i < map_size; i++)
+            data[i] = data[i + 1];
+
+        map_size--;
+        return true;
+    }
+
     bool resize(const int size) {
         if (size < 0 || size == map_capacity)
             return false;
@@ -72,8 +91,13 @@ int main() {
     test.pair_insert("Samuel", 38);
     test.pair_insert("Tharald", 39);
 
+    test.remove("Bendik");
 
     test.display();
+
+    int *number = test.get("Bendik");
+
+    std::cout << "NUMBER OF BENDIK : " << *number << std::endl;
 
     std::cin.get();
     return 0;
