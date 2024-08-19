@@ -25,7 +25,6 @@ void writeMenu();//
  */
 int main() {
     Restaurant * newRes;
-
     writeMenu();
     char command = lesChar("Write command ");
 
@@ -36,6 +35,7 @@ int main() {
                 newRes = new Restaurant;
                 newRestaurant(*newRes);
                 gRestaurants.push_back(newRes);
+                gRestaurants.resize(10);
                 break;
             case 'W':
                 writeAllRestaurants();
