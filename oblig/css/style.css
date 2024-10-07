@@ -1,0 +1,212 @@
+@font-face {
+	font-family: "regular";
+	src: url(../fonts/Roboto-Regular.ttf);
+}
+
+* {
+	font-family: "regular";
+	position: relative;
+}
+
+/* ------------------------------- */
+/* Sections named section "1"->"4" */
+/* ------------------------------- */
+
+input {
+	font-weight: bold;
+	width: 80px;
+	color: white;
+	padding: 5px;
+	background-color: rgb(55, 130, 245);
+}
+
+input:hover {
+	transition: 0.5s;
+	background-color: rgb(15, 90, 205);
+}
+
+header {
+	a { 
+		text-decoration: none; 
+		color: rgb(222, 222, 222);
+		padding: 5px;
+	}
+	
+	padding: 1.5em;
+	border-bottom: solid 3px rgb(45, 57, 70);
+	background-color: #1F2936;
+	color: white;
+	text-align: center;
+}
+
+body {
+	margin: 0px;
+}
+
+.section1 {
+	background-color: #1F2936;
+	color: white;
+	display: flex;
+	justify-content: center;
+	
+	.container {
+		padding: 2em 0 2em 0;
+		display: flex;
+		gap: 200px;
+		width: 800px;
+	}
+	
+	h1 {
+		font-size: 30px;
+		margin-bottom: 0px;
+	}
+	
+	p {
+		color: rgb(222, 222, 222);
+		margin-top: 10px;
+	}
+		
+	input {
+		border: solid 1px rgb(55, 130, 245);
+		border-radius: 10px;
+	}
+}
+
+.section2 {
+	h2, h3 { text-align: center; }
+
+	img {
+		border: solid 5px rgb(55, 130, 245);
+		border-radius: 5px;
+	}
+
+	.container {
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 30px;
+		display: flex;
+		gap: 2em;
+	}
+
+	#reverseRow {
+		flex-direction: row-reverse;
+
+		/* Picture inside text in section2 */
+		#spiderEye {
+			paddin: 0px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			border: 0px;
+		}
+	}
+
+	.text { width: 500px; }
+
+	padding: 35px 0 35px 0;
+	justify-content: center;	
+}
+
+.section3 {
+	.text {
+		padding: 50px;
+		width: 60vw;
+		left: 15%;
+		font-size: 20px;
+		text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+		justify-content: center;
+
+		#right {
+			text-align: right;
+			text-shadow: 0 0 0;
+		}
+	}
+	background-color: rgb(228, 229, 235);
+	margin-bottom: 5em;
+}
+
+.section4 {
+	background-color: rgb(55, 130, 245);
+	display: flex;
+	color: white;
+	align-items: center;
+	left: 15%;
+	width: 70vw;
+	border-radius: 10px;
+	justify-content: center;
+	gap: 20%;
+	
+	input {
+		border: 2px solid white;
+		border-radius: 5px;
+	}
+
+	.text {
+		padding: 30px;
+		p, h4 {
+			margin: 5px;
+		}
+	}
+
+	margin-bottom: 5em;
+
+}
+
+footer {
+	height: 60px;
+	background-color: rgb(31, 41, 54);
+	color: white;
+	text-align: center;
+	padding: 2em; 
+}
+
+/* Container for task 2 and 3 (Javascript Posts) */
+#container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10%;
+	background-color: white;
+	align-items: center;
+	justify-content: center;
+
+	h4 {
+		magrin: 5px 0px 3px 0px;
+		text-align: center;
+		border-bottom: 1px solid black;
+		font-size: 15px;
+	}
+
+	p {
+		margin-top: 7px;
+		font-size: 15px;
+		padding: 0px 5px 3px 5px;
+	}
+
+	/* Posts inside the container */
+	.posts {
+		width: 300px;
+		height: 300px;
+		border: 2px solid black;
+		margin: 2vw;
+		background-color: lightblue;
+		padding: 5px;
+		border-radius: 5px;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+	}
+
+	.card {
+		background-color: white;
+		border: 2px solid black;
+		border-radius: 5px;
+		width: 150px;
+		height: 200px;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+		margin: 20px 0px 20px 0px;
+	}
+}
+
+/* To get footer in third task at the bottom of screen: */
+#third {
+	position: fixed;
+	width: 100%;
+	bottom: 0%;
+}
