@@ -1,0 +1,121 @@
+// JAVASCRIPT for task c)
+
+// Creating a data array with 5 nulls to start, nulls used later.
+let data = Array(5).fill(null); 
+let interval = 900 * 100;
+const container = document.getElementById('container');
+
+
+// Function to load the data.
+async function loadData() {
+	// All the different API's.
+	const urls = [
+		// Tokyo:
+		'https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&current_weather=true',
+		// London:
+		'https://api.open-meteo.com/v1/forecast?latitude=51.4215747&longitude=0.0805717&current_weather=true',
+		// My House:
+		'https://api.open-meteo.com/v1/forecast?latitude=60.7860364&longitude=10.6824802&current_weather=true',
+		// Stavanger:
+		'https://api.open-meteo.com/v1/forecast?latitude=58.9486272&longitude=5.5979375&current_weather=true',
+		// Moskva:
+		'https://api.open-meteo.com/v1/forecast?latitude=55.6805492&longitude=37.7200161&current_weather=true' 
+	];
+
+	const names = [
+		'Tokyo',
+		'London',
+		'KallerudVeien 7',
+		'Stavanger',
+		'Moskva'
+	]
+	
+	try {
+		// Using Pormise all to execute multiple asynchronous operations in parrallel.
+		data = await Promise.all(
+			// mapping urls:
+			urls.map(url =>
+				fetch(url).then(res => {
+					// NB, thorwing errors for the fetches that did not resolve.
+					if (!res.ok)
+						throw new Error(`Failed to fetch from ${url}: status; ${res.status}`);
+					return res.json();
+
+					// NB, catching errors and appending them to the json object.
+					// Thereby we can filter the json objects that got resolved, or rejected.
+				}).catch(error => ({ error: error.message }))
+			)
+		);
+
+		// Appending name to the json objects:
+		for (let i = 0; i < 5; i++) {
+			// Checking that there actually is something inside the data[i];
+			// Refer to line 3:
+			if (data[i])
+				data[i].name = names[i];
+		}
+				
+	} catch (error) {
+		// Catching error.
+		console.error("Error : ", error);
+	}
+}
+
+// Main function that handles and waits for data.
+async function main() {
+	// Wait for data to load.
+	await loadData();
+
+	// Function that draws the different zones.
+	draw();
+
+	// Running loadData fuction at a set interval:
+	setInterval(() => { loadData();
+	}, interval);
+}
+
+// Running main function.
+main();
+
+function draw() {
+	// Only drawing if the Json obcejt does not have appended error message on it
+	// Refer to line 34-36.
+	// Also checks if something unexcpected happens: data is null
+	// Refer to line 3.
+	for (let i = 0; i < 5; i++) {
+		if (!data[i].error && data[0]) {
+			// Creating a new div element that whill house the 
+			const newElement = document.createElement('div');
+			newElement.classList.add('card');
+
+			// Creating a header for the card with appended name:
+			// Refer to line 50-56:
+			const header = document.createElement('h4');
+			header.textContent = data[i].name;
+			newElement.appendChild(header);
+
+			// Creating p's from the data.
+			const temperature = document.createElement('p');
+			temperature.textContent = "Temperature : " + 
+									data[i].current_weather.temperature + 
+									data[i].current_weather_units.temperature;
+			newElement.appendChild(temperature);
+			
+			const windspeed = document.createElement('p');
+			windspeed.textContent = "Windspeed : " + 
+									data[i].current_weather.windspeed + 
+									data[i].current_weather_units.windspeed;
+			newElement.appendChild(windspeed);
+
+			
+			const winddirection = document.createElement('p');
+			winddirection.textContent = "WindDirection : " + 
+									data[i].current_weather.winddirection + 
+									data[i].current_weather_units.winddirection;
+			newElement.appendChild(winddirection);
+			
+			// Appening newElement to container class.
+			container.appendChild(newElement);		
+		}
+	}
+}
