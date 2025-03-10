@@ -1,0 +1,19 @@
+Semi-structured data
+ * Organized in semantic entities
+ * similat entities are grouped together
+ * entities in same group may not habe same attributes
+ * order of attributes not necessarily important
+ * not all attributes may be required
+ * size of same attributes in a group may differ
+ * type of same attributes in a group may differ
+
+ Integration of databases
+  * similar and different schemas
+
+ Information share on the Web
+  * e.g. JSON
+
+ Flexible: irregular structure, evolves rapidly
+  * add new attributes freely
+  * empty values
+  * new relationships without needing to change a schema

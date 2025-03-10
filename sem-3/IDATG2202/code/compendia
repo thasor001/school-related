@@ -1,0 +1,64 @@
+Compendia -- Notes -- Dr. Terror
+
+ARCHITECTURE
+
+A computer arcitecture is composed of a CPU (with Control Unit (CU), Arithmetic Logic Unit (ALU) and registers), 
+memory and I/O. It can be classified as either a *von Neumann architecture* if data and instructions share
+communication lines (buses) and memory, or a *Harvard/modifier Harvard architecture* if the communication lines (buses)
+are separate for data and instructions. The CPU also a clock that generates pulses typically every nanosecond or so,
+and this is what makes the CPU actually "do stuff". A CPU does things typically every nanosecond,
+which means it does a billion (a thousend million) things every second.
+
+§ CPU
+  - Central Processing Unit - The main processor. This is the computer's "brain", and is the hardware component
+    responsible for executing machine instructions
+	
+	* MMU
+	  Memory managment Unit - A key component that allows each running program get its own memory area.
+	  
+	* CU
+	  Control Unit - controls the data flow and does all the preparations necessary for the ALU to execute 
+	  instructions.
+
+	* ALU
+	  Arithmetic Logic Unit - executes arithmetic or logical instructions on binary numbers.
+
+	* Registers
+	  The smallest and fastest storeage in the computer (typically 8 to 64 bits are stored here)
+	  
+	  - AX, BX, CX, DX, SP, BP, SI, DI
+	    Data registers - stores variables, arguments, return values, etc.
+	  - IP/PC (Instruction Pointer/Program counter)
+	    Contains the address to the next instruction to be loaded from memory and executed.
+	  - IR (Instruction Register)
+	    contains the instruction that will be executed by the ALU.
+	  - SP (Stack Pointer)
+	    contains the address to the top of the stack.
+	  - BP (Base Pointer/frame Pointer)
+	    contains the address to the bottom of the current stack fram (the stack is divided into stack frames,
+	    a stack fram is created when you execute a function call and it is deleted when you return from the
+	    function)
+	  - FLAG/PSW (Flag register/Program Status Word)
+	    contains control(status information. Two examples:
+	    1. one bit contains the result from a comparison intsruction (were the contents of two registers equal
+	    or not?") if such an instruction has just been executed by the ALU, 2. two different bits indicates
+	    if the running program is running in user mode or kernel mode.
+
+§ Memory/RAM
+  - Random Access Memory - The main memory of the computer. Programs are loaded into memory and they contain
+    *instructions and data*. Everything is stored as bits in memory.
+
+§ I/O - devices
+  - I/O devices are connected to the computer's central bus, and are used by the CPU to get information out and in
+    of the computer. These devices normally consist of a separate "small computer" which is called a "controller"
+    that has a processor, some memory, some software (firmware) and some interfaces (its own register that the CPU
+    can write or read from). An example of a I/O decive is the hard drive (or SSD) which has a comtroller the CPU
+    can "talk to", and it has an actual storage device behind the controller.
+
+REGISTER
+  - A register can be used in 8-bit, 16-bit, 32-bit or 64-bit version. if you see a register starting with "r" you
+    know it's the 64-bit version (e.g. rax, rip, rsp), if it starts with "e" it's the 32-bit version (e.g. eax, 
+    eip, esp). We rarely see the 16-bit versions (e.g. AX) or 8-bit versions (e.g. AH-AL) today.
+
+ISA (Instruction Set Architecture)
+  * Elc

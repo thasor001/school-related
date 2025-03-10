@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <title>Document</title>
+    </head>
+    <body>
+		<div class="container">
+			<h2>Registration Form</h2>
+			<div class="input_group">
+				<p>Name:</p>
+				<input type="text" id="name_input"/>
+				<p class="error" id="name">Please Write A Name</p>
+			</div>
+			<div class="input_group">
+				<p>Email:</p>
+				<input type="email" id="email_input"/>
+				<p class="error" id="email">Please Write A Valid Email</p>
+			</div>
+			<div class="input_group">
+				<p>Password:</p>
+				<input type="password" id="password_input"/>
+				<p class="error" id="password">Please Write A Password</p>
+			</div>
+			<div class="input_group">
+				<p>Confirm Password:</p>
+				<input type="password" id="confirm_input"/>
+				<p class="error" id="confirm">Password Must Be The Same</p>
+			</div>
+			<div class="input_group">
+				<button type="submit" onclick="check()">Register</button>
+			</div>
+		</div>
+        <script src="script.js"></script>
+    </body>
+</html>

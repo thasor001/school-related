@@ -1,0 +1,81 @@
+Software Security
+
+Spoofing
+ Spoffing a process on the same maching
+   Creating a file before the real precess does
+   Renaming or linking a precess
+ Spoofing a file
+   Creating a file extension (exe, lib, or conf)
+ Spoofing a machine
+   ARP spoofing, IP spoofing, DNS spoofing, IP redirect
+
+Tampering
+ Tampering with a file
+   Attacker modifies a file you own, or a file you rely on
+   Attaker modifies links or redirects
+ Tampering with memory
+   Attacker modifoes your code (if runninh at the same privilege level)
+   Attacker modifies data they supply to your API, agter security checks
+ Tampering with a network
+   Modify data flow over the network, or redirect to attacker's machine
+   It enhances spoofing attaks
+
+Repuditation an action
+  Claiming to have not done an action
+  Claming to habe not recived
+  Claming to habe been a fraud victim
+  Using the account of someone else
+
+Attacking the logs
+  Putting a fake attack signature in the logs to confise auditing functionality
+
+Information disclosure
+  Extract memory addresses
+  Extract Secrets from error messages
+  Extract machine or personal/business secrets from error cases
+Information disclosure against data stores
+  Making afvatage og weak or missing access control
+  Making advantage of bad database premission
+  Finging and learning about files, crypto kets, or file name on the server
+  Reading files at they move aroun the network
+  Getting data from logs, temp files, swap or obtaned device
+Information disclosure against a data flow
+  Reading data on the network, or by analyzing traggic
+  redirecting traffic to rea data on the network
+  Learning who is communicating with whom by watching the DNS or a social network
+
+Denial of service against a process
+  Consuming memory (RAM or disk)
+  Consuming CPU and processing capabilities
+Denial of service against a data store
+  Filling up the data store with spurious data
+  Making request flooding to slow down the system
+Denial of service against data flows
+  Consuming network resources
+  Consuming communication resources inside a machine
+
+
+Elevation of privilage against a process by corrupting it
+  Sending input that the code does not hangle properly
+  Gaining unauthorized access to read or write memory
+Elevation of privilages against a process by taking advantafe of authorization failures
+  ---- ???
+  ---- ???
+
+Attack trees
+  -- Simpel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

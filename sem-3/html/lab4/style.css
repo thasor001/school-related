@@ -1,0 +1,132 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 0;
+
+  background-color: #f0f0f0;
+
+  /* System Fonts as used by GitHub  */
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#search-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  margin: 20px;
+  margin-top: 40px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.card {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 96px;
+    height: 96px;
+  }
+
+  h1 {
+    text-transform: capitalize;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+#types {
+  text-transform: capitalize;
+
+  .electric {
+    color: #dbb82e;
+  }
+
+  .fire {
+    color: #f7522f;
+  }
+
+  .water {
+    color: #4d90d5;
+  }
+
+  .grass {
+    color: #77cc55;
+  }
+
+  .ice {
+    color: #7bd4c6;
+  }
+
+  .fighting {
+    color: #d56723;
+  }
+
+  .poison {
+    color: #b97fc9;
+  }
+
+  .ground {
+    color: #d97746;
+  }
+
+  .flying {
+    color: #3dc7ef;
+  }
+
+  .psychic {
+    color: #f366b9;
+  }
+
+  .bug {
+    color: #729f3f;
+  }
+
+  .rock {
+    color: #a38c21;
+  }
+
+  .ghost {
+    color: #7b62a3;
+  }
+
+  .dragon {
+    color: #4c6f7f;
+  }
+
+  .dark {
+    color: #707070;
+  }
+
+  .steel {
+    color: #9eb7b8;
+  }
+
+  .fairy {
+    color: #f0b7bc;
+  }
+
+  .normal {
+    color: #a4acaf;
+  }
+}
+
