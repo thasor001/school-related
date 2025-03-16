@@ -1,4 +1,6 @@
-# Relational Schema
+# Task 1
+
+## Relational Schema
 
 ```cpp
 Patient(ssn, name, dob)
@@ -85,8 +87,8 @@ Foregin Key patient_ssn
 Foregin Key doctor_ssn
     references Doctor(ssn)
 ```
-
-# Database Code
+<br><br>
+## Database Code
 
 ```sql
 CREATE DATABASE data_base_assignment;
@@ -160,7 +162,7 @@ VALUES
 
 INSERT INTO pharmacompany (name, phone)
 VALUES
-('Janson & Janson', '23749912'),
+    ('Janson & Janson', '23749912'),
     ('Pfizer', '45732810'),
     ('Bayer', '88374291'),
     ('Roche', '66372910'),
@@ -171,38 +173,104 @@ VALUES
 
 INSERT INTO contracts (company_name, pharmacy_phone)
 VALUES
-('Janson & Janson', '54327612'),
-('Janson & Janson', '54327612'),
-('Pfizer', '54327612'),
-('Bayer', '87340213'),
-('Roche', '35446281'),
-('CSL', '98463251'),
-('Abbott', '87340213'),
-('Vertex Pharmaceuticals', '87340213'),
-('Allergan', '98463251'),
-('Allergan', '35446281');
+    ('Janson & Janson', '54327612'),
+    ('Janson & Janson', '54327612'),
+    ('Pfizer', '54327612'),
+    ('Bayer', '87340213'),
+    ('Roche', '35446281'),
+    ('CSL', '98463251'),
+    ('Abbott', '87340213'),
+    ('Vertex Pharmaceuticals', '87340213'),
+    ('Allergan', '98463251'),
+    ('Allergan', '35446281');
     
 INSERT INTO soldby (company_name, drug_trademark)
 VALUES
-('anson & Janson', 'Ultram'),
-('Janson & Janson', 'Aleve'),
-('Janson & Janson', 'Zipsor'),
-('Janson & Janson', 'Myoflex'),
-('Pfizer', 'Ultram'),
-('Pfizer', 'Zipsor'),
-('Bayer', 'Bayer Aspirin'),
-('Roche', 'Irenka'),
-('CSL', 'Ultram'),
-('Abbott', 'Aleve'),
-('Vertex Pharmaceuticals', 'Irenka'),
-('Allergan', 'Advil');
+    ('anson & Janson', 'Ultram'),
+    ('Janson & Janson', 'Aleve'),
+    ('Janson & Janson', 'Zipsor'),
+    ('Janson & Janson', 'Myoflex'),
+    ('Pfizer', 'Ultram'),
+    ('Pfizer', 'Zipsor'),
+    ('Bayer', 'Bayer Aspirin'),
+    ('Roche', 'Irenka'),
+    ('CSL', 'Ultram'),
+    ('Abbott', 'Aleve'),
+    ('Vertex Pharmaceuticals', 'Irenka'),
+    ('Allergan', 'Advil');
     
 INSERT INTO sells (company_name, pharmacy_phone, drug_trademark)
 VALUES
-('54327612', 'Ultram', 'Pfizer'),
-('54327612', 'Aleve', 'Abbott'),
-('87340213', 'Aleve', 'Abbott'),
-('35446281', 'Advil', 'Allergan'),
-('98463251', 'Advil', 'Allergan'),
-('35446281', 'Irenka', 'Vertex Pharmaceuticals');
+    ('54327612', 'Ultram', 'Pfizer'),
+    ('54327612', 'Aleve', 'Abbott'),
+    ('87340213', 'Aleve', 'Abbott'),
+    ('35446281', 'Advil', 'Allergan'),
+    ('98463251', 'Advil', 'Allergan'),
+    ('35446281', 'Irenka', 'Vertex Pharmaceuticals');
 ```
+<br><br>
+# Task 2
+
+| limo_id | journey_date | start_time | limo_registration | class | driver_id | price (NOK) | driver_name |
+| ------- | ------------ | ---------- | ----------------- | ----- | --------- | ----------- | ----------- |
+| L1 | 20.02.21 | 10.00 | DN3526 | 8 | 1 | 400 | D1 | Pete |
+| L1 | 20.02.21 | 13.00 | DN3526 | 8 | 1 | 400 | D1 | Pete |
+| L1 | 21.02.21 | 10.00 | DN3526 | 8 | 1 | 400 | D1 | Pete |
+| L2 | 20.02.21 | 10.00 | CY2534 | 12 | 2 | 600 | D2 | Jane |
+| L2 | 22.02.21 | 14.00 | CY2534 | 12 | 2 | 600 | D2 | Jane |
+| L2 | 23.02.21 | 11.00 | CY2534 | 12 | 2 | 600 | D2 | Jane |
+
+<br><br>
+### 1. What should be the primary key of the table?
+
+> For the primary key we will need something that uniquely identifies a row. <br>
+> Limo_id uniquely identifies the limo, but this is not enough as there can be multiple drives doen by a limo. <br>
+> Start_time uniquely identifies when the drive took place, but again this is not enough as the drives can take<br>
+> place over multiple days.<br>
+> <br>
+> So finally we need journey_date aswell so that we can uniquely identify a drive:
+> ```sql
+> PRIMARY KEY (limo_id, journey_date, start_time)
+> ```
+
+<br><br>
+### 2. List the functional dependencies related to the table.
+
+> The following depends on **limo_id**<br>
+> | limo_registration | limo_capacity | class | price (NOK) |
+> 
+> The following depens on **driver_id**<br>
+> | driver_name |
+>
+> The following depens on **class**<br>
+> | price (NOK) |
+
+<br><br>
+### 3. In which normal form is this relation? Explain your answer.
+
+> **1NF**<br>
+> &check; The table is 1NF because:<br>
+> - There are no repeating groups.
+> - Each field contains atomic values.
+> <br>
+>
+> **2NF**<br>
+> &check; The table is 2NF because:<br>
+> - It is already 1NF.
+> - No partial dependencies exist.
+> <br> 
+>
+> **3NF**<br>
+> &cross; The table is not 3NF because:<br>
+> - There are transantive dependencies such as class -> price, which depend on the primary key
+
+<br><br>
+### 4. Convert the table to 3NF.
+
+> To make the table into 3NF we need to remove **transitive dependencies**<br>
+>
+>
+>
+>
+>
+
