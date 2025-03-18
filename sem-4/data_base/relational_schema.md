@@ -13,11 +13,13 @@ Primary Key ssn
 
 Specialist(ssn, specialization)
 Primary Key ssn
+Foregin Key ssn
     references Doctor(ssn)
 
 
 generalPhysician(ssn, certification_date)
 Primary Key ssn
+Foregin Key ssn
     references Doctor(ssn)
 
 
@@ -25,6 +27,7 @@ Drug(trademark, formula)
 Primary Key trademark
 
 Prescirbes(doctor_ssn, patient_ssn, drug_trademark, pdate, quantity)
+Primary Key (doctor_ssn, patient_ssn, drug_trademark, pdate)
 Foregin Key doctor_ssn
     references Doctor(ssn)
 Foregin Key patient_ssn
@@ -42,6 +45,7 @@ Primary Key name
 
 
 Sells(pharmacy_phone, drug_trademark, company_name)
+Primary Key (pharmacy_phone, drug_trademark, company_name)
 Foregin Key company_name
     references PharmaCompany(name)
 Foregin Key pharmacy_phone
@@ -50,8 +54,8 @@ Foregin Key drug_trademark
     references Drug(trademark)
 
 
-SoldBy(company_name, drug_trademark, id)
-Primary Key id
+SoldBy(company_name, drug_trademark)
+Primary Key (company_name, drug_trademark)
 Foreign Key company_name
     references PharmaCompany(name)
 Foregin Key drug_trademark
@@ -59,6 +63,7 @@ Foregin Key drug_trademark
 
 
 Contracts(company_name, pharmacy_phone, s_date, e_date, text)
+Primary Key (company_name, pharmacy_phone, s_date)
 Foregin Key comapny_name
     references PharmaCompany(name)
 Foregin Key pharmacy_phone
@@ -70,6 +75,7 @@ Primary Key ssn
 
 
 Works(employee_ssn, pharmacy_phone)
+Primary Key (employee_snn)
 Foregin Key employee_ssn
     references Employee(ssn)
 Foregin Key pharmacy_phone
@@ -78,10 +84,12 @@ Foregin Key pharmacy_phone
 
 Supervisor(supervisor_ssn, s_date)
 Primary Key supervisor_ssn
+Foregin Key supervisor_ssn
     references Employee(ssn)
 
 
 Sees(patient_ssn, doctor_ssn)
+Primary Key (patient_ssn, doctor_ssn)
 Foregin Key patient_ssn
     references Patient(ssn)
 Foregin Key doctor_ssn
@@ -93,8 +101,8 @@ Foregin Key doctor_ssn
 
 
 ```sql
-CREATE DATABASE data_base_assignment;
-USE data_base_assignment;
+CREATE DATABASE data_base;
+USE data_base;
 
 CREATE TABLE PharmaCompany (
     name VARCHAR(255) PRIMARY KEY NOT NULL,
@@ -118,15 +126,16 @@ CREATE TABLE Sells (
     company_name VARCHAR(255) NOT NULL,
     pharmacy_phone VARCHAR(10) NOT NULL,
     drug_trademark VARCHAR(255) NOT NULL,
+    PRIMARY KEY (company_name, pharmacy_phone, drug_trademark),
     FOREIGN KEY (company_name) REFERENCES PharmaCompany(name) ON DELETE CASCADE,
     FOREIGN KEY (pharmacy_phone) REFERENCES Pharmacy(phone) ON DELETE CASCADE,
     FOREIGN KEY (drug_trademark) REFERENCES Drug(trademark) ON DELETE CASCADE
 );
 
 CREATE TABLE SoldBy (
-    id INT AUTO_INCREMENT PRIMARY KEY,
     company_name VARCHAR(255) NOT NULL,
     drug_trademark VARCHAR(255) NOT NULL,
+    PRIMARY KEY (drug_trademark, company_name),
     FOREIGN KEY (company_name) REFERENCES PharmaCompany(name) ON DELETE CASCADE,
     FOREIGN KEY (drug_trademark) REFERENCES Drug(trademark) ON DELETE CASCADE
 );
@@ -137,11 +146,11 @@ CREATE TABLE Contracts (
     s_date DATE,
     e_date DATE,
     text TEXT,
+    PRIMARY KEY (company_name, pharmacy_phone, s_date),
     FOREIGN KEY (company_name) REFERENCES PharmaCompany(name) ON DELETE CASCADE,
     FOREIGN KEY (pharmacy_phone) REFERENCES Pharmacy(phone) ON DELETE CASCADE
 );
 ```
-
 
 ```sql
 INSERT INTO pharmacy (phone, name, address, street, city)
@@ -267,10 +276,9 @@ The table is 1NF because:<br>
 
 
 **2NF**<br>
-The table is 2NF because:<br>
+The table is not 2NF because:<br>
 
-- It is already 1NF.
-- No partial dependencies exist.
+- Partial dependencies exist.
  
 
 **3NF**<br>
