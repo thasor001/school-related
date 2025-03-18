@@ -1,8 +1,0 @@
-
-#ifndef CPP_ALGORYTHEM2_H
-#define CPP_ALGORYTHEM2_H
-
-
-
-
-#endif //CPP_ALGORYTHEM2_H
