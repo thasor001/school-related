@@ -2,7 +2,7 @@
 
 ## Relational Schema
 
-```cpp
+```sql
 Patient(ssn, name, dob)
 Primary Key ssn
 
@@ -87,8 +87,10 @@ Foregin Key patient_ssn
 Foregin Key doctor_ssn
     references Doctor(ssn)
 ```
-<br><br>
+
+
 ## Database Code
+
 
 ```sql
 CREATE DATABASE data_base_assignment;
@@ -139,6 +141,7 @@ CREATE TABLE Contracts (
     FOREIGN KEY (pharmacy_phone) REFERENCES Pharmacy(phone) ON DELETE CASCADE
 );
 ```
+
 
 ```sql
 INSERT INTO pharmacy (phone, name, address, street, city)
@@ -208,10 +211,12 @@ VALUES
     ('98463251', 'Advil', 'Allergan'),
     ('35446281', 'Irenka', 'Vertex Pharmaceuticals');
 ```
-<br><br>
+
+
 # Task 2
 
-| limo_id | journey_date | start_time | limo_registration | class | driver_id | price (NOK) | driver_name |
+
+| limo_id | journey_date | start_time | limo_reg | class | driver_id | price | driver_name |
 | ------- | ------------ | ---------- | ----------------- | ----- | --------- | ----------- | ----------- |
 | L1 | 20.02.21 | 10.00 | DN3526 | 8 | 1 | 400 | D1 | Pete |
 | L1 | 20.02.21 | 13.00 | DN3526 | 8 | 1 | 400 | D1 | Pete |
@@ -220,57 +225,148 @@ VALUES
 | L2 | 22.02.21 | 14.00 | CY2534 | 12 | 2 | 600 | D2 | Jane |
 | L2 | 23.02.21 | 11.00 | CY2534 | 12 | 2 | 600 | D2 | Jane |
 
-<br><br>
+
 ### 1. What should be the primary key of the table?
 
-> For the primary key we will need something that uniquely identifies a row. <br>
-> Limo_id uniquely identifies the limo, but this is not enough as there can be multiple drives doen by a limo. <br>
-> Start_time uniquely identifies when the drive took place, but again this is not enough as the drives can take<br>
-> place over multiple days.<br>
-> <br>
-> So finally we need journey_date aswell so that we can uniquely identify a drive:
-> ```sql
-> PRIMARY KEY (limo_id, journey_date, start_time)
-> ```
 
-<br><br>
+For the primary key we will need something that uniquely identifies a row. <br>
+Limo_id uniquely identifies the limo, but this is not enough as there can be multiple drives done by a limo per day. <br>
+Start_time uniquely identifies when the drive took place, but again this is not enough as the drives can take<br>
+place over multiple days.<br>
+<br>
+So finally we need journey_date aswell so that we can uniquely identify a drive:
+
+```sql
+PRIMARY KEY (limo_id, journey_date, start_time)
+```
+
 ### 2. List the functional dependencies related to the table.
 
-> The following depends on **limo_id**<br>
-> | limo_registration | limo_capacity | class | price (NOK) |
-> 
-> The following depens on **driver_id**<br>
-> | driver_name |
->
-> The following depens on **class**<br>
-> | price (NOK) |
 
-<br><br>
+The following depends on **limo_id**
+
+| limo_registration | limo_capacity | class | price (NOK) |
+
+The following depens on **driver_id**
+
+| driver_name |
+
+The following depens on **class**
+
+| price (NOK) |
+
+
 ### 3. In which normal form is this relation? Explain your answer.
 
-> **1NF**<br>
-> &check; The table is 1NF because:<br>
-> - There are no repeating groups.
-> - Each field contains atomic values.
-> <br>
->
-> **2NF**<br>
-> &check; The table is 2NF because:<br>
-> - It is already 1NF.
-> - No partial dependencies exist.
-> <br> 
->
-> **3NF**<br>
-> &cross; The table is not 3NF because:<br>
-> - There are transantive dependencies such as class -> price, which depend on the primary key
 
-<br><br>
+**1NF**<br>
+The table is 1NF because:<br>
+
+- There are no repeating groups.
+- Each field contains atomic values.
+
+
+**2NF**<br>
+The table is 2NF because:<br>
+
+- It is already 1NF.
+- No partial dependencies exist.
+ 
+
+**3NF**<br>
+The table is not 3NF because:<br>
+
+- There are transantive dependencies such as class -> price, which depend on the primary key
+
+
 ### 4. Convert the table to 3NF.
 
-> To make the table into 3NF we need to remove **transitive dependencies**<br>
->
->
->
->
->
 
+To make the table into 3NF we need to remove **transitive dependencies**<br>
+We can do this by splitting the table into multiple parts:
+
+Limo Table:<br>
+
+**| limo_id | limo_registration | limo_capacity | class |**<br>
+
+```sql
+PRIMARY KEY limo_id
+```
+
+Driver Table:<br>
+
+**| driver_id | driver_name |**<br>
+
+```sql
+PRIMARY KEY driver_id
+```
+
+Class Table:<br>
+
+**| class | price |**<br>
+
+```sql
+PRIMARY KEY class
+```
+
+And finally a Trip table that connects all the tables (main table)
+
+Trip Table:<br>
+
+**| limo_id | journey_date | start_time | driver_id |**<br>
+
+```sql
+PRIMARY KEY (limo_id, journey_date, start_time)<br>
+
+FOREIGN KEY (limo_id) REFERENCES Limo_table(limo_id)<br>
+
+FOREIGN KEY (driver_id) REFERENCES Driver_table(driver_id)
+```
+
+### 5. Are the tables you created in task 4 in BCNF too? Convert the tables to BCNF if not.
+
+
+Is the table BCNF no. For a table to be **BCNF**, it must meet **3NF**, and for every functional <br>
+dependency (X -> Y), X must be a superkey<br>
+
+Our table is not a BCNF becuase not all the function dependencies have a superkey e.g,<br>
+
+driver_id -> driver_name, where driver_id is not a superkey<br>
+
+### Converting to BCNF:<br>
+
+Limo Table:<br>
+
+**| limo_registration | limo_capacity | class |**<br>
+
+```sql
+PRIMARY KEY limo_registration
+```
+
+Driver Table:<br>
+
+**| driver_id | driver_name |**<br>
+
+```sql
+PRIMARY KEY driver_id
+```
+
+Class Table:<br>
+
+**| class | price |**<br>
+
+```sql
+PRIMARY KEY class 
+```
+
+Trip Table:<br>
+
+**| limo_id | journey_date | start_time | limo_registration | driver_id |**<br>
+
+```sql
+PRIMARY KEY (limo_id, journet_date, start_time)<br>
+
+FOREIGN KEY (limo_registration) REFERENCES Limo_table(limo_registration) ON DELETE CASCADE<br>
+
+FOREIGN KEY (driver_id) REFERENCES Driver_table(driver_id) ON DELETE CASCADE
+```

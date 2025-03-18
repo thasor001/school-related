@@ -1,2 +1,0 @@
-mlen :: [a] -> Int
-mlen = 
