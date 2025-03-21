@@ -1,5 +1,5 @@
 import tensorflow as tf
-
+import json
 
 def build_fnn():
     # Building the model:

@@ -57,7 +57,7 @@ CNN.summary()
 
 # Training the CNN:
 # Epochs: Amount of times to backpropogate, more times ≃ better perfomance, but with the cost of overfitting.
-history_cnn = CNN.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
+history_cnn = CNN.fit(x_train, y_train, epochs=2, validation_data=(x_test, y_test))
 
 # Finding its accuracy:
 cnn_test_loss, cnn_test_acc = CNN.evaluate(x_test, y_test)
@@ -94,7 +94,7 @@ plt.show()
 FNN = build_fnn()
 
 # Training the FNN
-history_fnn = FNN.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
+history_fnn = FNN.fit(x_train, y_train, epochs=2, validation_data=(x_test, y_test))
 
 fnn_test_loss, fnn_test_acc = FNN.evaluate(x_test, y_test)
 
